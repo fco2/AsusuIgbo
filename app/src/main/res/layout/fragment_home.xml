@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrey"
+    tools:context="com.asusuigbo.frank.asusuigbo.HomeFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="6dp"
+        android:id="@+id/lessons_layout_id">
+
+        <TextView
+            android:id="@+id/lessons_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@color/lightPurple"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:paddingTop="8dp"
+            android:text="@string/lessons_text" />
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:layout_below="@id/lessons_layout_id"
+            android:layout_margin="16dp"
+            android:id="@+id/linear_layout_id">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:background="@color/colorWhite"
+                    android:id="@+id/recycler_view_id"
+                    />
+
+        </LinearLayout>
+
+</RelativeLayout>
