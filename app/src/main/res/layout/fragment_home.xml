@@ -26,24 +26,14 @@
             android:text="@string/lessons_text" />
     </LinearLayout>
 
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:background="@drawable/shape"
             android:layout_below="@id/lessons_layout_id"
             android:layout_margin="16dp"
-            android:id="@+id/linear_layout_id">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:background="@color/colorWhite"
-                    android:id="@+id/recycler_view_id"
-                    />
-
-        </LinearLayout>
+            android:id="@+id/recycler_view_id" />
 
 </RelativeLayout>
