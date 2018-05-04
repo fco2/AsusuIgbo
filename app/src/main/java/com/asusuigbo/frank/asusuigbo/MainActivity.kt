@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpBottomNavigation(){
         bottomNavigationView = findViewById(R.id.bottom_nav_view_id)
 
-        if(bottomNavigationView != null){
+        if(bottomNavigationView != null){ // Not Important - it is since it's nullable
 
             val menu: Menu = bottomNavigationView!!.menu
             selectNavMenuItem(menu.getItem(0))

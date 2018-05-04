@@ -7,4 +7,5 @@
     <string name="newest_text">Newest</string>
     <string name="profile_text">Profile</string>
     <string name="lessons_text">Lessons</string>
+    <string name="select_answer_header">Select the correct answer below.</string>
 </resources>
