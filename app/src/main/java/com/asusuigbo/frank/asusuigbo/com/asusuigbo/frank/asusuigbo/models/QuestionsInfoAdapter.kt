@@ -1,14 +1,16 @@
 package com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models
 
+import android.app.Activity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
 
-class QuestionsInfoAdapter(var dataList: ArrayList<Option>): RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
+class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activity): RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
 
     var selectedItem: Int = -1
 
@@ -38,6 +40,9 @@ class QuestionsInfoAdapter(var dataList: ArrayList<Option>): RecyclerView.Adapte
                 notifyDataSetChanged()
                 //Set selected variable
                 SharedData.SelectedAnswerIndex = selectedItem
+                //set button to active
+                val button = activity.findViewById<Button>(R.id.check_answer_button_id)
+                button.isEnabled = true
             }
 
             this.radioButton!!.setOnClickListener(customOnclickListener)

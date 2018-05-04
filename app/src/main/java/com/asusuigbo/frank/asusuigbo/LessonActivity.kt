@@ -30,7 +30,7 @@ class LessonActivity : AppCompatActivity() {
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         this.populateList()
 
-        recyclerView!!.adapter = QuestionsInfoAdapter(this.optionList)
+        recyclerView!!.adapter = QuestionsInfoAdapter(this.optionList, this)
         this.button!!.setOnClickListener(buttonClickListener)
 
     }
