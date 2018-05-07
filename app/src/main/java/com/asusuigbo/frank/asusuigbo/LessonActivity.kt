@@ -17,7 +17,6 @@ class LessonActivity : AppCompatActivity() {
 
     var recyclerView: RecyclerView? = null
     var dataList: ArrayList<QuestionGroup> = ArrayList()
-    var optionList: ArrayList<Option> = ArrayList()
     var button: Button? = null
     var question: TextView? = null
     var popUpWindow: PopupWindow? = null
@@ -55,7 +54,7 @@ class LessonActivity : AppCompatActivity() {
                 this.finishQuiz()
             }
             else -> {
-
+                //do Nothing
             }
         }
         //TODO: At this point, we want to preserve 3 states, answer question, next question, finished.
@@ -90,7 +89,7 @@ class LessonActivity : AppCompatActivity() {
     private fun nextQuestion(){
         if(SharedData.CurrentListIndex < ( this.dataList.size - 1)) { // Index protector
             this.button!!.isEnabled = false
-            SharedData.CurrentListIndex = SharedData.CurrentListIndex + 1
+            SharedData.CurrentListIndex = SharedData.CurrentListIndex + 1 //maybe this should be done in answer question
             this.updateOptions()
             this.button!!.text = getString(R.string.answer_button_state)
             SharedData.ButtonState = getString(R.string.answer_button_state)
@@ -105,11 +104,19 @@ class LessonActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     private fun showPopUp(){
         //TODO: Check here if selected answer was correct
-        //TODO: Set text on popup
         var layoutInflater: LayoutInflater = baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var customView = layoutInflater.inflate(R.layout.popup_layout, null)
         this.popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 200)
         this.popUpWindow!!.elevation = 10.0f
+
+        //TODO: Set text on popup
+        val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
+        if(this.IsCorrectAnswer()){
+            textForView.text = getString(R.string.you_are_correct_text)
+        }else{
+            textForView.text = getString(R.string.sorry_wrong_answer_text)
+        }
+
         val closeBtn = customView.findViewById<ImageButton>(R.id.close_popup_id)
         closeBtn.setOnClickListener{
             this.popUpWindow!!.dismiss()
@@ -118,7 +125,11 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
-        //change button text
+        //TODO: Line below not needed, but it should launch finished activity.
         this.button!!.text = getString(R.string.finished_button_state)
+    }
+
+    private fun IsCorrectAnswer(): Boolean{
+        return this.dataList[SharedData.CurrentListIndex].CorrectAnswer == SharedData.SelectedAnswerIndex
     }
 }

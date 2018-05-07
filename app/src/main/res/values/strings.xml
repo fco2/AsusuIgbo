@@ -15,4 +15,6 @@
     <string name="next_question_button_state">NextQuestion</string>
     <string name="answer_button_state">Check Answer</string>
     <string name="finished_button_state">Finished</string>
+    <string name="you_are_correct_text">You are Correct!</string>
+    <string name="sorry_wrong_answer_text">Sorry, Wrong Answer!</string>
 </resources>
