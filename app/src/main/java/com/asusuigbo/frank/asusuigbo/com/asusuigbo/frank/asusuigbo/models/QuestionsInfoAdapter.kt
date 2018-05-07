@@ -10,9 +10,11 @@ import android.widget.RadioButton
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
 
-class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activity): RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
+class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activity):
+        RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
 
     var selectedItem: Int = -1
+    val checkAnswerButton = this.activity.findViewById<Button>(R.id.check_answer_button_id)!!
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomVH {
         val view: View = LayoutInflater.from(parent!!.context).inflate(R.layout.question_options, parent, false)
@@ -41,13 +43,11 @@ class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activi
                 //Set selected variable
                 SharedData.SelectedAnswerIndex = selectedItem
                 //set button to active
-                val button = activity.findViewById<Button>(R.id.check_answer_button_id)
-                button.isEnabled = true
+                checkAnswerButton.isEnabled = true
             }
 
             this.radioButton!!.setOnClickListener(customOnclickListener)
             this.optionsText!!.setOnClickListener(customOnclickListener)
         }
-
     }
 }
