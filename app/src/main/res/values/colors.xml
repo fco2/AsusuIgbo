@@ -9,4 +9,5 @@
     <color name="lightOrange">#ff8080</color>
     <color name="lightGreen">#99ff99</color>
     <color name="dividerColor">#e6e6e6</color>
+    <color name="wrongAnswer">#f99fad</color>
 </resources>

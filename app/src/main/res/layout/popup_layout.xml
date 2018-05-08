@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:alpha="0.8"
-    android:background="#aeefbe">
+    android:background="#aeefbe"
+    android:id="@+id/custom_view_id">
 
     <ImageButton
         android:id="@+id/close_popup_id"
