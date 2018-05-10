@@ -30,6 +30,8 @@ class LessonActivity : AppCompatActivity() {
     var myQueue: Queue<QuestionGroup> = LinkedList() //this.myQueue.addAll(this.dataList)
     var currentQuestionGroup: QuestionGroup? = null
 
+    var lastQueItemPoll: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson)
@@ -66,12 +68,12 @@ class LessonActivity : AppCompatActivity() {
 
     private fun answerQuestion(){
         when {
-            SharedData.CurrentListIndex != (this.dataList.size) -> {
+            SharedData.CurrentListIndex < (this.dataList.size) -> {
                 this.setUpButtonStateAndText(R.string.next_question_button_state, R.string.next_question_text)
-                this.currentQuestionGroup = this.dataList[SharedData.CurrentListIndex] //TODO: check for bug --> set currentgroup
-                SharedData.CorrectAnswerIndex = this.currentQuestionGroup!!.CorrectAnswer
+                this.currentQuestionGroup = this.dataList[SharedData.CurrentListIndex]
+
             }
-            this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size)) -> {
+            (this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size)) || this.lastQueItemPoll) -> {
                 this.setUpButtonStateAndText(R.string.next_question_button_state, R.string.next_question_text)
             }
             else -> {
@@ -92,12 +94,16 @@ class LessonActivity : AppCompatActivity() {
         val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
         if(this.isCorrectAnswer()){
             textForView.text = getString(R.string.you_are_correct_text)
+            this.lastQueItemPoll = false //reset condition for last queue item
         }else{
             textForView.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
             rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
-            //setup next question
-            this.myQueue.offer(this.currentQuestionGroup)
+            this.myQueue.offer(this.currentQuestionGroup) //setup next question
+
+            if(this.lastQueItemPoll){ //this ensures the last item is checked if its wrong
+                this.setUpButtonStateAndText(R.string.next_question_button_state, R.string.next_question_text)
+            }
         }
 
         val closeBtn = customView.findViewById<ImageButton>(R.id.close_popup_id)
@@ -108,29 +114,39 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun nextQuestion(){
+        this.popUpWindow!!.dismiss()
+
         when {
             SharedData.CurrentListIndex < (this.dataList.size) -> { // Index protector, there is no next for array last index
                 this.button!!.isEnabled = false
+                SharedData.CurrentListIndex++ // Increment index
 
-                SharedData.CurrentListIndex++
+                when {
+                    SharedData.CurrentListIndex < this.dataList.size -> {
+                        this.currentQuestionGroup = this.dataList[SharedData.CurrentListIndex]
+                        this.updateOptions()
+                        this.setUpButtonStateAndText(R.string.answer_button_state, R.string.answer_button_state)
+                    }
+                    this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size)) -> {
+                        this.currentQuestionGroup = this.myQueue.poll()
 
-                if( SharedData.CurrentListIndex < this.dataList.size){
-                    this.currentQuestionGroup = this.dataList[SharedData.CurrentListIndex]
-                    this.updateOptions()
-                    this.setUpButtonStateAndText(R.string.answer_button_state, R.string.answer_button_state)
-                }else if(this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size))) {
-                    this.currentQuestionGroup = this.myQueue.poll()
-                    SharedData.CorrectAnswerIndex = this.currentQuestionGroup!!.CorrectAnswer
-                    this.setUpQueueListOptions()
-                }else{
-                    this.button!!.isEnabled = true
-                    this.setUpButtonStateAndText(R.string.finished_button_state, R.string.finished_button_state)
+                        if(this.myQueue.isEmpty())
+                            this.lastQueItemPoll = true
+
+                        this.setUpQueueListOptions()
+                    }
+                    else -> {
+                        this.button!!.isEnabled = true
+                        this.setUpButtonStateAndText(R.string.finished_button_state, R.string.finished_button_state)
+                    }
                 }
             }
-            this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size)) -> {
-                //TODO: make logic better
+            (this.myQueue.isNotEmpty() && (SharedData.CurrentListIndex == ( this.dataList.size)) || this.lastQueItemPoll) -> {
                 this.currentQuestionGroup = this.myQueue.poll()
-                SharedData.CorrectAnswerIndex = this.currentQuestionGroup!!.CorrectAnswer
+
+                if(this.myQueue.isEmpty())
+                    this.lastQueItemPoll = true
+
                 this.setUpQueueListOptions()
             }
             else -> {
@@ -157,15 +173,11 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun isCorrectAnswer(): Boolean{
-        return  SharedData.CorrectAnswerIndex == SharedData.SelectedAnswerIndex
+        return  this.currentQuestionGroup!!.CorrectAnswer == SharedData.SelectedAnswerIndex
     }
 
     private fun setUpQueueListOptions(){
-        recyclerView!!.layoutManager = LinearLayoutManager(this)
-        recyclerView!!.adapter = QuestionsInfoAdapter(this.currentQuestionGroup!!.Options, this)
-        this.recyclerView!!.adapter.notifyDataSetChanged() // this updates list
-        this.question!!.text = this.currentQuestionGroup!!.Question
-
+        this.updateOptions()
         this.button!!.isEnabled = false
         this.setUpButtonStateAndText(R.string.answer_button_state, R.string.answer_button_state)
     }
