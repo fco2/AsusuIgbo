@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -42,9 +43,7 @@ class LessonActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.question_recycler_view_id)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
-        //temp action
         this.dataList = DummyList.getList()
-        //set question text
         this.question!!.text = this.dataList[0].Question
         SharedData.CorrectAnswerIndex = this.dataList[0].CorrectAnswer
 
@@ -84,11 +83,11 @@ class LessonActivity : AppCompatActivity() {
         this.showPopUp()
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "SetTextI18n")
     private fun showPopUp(){
         var layoutInflater: LayoutInflater = baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var customView = layoutInflater.inflate(R.layout.popup_layout, null)
-        this.popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 200)
+        this.popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 260)
         this.popUpWindow!!.elevation = 10.0f
 
         val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
@@ -99,6 +98,11 @@ class LessonActivity : AppCompatActivity() {
             textForView.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
             rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
+            //TODO: set up correct answer
+            val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
+            correctAnswerText!!.text = getString(R.string.answer_template) + " " +
+                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer].OptionText
+
             this.myQueue.offer(this.currentQuestionGroup) //setup next question
 
             if(this.lastQueItemPoll){ //this ensures the last item is checked if its wrong
@@ -164,12 +168,9 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
-        //TODO: Line below not needed, but it should launch finished activity.
         this.button!!.text = getString(R.string.finished_button_state)
-
-        //TODO: remove immediately
-        Toast.makeText(applicationContext, "Failed: ${this.myQueue.size}",
-                Toast.LENGTH_LONG).show()
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun isCorrectAnswer(): Boolean{

@@ -21,6 +21,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="10sp"/>
+        android:padding="2sp"/>
+
+    <TextView
+        android:id="@+id/correct_answer_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_text_result_id"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="2sp"/>
 
 </RelativeLayout>

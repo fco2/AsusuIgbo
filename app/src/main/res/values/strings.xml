@@ -17,4 +17,5 @@
     <string name="finished_button_state">Finished</string>
     <string name="you_are_correct_text">You are Correct!</string>
     <string name="sorry_wrong_answer_text">Sorry, Wrong Answer!</string>
+    <string name="answer_template">Answer: </string>
 </resources>
