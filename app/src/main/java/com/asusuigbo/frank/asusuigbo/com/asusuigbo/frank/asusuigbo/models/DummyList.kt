@@ -24,6 +24,13 @@ class DummyList {
             dataList.add(qg)
 
             //------------------ Question 3
+            list = populateOptions("T option", "U option", "V option", "ver ver long option to " +
+                    "see how wrapping works")
+            qg = QuestionGroup("Semi last Question?", list, 1,
+                    SharedData.SelectedAnswerIndex)
+            dataList.add(qg)
+
+            //------------------ Question 3
             list = populateOptions("P option", "Q option", "R option", "S option")
             qg = QuestionGroup("Last Question?", list, 1,
                     SharedData.SelectedAnswerIndex)

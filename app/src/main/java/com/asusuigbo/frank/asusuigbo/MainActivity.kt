@@ -5,16 +5,21 @@ import android.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 
 class MainActivity : AppCompatActivity() {
 
     private var bottomNavigationView: BottomNavigationView? = null
+    private var toolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        toolbar = findViewById(R.id.toolbar_main)
+        toolbar!!.title = resources.getString(R.string.app_name)
 
         setUpBottomNavigation()
     }

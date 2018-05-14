@@ -31,6 +31,7 @@ class LessonActivity : AppCompatActivity() {
     var myQueue: Queue<QuestionGroup> = LinkedList() //this.myQueue.addAll(this.dataList)
     var currentQuestionGroup: QuestionGroup? = null
 
+
     var lastQueItemPoll: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
