@@ -1,6 +1,7 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,15 +9,17 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.DummyList
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionsInfoAdapter
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.SharedData
+import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -28,10 +31,13 @@ class LessonActivity : AppCompatActivity() {
     var question: TextView? = null
     var popUpWindow: PopupWindow? = null
     var lessonsLayout: RelativeLayout? = null
-    var myQueue: Queue<QuestionGroup> = LinkedList() //this.myQueue.addAll(this.dataList)
+    var myQueue: Queue<QuestionGroup> = LinkedList()
     var currentQuestionGroup: QuestionGroup? = null
+    var activity: Activity = this
 
-
+    //TODO: remove this below
+    var database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    var dbReference = database.getReference("Lessons/QuestionGroup")!!
     var lastQueItemPoll: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +50,9 @@ class LessonActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.question_recycler_view_id)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
-        this.dataList = DummyList.getList()
-        this.question!!.text = this.dataList[0].Question
-        SharedData.CorrectAnswerIndex = this.dataList[0].CorrectAnswer
-
-        recyclerView!!.adapter = QuestionsInfoAdapter(this.dataList[SharedData.CurrentListIndex].Options, this)
+        //this.dataList = DummyList.getList()
+        //TODO: Undo below, redo above
+        this.populateList()
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
@@ -102,7 +106,7 @@ class LessonActivity : AppCompatActivity() {
             //TODO: set up correct answer
             val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
             correctAnswerText!!.text = getString(R.string.answer_template) + " " +
-                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer].OptionText
+                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()].OptionText
 
             this.myQueue.offer(this.currentQuestionGroup) //setup next question
 
@@ -175,7 +179,7 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun isCorrectAnswer(): Boolean{
-        return  this.currentQuestionGroup!!.CorrectAnswer == SharedData.SelectedAnswerIndex
+        return  this.currentQuestionGroup!!.CorrectAnswer == SharedData.SelectedAnswerIndex.toString()
     }
 
     private fun setUpQueueListOptions(){
@@ -187,5 +191,40 @@ class LessonActivity : AppCompatActivity() {
     private fun setUpButtonStateAndText(buttonState:Int, buttonText: Int){
         this.button!!.text = getString(buttonText)
         SharedData.ButtonState = getString(buttonState)
+    }
+
+    private fun populateList(){
+
+        this.dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (d in dataSnapshot.children){
+                    var temp = QuestionGroup()
+                    var optionsList = ArrayList<Option>()
+
+                    temp.CorrectAnswer = d.child("CorrectAnswer").value.toString()
+                    temp.Question = d.child("Question").value.toString()
+                    temp.SelectedAnswer = d.child("SelectedAnswer").value.toString()
+
+                    for(t in d.child("Options").children){
+                        var text = Option(t.value.toString())
+                        optionsList.add(text)
+                    }
+                    temp.Options = optionsList
+
+                    dataList.add(temp)
+                }
+                //TODO: remove this
+                question!!.text = dataList[0].Question
+                SharedData.CorrectAnswerIndex = dataList[0].CorrectAnswer.toInt()
+                recyclerView!!.adapter = QuestionsInfoAdapter(dataList[SharedData.CurrentListIndex].Options,
+                       activity)
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //do nothing
+            }
+        })
     }
 }
