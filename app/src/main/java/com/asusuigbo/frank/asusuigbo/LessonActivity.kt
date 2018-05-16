@@ -173,8 +173,9 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
-        //Reset button state.
+        //Reset button state and list index
         SharedData.ButtonState =  getString(R.string.answer_button_state)
+        SharedData.CurrentListIndex = 0
         this.button!!.text = getString(R.string.finished_button_state)
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
