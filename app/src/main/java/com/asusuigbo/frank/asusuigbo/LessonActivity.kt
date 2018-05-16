@@ -9,13 +9,15 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.*
+import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.Option
+import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionGroup
+import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionsInfoAdapter
+import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.SharedData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -34,8 +36,6 @@ class LessonActivity : AppCompatActivity() {
     var myQueue: Queue<QuestionGroup> = LinkedList()
     var currentQuestionGroup: QuestionGroup? = null
     var activity: Activity = this
-
-    //TODO: remove this below
     var database: FirebaseDatabase = FirebaseDatabase.getInstance()
     var dbReference = database.getReference("Lessons/QuestionGroup")!!
     var lastQueItemPoll: Boolean = false
@@ -50,9 +50,7 @@ class LessonActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.question_recycler_view_id)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
-        //this.dataList = DummyList.getList()
-        //TODO: Undo below, redo above
-        this.populateList()
+        this.populateList() //OR this.dataList = DummyList.getList()
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
@@ -82,6 +80,7 @@ class LessonActivity : AppCompatActivity() {
             }
             else -> {
                 this.button!!.isEnabled = true
+                //TODO: remove next line from here to popup
                 this.setUpButtonStateAndText(R.string.finished_button_state, R.string.finished_button_state)
             }
         }
@@ -97,13 +96,14 @@ class LessonActivity : AppCompatActivity() {
 
         val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
         if(this.isCorrectAnswer()){
+            //TODO: set button state and text
             textForView.text = getString(R.string.you_are_correct_text)
             this.lastQueItemPoll = false //reset condition for last queue item
         }else{
+            //TODO: set button state and text
             textForView.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
             rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
-            //TODO: set up correct answer
             val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
             correctAnswerText!!.text = getString(R.string.answer_template) + " " +
                     currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()].OptionText
@@ -173,6 +173,8 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
+        //Reset button state.
+        SharedData.ButtonState =  getString(R.string.answer_button_state)
         this.button!!.text = getString(R.string.finished_button_state)
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
@@ -189,8 +191,14 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun setUpButtonStateAndText(buttonState:Int, buttonText: Int){
-        this.button!!.text = getString(buttonText)
-        SharedData.ButtonState = getString(buttonState)
+        if(SharedData.CurrentListIndex >= this.dataList.size-1 && buttonState == R.string.next_question_button_state
+                && this.myQueue.isEmpty()){
+            this.button!!.text = getString(R.string.finished_button_state)
+            SharedData.ButtonState = getString(R.string.finished_button_state)
+        }else{
+            this.button!!.text = getString(buttonText)
+            SharedData.ButtonState = getString(buttonState)
+        }
     }
 
     private fun populateList(){
@@ -219,7 +227,6 @@ class LessonActivity : AppCompatActivity() {
                 SharedData.CorrectAnswerIndex = dataList[0].CorrectAnswer.toInt()
                 recyclerView!!.adapter = QuestionsInfoAdapter(dataList[SharedData.CurrentListIndex].Options,
                        activity)
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
