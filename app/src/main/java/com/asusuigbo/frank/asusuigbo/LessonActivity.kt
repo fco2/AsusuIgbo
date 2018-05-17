@@ -80,7 +80,6 @@ class LessonActivity : AppCompatActivity() {
             }
             else -> {
                 this.button!!.isEnabled = true
-                //TODO: remove next line from here to popup
                 this.setUpButtonStateAndText(R.string.finished_button_state, R.string.finished_button_state)
             }
         }
@@ -96,11 +95,9 @@ class LessonActivity : AppCompatActivity() {
 
         val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
         if(this.isCorrectAnswer()){
-            //TODO: set button state and text
             textForView.text = getString(R.string.you_are_correct_text)
             this.lastQueItemPoll = false //reset condition for last queue item
         }else{
-            //TODO: set button state and text
             textForView.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
             rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))

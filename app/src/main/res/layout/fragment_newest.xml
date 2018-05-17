@@ -1,13 +1,104 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.asusuigbo.frank.asusuigbo.NewestFragment">
+    tools:context="com.asusuigbo.frank.asusuigbo.NewestFragment"
+    android:paddingTop="20dp"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/newest_text" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <View
+            android:layout_width="30dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:background="@color/colorGrey"
+            android:id="@+id/left_view_id"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="New Words"
+            android:layout_toEndOf="@+id/left_view_id"
+            android:textSize="12sp"
+            android:textColor="@color/colorGrey"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/newest_fragment_text_id" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/newest_fragment_text_id"
+            android:background="@color/colorGrey" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="New Text goes here"
+            />
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:background="@color/colorGrey"
+            android:id="@+id/left_bottom_view_id"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Past"
+            android:textSize="12sp"
+            android:textColor="@color/colorGrey"
+            android:layout_toEndOf="@+id/left_bottom_view_id"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/past_fragment_text_id" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/past_fragment_text_id"
+            android:background="@color/colorGrey" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Previously added Text goes here"
+            />
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

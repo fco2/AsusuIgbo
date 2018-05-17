@@ -60,7 +60,6 @@
                 android:layout_below="@id/view_divider_id"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
-                android:layout_marginStart="12dp"
                 android:textColor="#4d4dff"
                 android:id="@+id/question_recycler_view_id" />
 

@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:background="@drawable/shape"
+            android:background="@drawable/table_of_content_background"
             android:layout_below="@id/lessons_layout_id"
             android:layout_margin="16dp"
             android:id="@+id/recycler_view_id" />

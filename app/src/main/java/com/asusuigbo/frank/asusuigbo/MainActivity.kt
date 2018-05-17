@@ -1,5 +1,6 @@
 package com.asusuigbo.frank.asusuigbo
 
+import android.app.Activity
 import android.app.Fragment
 import android.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
@@ -43,17 +44,18 @@ class MainActivity : AppCompatActivity() {
         menuItem.isChecked = true
 
         when(menuItem.itemId){
-            R.id.home_icon_id -> initializeFragment(HomeFragment())
-            R.id.newest_icon_id -> initializeFragment(NewestFragment())
-            R.id.profile_icon_id -> initializeFragment(ProfileFragment())
-            else -> initializeFragment(HomeFragment())
+            R.id.home_icon_id -> initializeFragment(HomeFragment(), getString(R.string.app_name))
+            R.id.newest_icon_id -> initializeFragment(NewestFragment(), "New Words")
+            R.id.profile_icon_id -> initializeFragment(ProfileFragment(), "Profile")
+            else -> initializeFragment(HomeFragment(), "Home")
         }
     }
 
-    private fun initializeFragment(fragment: Fragment){
+    private fun initializeFragment(fragment: Fragment, title: String){
         val fm: FragmentManager = fragmentManager
         val ft = fm.beginTransaction()
         ft.replace(R.id.frame_layout_id, fragment)
         ft.commit()
+        toolbar!!.title = title
     }
 }
