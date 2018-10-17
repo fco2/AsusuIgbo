@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.Option
 import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionsInfoAdapter
 import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.SharedData
@@ -31,13 +30,13 @@ class LessonActivity : AppCompatActivity() {
     var dataList: ArrayList<QuestionGroup> = ArrayList()
     var button: Button? = null
     var question: TextView? = null
-    var popUpWindow: PopupWindow? = null
-    var lessonsLayout: RelativeLayout? = null
-    var myQueue: Queue<QuestionGroup> = LinkedList()
-    var currentQuestionGroup: QuestionGroup? = null
+    private var popUpWindow: PopupWindow? = null
+    private var lessonsLayout: RelativeLayout? = null
+    private var myQueue: Queue<QuestionGroup> = LinkedList()
+    private var currentQuestionGroup: QuestionGroup? = null
     var activity: Activity = this
-    var database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    var dbReference = database.getReference("Lessons/QuestionGroup")!!
+    private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private var dbReference = database.getReference("Lessons/QuestionGroup")!!
     var lastQueItemPoll: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,28 +92,25 @@ class LessonActivity : AppCompatActivity() {
         this.popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 260)
         this.popUpWindow!!.elevation = 10.0f
 
-        val textForView = customView.findViewById<TextView>(R.id.popup_text_result_id)
+        val popUpTextResult = customView.findViewById<TextView>(R.id.popup_text_result_id)
         if(this.isCorrectAnswer()){
-            textForView.text = getString(R.string.you_are_correct_text)
+            popUpTextResult.text = getString(R.string.you_are_correct_text)
             this.lastQueItemPoll = false //reset condition for last queue item
         }else{
-            textForView.text = getString(R.string.sorry_wrong_answer_text)
+            popUpTextResult.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
-            rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
             val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
+
+            rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
             correctAnswerText!!.text = getString(R.string.answer_template) + " " +
-                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()].OptionText
+                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()]
 
             this.myQueue.offer(this.currentQuestionGroup) //setup next question
+            //TODO: the idea of a queue should be refactored to use a smart list.
 
             if(this.lastQueItemPoll){ //this ensures the last item is checked if its wrong
                 this.setUpButtonStateAndText(R.string.next_question_button_state, R.string.next_question_text)
             }
-        }
-
-        val closeBtn = customView.findViewById<ImageButton>(R.id.close_popup_id)
-        closeBtn.setOnClickListener{
-            this.popUpWindow!!.dismiss()
         }
         this.popUpWindow!!.showAtLocation(this.lessonsLayout, Gravity.CENTER_HORIZONTAL, 0, 250)
     }
@@ -206,23 +202,24 @@ class LessonActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (d in dataSnapshot.children){
                     var temp = QuestionGroup()
-                    var optionsList = ArrayList<Option>()
+                    var optionsList = ArrayList<String>()
 
                     temp.CorrectAnswer = d.child("CorrectAnswer").value.toString()
                     temp.Question = d.child("Question").value.toString()
                     temp.SelectedAnswer = d.child("SelectedAnswer").value.toString()
 
                     for(t in d.child("Options").children){
-                        var text = Option(t.value.toString())
+                        var text = t.value.toString()
                         optionsList.add(text)
                     }
                     temp.Options = optionsList
 
                     dataList.add(temp)
                 }
-                //TODO: remove this
+                //TODO: remove this block of code - check and test first.
                 question!!.text = dataList[0].Question
                 SharedData.CorrectAnswerIndex = dataList[0].CorrectAnswer.toInt()
+
                 recyclerView!!.adapter = QuestionsInfoAdapter(dataList[SharedData.CurrentListIndex].Options,
                        activity)
             }

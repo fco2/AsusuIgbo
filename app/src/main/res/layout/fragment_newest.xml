@@ -14,7 +14,7 @@
         <View
             android:layout_width="30dp"
             android:layout_height="1dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="12dp"
             android:layout_centerVertical="true"
             android:background="@color/colorGrey"
             android:id="@+id/left_view_id"/>
@@ -34,7 +34,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="12dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/newest_fragment_text_id"
             android:background="@color/colorGrey" />
@@ -49,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:layout_margin="8dp"
             android:text="New Text goes here"
             />
 
@@ -62,7 +63,7 @@
         <View
             android:layout_width="30dp"
             android:layout_height="1dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="12dp"
             android:layout_centerVertical="true"
             android:background="@color/colorGrey"
             android:id="@+id/left_bottom_view_id"/>
@@ -82,7 +83,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="12dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/past_fragment_text_id"
             android:background="@color/colorGrey" />
@@ -97,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:layout_margin="8dp"
             android:text="Previously added Text goes here"
             />
 

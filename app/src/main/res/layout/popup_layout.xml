@@ -6,16 +6,6 @@
     android:background="#aeefbe"
     android:id="@+id/custom_view_id">
 
-    <ImageButton
-        android:id="@+id/close_popup_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:padding="2dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_close"
-        android:contentDescription="@string/close_button_description" />
-
     <TextView
         android:id="@+id/popup_text_result_id"
         android:layout_width="wrap_content"

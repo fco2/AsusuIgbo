@@ -10,7 +10,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
 
-class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activity):
+class QuestionsInfoAdapter(var dataList: ArrayList<String>, var activity: Activity):
         RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
 
     var selectedItem: Int = -1
@@ -25,7 +25,7 @@ class QuestionsInfoAdapter(var dataList: ArrayList<Option>, var activity: Activi
 
     override fun onBindViewHolder(holder: CustomVH?, position: Int) {
         holder!!.radioButton!!.isChecked = (position == selectedItem)
-        holder.optionsText!!.text = this.dataList[position].OptionText
+        holder.optionsText!!.text = this.dataList[position]
     }
 
     inner class CustomVH(itemView: View?) : RecyclerView.ViewHolder(itemView) {
