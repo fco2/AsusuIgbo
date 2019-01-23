@@ -17,7 +17,9 @@ class QuestionsInfoAdapter(var dataList: ArrayList<String>, var activity: Activi
     val checkAnswerButton = this.activity.findViewById<Button>(R.id.check_answer_button_id)!!
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomVH {
-        val view: View = LayoutInflater.from(parent!!.context).inflate(R.layout.question_options, parent, false)
+        val view: View = LayoutInflater
+                .from(parent!!.context)
+                .inflate(R.layout.question_options, parent, false)
         return CustomVH(view)
     }
 
@@ -29,7 +31,6 @@ class QuestionsInfoAdapter(var dataList: ArrayList<String>, var activity: Activi
     }
 
     inner class CustomVH(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-
         var radioButton: RadioButton? = null
         var optionsText: TextView? = null
 
@@ -40,12 +41,10 @@ class QuestionsInfoAdapter(var dataList: ArrayList<String>, var activity: Activi
             var customOnclickListener = View.OnClickListener {
                 selectedItem = adapterPosition
                 notifyDataSetChanged()
-                //Set selected variable
                 SharedData.SelectedAnswerIndex = selectedItem
-                //set button to active
+                SharedData.ButtonState = UserButton.AnswerSelected
                 checkAnswerButton.isEnabled = true
             }
-
             this.radioButton!!.setOnClickListener(customOnclickListener)
             this.optionsText!!.setOnClickListener(customOnclickListener)
         }
