@@ -1,6 +1,5 @@
 package com.asusuigbo.frank.asusuigbo
 
-import android.app.Activity
 import android.app.Fragment
 import android.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +8,9 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
+import com.asusuigbo.frank.asusuigbo.fragments.NewestFragment
+import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,11 +18,12 @@ class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         toolbar = findViewById(R.id.toolbar_main)
-        toolbar!!.title = resources.getString(R.string.app_name)
+        toolbar!!.title = resources.getString(R.string.lessons_text)
 
         setUpBottomNavigation()
     }
@@ -44,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         menuItem.isChecked = true
 
         when(menuItem.itemId){
-            R.id.home_icon_id -> initializeFragment(HomeFragment(), getString(R.string.app_name))
+            R.id.home_icon_id -> initializeFragment(LessonsFragment(), "Lessons")
             R.id.newest_icon_id -> initializeFragment(NewestFragment(), "New Words")
             R.id.profile_icon_id -> initializeFragment(ProfileFragment(), "Profile")
-            else -> initializeFragment(HomeFragment(), "Home")
+            else -> initializeFragment(LessonsFragment(), "Lessons")
         }
     }
 

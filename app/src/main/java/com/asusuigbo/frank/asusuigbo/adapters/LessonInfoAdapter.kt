@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo
+package com.asusuigbo.frank.asusuigbo.adapters
 
 import android.content.Intent
 import android.support.v7.widget.CardView
@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 
 /**
  * Created by Frank on 3/27/2018.
  */
-class DataInfoAdapter(var dataList: List<DataInfo>) : RecyclerView.Adapter<DataInfoAdapter.CustomViewHolder>(){
+class LessonInfoAdapter(var lessonList: List<LessonInfo>) : RecyclerView.Adapter<LessonInfoAdapter.CustomViewHolder>(){
 
     class CustomViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView? = null
@@ -30,16 +32,16 @@ class DataInfoAdapter(var dataList: List<DataInfo>) : RecyclerView.Adapter<DataI
         return CustomViewHolder(view)
     }
 
-    override fun getItemCount(): Int = this.dataList.size
+    override fun getItemCount(): Int = this.lessonList.size
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
-        holder!!.indexTextview!!.text = this.dataList[position].Index.toString()
-        holder.titleTextview!!.text = this.dataList[position].Name
+        holder!!.indexTextview!!.text = this.lessonList[position].Index.toString()
+        holder.titleTextview!!.text = this.lessonList[position].Name
 
         //set click listener
         holder.cardView?.setOnClickListener { v ->
             val intent = Intent(v.context, LessonActivity::class.java)
-            intent.putExtra("LESSON_NAME", dataList[position].Name)
+            intent.putExtra("LESSON_NAME", lessonList[position].Name)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK // You need this if starting activity outside an activity context
             v.context.startActivity(intent)
         }

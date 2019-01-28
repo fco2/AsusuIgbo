@@ -1,7 +1,6 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,11 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionsInfoAdapter
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.SharedData
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.UserButton
-import com.google.firebase.database.*
+import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
+import com.asusuigbo.frank.asusuigbo.adapters.QuestionGroupAdapter
+import com.asusuigbo.frank.asusuigbo.models.SharedData
+import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 class LessonActivity : AppCompatActivity() {
 
@@ -109,7 +107,7 @@ class LessonActivity : AppCompatActivity() {
 
     private fun updateOptions(){
         recyclerView!!.layoutManager = LinearLayoutManager(this)
-        recyclerView!!.adapter = QuestionsInfoAdapter(this.dataList[0].Options, this)
+        recyclerView!!.adapter = QuestionGroupAdapter(this.dataList[0].Options, this)
         this.recyclerView!!.adapter.notifyDataSetChanged() // this updates list
         this.question!!.text = this.dataList[0].Question
     }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.asusuigbo.frank.asusuigbo.NewestFragment"
+    tools:context="com.asusuigbo.frank.asusuigbo.fragments.NewestFragment"
     android:paddingTop="20dp"
     android:orientation="vertical">
 

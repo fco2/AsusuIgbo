@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models
+package com.asusuigbo.frank.asusuigbo.adapters
 
 import android.app.Activity
 import android.support.v7.widget.RecyclerView
@@ -9,9 +9,11 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.models.SharedData
+import com.asusuigbo.frank.asusuigbo.models.UserButton
 
-class QuestionsInfoAdapter(var dataList: ArrayList<String>, var activity: Activity):
-        RecyclerView.Adapter<QuestionsInfoAdapter.CustomVH>() {
+class QuestionGroupAdapter(var dataList: ArrayList<String>, var activity: Activity):
+        RecyclerView.Adapter<QuestionGroupAdapter.CustomVH>() {
 
     var selectedItem: Int = -1
     val checkAnswerButton = this.activity.findViewById<Button>(R.id.check_answer_button_id)!!

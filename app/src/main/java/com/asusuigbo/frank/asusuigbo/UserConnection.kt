@@ -4,9 +4,8 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.QuestionsInfoAdapter
-import com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models.SharedData
+import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
+import com.asusuigbo.frank.asusuigbo.adapters.QuestionGroupAdapter
 import com.google.firebase.database.*
 
 class UserConnection {
@@ -40,7 +39,7 @@ class UserConnection {
                     //TODO: remove this block of code - check and test first.
                     question.text = dataList[0].Question
 
-                    recyclerView.adapter = QuestionsInfoAdapter(dataList[0].Options,
+                    recyclerView.adapter = QuestionGroupAdapter(dataList[0].Options,
                             activity)
                 }
 

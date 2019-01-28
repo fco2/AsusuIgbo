@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.com.asusuigbo.frank.asusuigbo.models;
+package com.asusuigbo.frank.asusuigbo.models;
 
 public enum UserButton {
     AnswerNotSelected,

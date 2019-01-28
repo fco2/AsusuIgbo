@@ -14,4 +14,8 @@
     <style name="RoundedCornerButtonTheme" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounder_corner_button_shape</item>
     </style>
+
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
 </resources>
