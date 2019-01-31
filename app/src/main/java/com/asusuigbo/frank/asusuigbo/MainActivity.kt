@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbar_main)
         toolbar!!.title = resources.getString(R.string.lessons_text)
-
         setUpBottomNavigation()
     }
 

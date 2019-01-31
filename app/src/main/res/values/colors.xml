@@ -5,6 +5,7 @@
     <color name="colorAccent">#2cba59</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#C8C8C8</color>
+    <color name="colorLightGrey">#ececec</color>
     <color name="lightPurple">#d98cd9</color>
     <color name="lightOrange">#ff8080</color>
     <color name="lightGreen">#99ff99</color>

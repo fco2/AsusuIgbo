@@ -20,14 +20,14 @@ import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 class LessonActivity : AppCompatActivity() {
 
-    var recyclerView: RecyclerView? = null
-    var dataList: ArrayList<QuestionGroup> = ArrayList()
-    var button: Button? = null
-    var question: TextView? = null
+    private var recyclerView: RecyclerView? = null
+    private var dataList: ArrayList<QuestionGroup> = ArrayList()
+    private var button: Button? = null
+    private var question: TextView? = null
     private var popUpWindow: PopupWindow? = null
     private var lessonsLayout: RelativeLayout? = null
     private var currentQuestionGroup: QuestionGroup? = null
-    private var context: Context = this
+    private var requestedLesson: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +38,13 @@ class LessonActivity : AppCompatActivity() {
         this.question = findViewById(R.id.question_id)
         recyclerView = findViewById(R.id.question_recycler_view_id)
 
-        UserConnection.populateList(dataList, context, question!!, this, recyclerView!!)
+        this.setLessonName()
+        UserConnection.populateList(dataList, requestedLesson, question!!, this, recyclerView!!)
         this.button!!.setOnClickListener(buttonClickListener)
+    }
+
+    private fun setLessonName(){
+        this.requestedLesson = intent.getStringExtra("LESSON_NAME")
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -48,6 +53,7 @@ class LessonActivity : AppCompatActivity() {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
+                //TODO: bug here...
                 nextQuestion()
             }
             else -> {
@@ -90,10 +96,10 @@ class LessonActivity : AppCompatActivity() {
         }else{
 
             popUpTextResult.text = getString(R.string.sorry_wrong_answer_text)
-            var rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
-            var correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
+            val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
+            val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
             rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
-            var msg = String.format("%s %s", getString(R.string.answer_template),
+            val msg = String.format("%s %s", getString(R.string.answer_template),
                     currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()])
             correctAnswerText!!.text = msg
         }

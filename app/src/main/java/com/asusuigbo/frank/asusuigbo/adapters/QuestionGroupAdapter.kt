@@ -40,7 +40,7 @@ class QuestionGroupAdapter(var dataList: ArrayList<String>, var activity: Activi
             this.radioButton = itemView!!.findViewById(R.id.radio_button_id)
             this.optionsText = itemView.findViewById(R.id.option_text_id)
 
-            var customOnclickListener = View.OnClickListener {
+            val customOnclickListener = View.OnClickListener {
                 selectedItem = adapterPosition
                 notifyDataSetChanged()
                 SharedData.SelectedAnswerIndex = selectedItem
