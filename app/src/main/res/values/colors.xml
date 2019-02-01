@@ -12,4 +12,5 @@
     <color name="dividerColor">#e6e6e6</color>
     <color name="wrongAnswer">#d1a5ab</color>
     <color name="lightBlue">#7daaf2</color>
+    <color name="textColorBlue">#333942</color>
 </resources>

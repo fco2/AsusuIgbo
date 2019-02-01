@@ -6,21 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.asusuigbo.frank.asusuigbo.adapters.QuestionGroupAdapter
-import com.asusuigbo.frank.asusuigbo.models.SharedData
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 class LessonActivity : AppCompatActivity() {
 
-    private var recyclerView: RecyclerView? = null
     private var dataList: ArrayList<QuestionGroup> = ArrayList()
     private var button: Button? = null
     private var question: TextView? = null
@@ -28,6 +23,13 @@ class LessonActivity : AppCompatActivity() {
     private var lessonsLayout: RelativeLayout? = null
     private var currentQuestionGroup: QuestionGroup? = null
     private var requestedLesson: String = ""
+    private var radioGroup: RadioGroup? = null
+    private var optionA: RadioButton? = null
+    private var optionB: RadioButton? = null
+    private var optionC: RadioButton? = null
+    private var optionD: RadioButton? = null
+    private var buttonState: UserButton = UserButton.AnswerNotSelected
+    private var viewId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +38,15 @@ class LessonActivity : AppCompatActivity() {
         this.lessonsLayout = findViewById(R.id.lessons_layout_id)
         this.button = findViewById(R.id.check_answer_button_id)
         this.question = findViewById(R.id.question_id)
-        recyclerView = findViewById(R.id.question_recycler_view_id)
+        this.radioGroup = findViewById(R.id.radio_group_id)
+        this.optionA = radioGroup!!.findViewById(R.id.option_a_id)
+        this.optionB = radioGroup!!.findViewById(R.id.option_b_id)
+        this.optionC = radioGroup!!.findViewById(R.id.option_c_id)
+        this.optionD = radioGroup!!.findViewById(R.id.option_d_id)
 
         this.setLessonName()
-        UserConnection.populateList(dataList, requestedLesson, question!!, this, recyclerView!!)
+        UserConnection.populateList(dataList, requestedLesson, question!!, radioGroup!!)
+        this.radioGroup!!.setOnCheckedChangeListener(radioGroupListener)
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
@@ -47,13 +54,21 @@ class LessonActivity : AppCompatActivity() {
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
     }
 
+    private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
+        val checkedRadioBtn: RadioButton = findViewById(checkedId)
+        this.viewId = checkedId
+        setSelectedBackground(checkedRadioBtn)
+        this.dataList[0].SelectedAnswer = checkedRadioBtn.tag.toString()
+        this.buttonState = UserButton.AnswerSelected
+        this.button!!.isEnabled = true
+    }
+
     private val buttonClickListener = View.OnClickListener {
-        when(SharedData.ButtonState){
+        when(this.buttonState){
             UserButton.AnswerSelected -> {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                //TODO: bug here...
                 nextQuestion()
             }
             else -> {
@@ -63,12 +78,10 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun answerQuestion(){
+        disableOptions()
         this.currentQuestionGroup = this.dataList.removeAt(0)
-        this.currentQuestionGroup!!.SelectedAnswer = SharedData.SelectedAnswerIndex.toString()
         this.displaySelectionInPopUp()
 
-        //set selected answer back to -1.
-        SharedData.SelectedAnswerIndex = -1
         if(!this.isCorrectAnswer())
             this.dataList.add(this.currentQuestionGroup!!)
 
@@ -94,7 +107,6 @@ class LessonActivity : AppCompatActivity() {
         if(this.isCorrectAnswer()){
             popUpTextResult.text = getString(R.string.you_are_correct_text)
         }else{
-
             popUpTextResult.text = getString(R.string.sorry_wrong_answer_text)
             val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
             val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
@@ -112,10 +124,13 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun updateOptions(){
-        recyclerView!!.layoutManager = LinearLayoutManager(this)
-        recyclerView!!.adapter = QuestionGroupAdapter(this.dataList[0].Options, this)
-        this.recyclerView!!.adapter.notifyDataSetChanged() // this updates list
         this.question!!.text = this.dataList[0].Question
+        optionA!!.text = dataList[0].Options[0]
+        optionB!!.text = dataList[0].Options[1]
+        optionC!!.text = dataList[0].Options[2]
+        optionD!!.text = dataList[0].Options[3]
+        enableOptions()
+        clearSelectedBackground()
     }
 
     private fun finishQuiz(){
@@ -125,12 +140,41 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun isCorrectAnswer(): Boolean{
-        return  this.currentQuestionGroup!!.CorrectAnswer == this.currentQuestionGroup!!.SelectedAnswer
+        return this.currentQuestionGroup!!.CorrectAnswer == this.currentQuestionGroup!!.SelectedAnswer
     }
 
     private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button!!.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button!!.text = getString(buttonText)
-        SharedData.ButtonState = buttonState
+        this.buttonState = buttonState
+    }
+
+    private fun disableOptions(){
+        this.optionA!!.isEnabled = false
+        this.optionB!!.isEnabled = false
+        this.optionC!!.isEnabled = false
+        this.optionD!!.isEnabled = false
+    }
+
+    private fun enableOptions(){
+        this.optionA!!.isEnabled = true
+        this.optionB!!.isEnabled = true
+        this.optionC!!.isEnabled = true
+        this.optionD!!.isEnabled = true
+        val view: RadioButton = findViewById(viewId)
+        view.isChecked = false
+    }
+
+    private fun setSelectedBackground(btn: RadioButton){
+        clearSelectedBackground()
+        btn.background = getDrawable(R.drawable.option_selected_background)
+    }
+
+    private fun clearSelectedBackground(){
+        this.optionA!!.background = getDrawable(R.drawable.option_background)
+        this.optionB!!.background = getDrawable(R.drawable.option_background)
+        this.optionC!!.background = getDrawable(R.drawable.option_background)
+        this.optionD!!.background = getDrawable(R.drawable.option_background)
+
     }
 }
