@@ -14,7 +14,8 @@
         android:layout_alignParentTop="true"
         android:textAlignment="textStart"
         android:text="@string/select_answer_header"
-        android:textSize="24sp"
+        android:textSize="23sp"
+        android:fontFamily="sans-serif-medium"
         android:textColor="#66655c"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
@@ -41,9 +42,10 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                android:textColor="#4d4dff"
+                android:textSize="22sp"
+                android:gravity="center_vertical|start"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#656ea0"
                 android:id="@+id/question_id"/>
 
             <View

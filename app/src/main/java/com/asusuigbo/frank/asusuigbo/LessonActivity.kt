@@ -29,7 +29,6 @@ class LessonActivity : AppCompatActivity() {
     private var optionC: RadioButton? = null
     private var optionD: RadioButton? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
-    private var viewId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +54,13 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
-        val checkedRadioBtn: RadioButton = findViewById(checkedId)
-        this.viewId = checkedId
-        setSelectedBackground(checkedRadioBtn)
-        this.dataList[0].SelectedAnswer = checkedRadioBtn.tag.toString()
-        this.buttonState = UserButton.AnswerSelected
-        this.button!!.isEnabled = true
+        if(group.checkedRadioButtonId != -1){
+            val checkedRadioBtn: RadioButton = findViewById(checkedId)
+            setSelectedBackground(checkedRadioBtn)
+            this.dataList[0].SelectedAnswer = checkedRadioBtn.tag.toString()
+            this.buttonState = UserButton.AnswerSelected
+            this.button!!.isEnabled = true
+        }
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -161,8 +161,7 @@ class LessonActivity : AppCompatActivity() {
         this.optionB!!.isEnabled = true
         this.optionC!!.isEnabled = true
         this.optionD!!.isEnabled = true
-        val view: RadioButton = findViewById(viewId)
-        view.isChecked = false
+        radioGroup!!.clearCheck()
     }
 
     private fun setSelectedBackground(btn: RadioButton){
