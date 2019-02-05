@@ -2,13 +2,15 @@ package com.asusuigbo.frank.asusuigbo
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.ProgressBar
 import com.asusuigbo.frank.asusuigbo.adapters.LessonInfoAdapter
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 import com.google.firebase.database.*
 
 class TableOfContentHelper {
     companion object {
-        fun populateList(dataList: ArrayList<LessonInfo>, context: Context?, recyclerView: RecyclerView?){
+        fun populateList(dataList: ArrayList<LessonInfo>, context: Context?, recyclerView: RecyclerView?, progressBar: ProgressBar?){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
             val con = context!!.applicationContext
@@ -25,6 +27,8 @@ class TableOfContentHelper {
                     recyclerView!!.layoutManager = GridLayoutManager(context, 2)
                     recyclerView.hasFixedSize()
                     recyclerView.adapter = LessonInfoAdapter(dataList)
+
+                    progressBar!!.visibility = View.GONE
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
