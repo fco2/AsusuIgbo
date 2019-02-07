@@ -28,8 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorWhite"
-        android:elevation="16dp"
+        android:padding="4dp"
+        android:backgroundTint="#FFFFFF"
+        android:backgroundTintMode="src_in"
+        android:foregroundTint="#546e7a"
+        android:background="#FFFFFF"
+        android:tint="#546e7a"
+        android:elevation="20dp"
         app:menu="@menu/bottom_nav_menu"
         android:id="@+id/bottom_nav_view_id"/>
 

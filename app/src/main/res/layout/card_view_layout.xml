@@ -7,19 +7,22 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="94dp"
+        android:layout_height="94dp"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:background="@null"
+        android:background="@color/colorWhite"
         android:layout_gravity="center|center_horizontal|center_vertical"
-        card_view:cardCornerRadius="20dp"
+        card_view:cardCornerRadius="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/card_view_id">
 
         <ImageView
             android:id="@+id/lessonImageId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorLightGrey"
+            android:padding="5dp"
             android:contentDescription="@string/imageDummyText" />
     </android.support.v7.widget.CardView>
 
@@ -29,6 +32,7 @@
         android:textAlignment="center"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
+        android:textColor="@color/colorPrimary"
         android:layout_gravity="center_vertical|center_horizontal" />
 
 </LinearLayout>

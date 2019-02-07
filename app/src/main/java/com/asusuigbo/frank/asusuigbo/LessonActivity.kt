@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.*
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LessonActivity : AppCompatActivity() {
 
@@ -23,12 +25,14 @@ class LessonActivity : AppCompatActivity() {
     private var lessonsLayout: RelativeLayout? = null
     private var currentQuestionGroup: QuestionGroup? = null
     private var requestedLesson: String = ""
+    private var nextLesson: String = ""
     private var radioGroup: RadioGroup? = null
     private var optionA: RadioButton? = null
     private var optionB: RadioButton? = null
     private var optionC: RadioButton? = null
     private var optionD: RadioButton? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
+    var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +46,19 @@ class LessonActivity : AppCompatActivity() {
         this.optionB = radioGroup!!.findViewById(R.id.option_b_id)
         this.optionC = radioGroup!!.findViewById(R.id.option_c_id)
         this.optionD = radioGroup!!.findViewById(R.id.option_d_id)
+        this.progressBar = findViewById(R.id.progress_bar_lesson_id)
 
-        this.setLessonName()
-        UserConnection.populateList(dataList, requestedLesson, question!!, radioGroup!!)
+        this.setLessonData()
+
+        Toast.makeText(this, this.nextLesson, Toast.LENGTH_LONG).show()
+        UserConnection.populateList(dataList, requestedLesson, question!!, radioGroup!!, this.progressBar!!)
         this.radioGroup!!.setOnCheckedChangeListener(radioGroupListener)
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
-    private fun setLessonName(){
+    private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
+        this.nextLesson = intent.getStringExtra("NEXT_LESSON")
     }
 
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
@@ -134,9 +142,16 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
-        //TODO: add more logic here
+        //TODO: add more logic here, make it show friendly screen to indicate you finished lesson.
+        updateCompletedLesson()
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun updateCompletedLesson(){
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
+        dbReference.child(this.nextLesson).child("LessonComplete").setValue("TRUE")
     }
 
     private fun isCorrectAnswer(): Boolean{

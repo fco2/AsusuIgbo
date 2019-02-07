@@ -7,7 +7,7 @@
     <string name="newest_text">Newest</string>
     <string name="profile_text">Profile</string>
     <string name="lessons_text">Lessons</string>
-    <string name="select_answer_header">Select the correct answer below.</string>
+    <string name="select_answer_header">Choose the correct translation.</string>
     <string name="close_button_description">Close button</string>
 
     <string name="next_question_text">Next Question</string>
@@ -20,4 +20,6 @@
     <string name="answer_template">Correct Answer: </string>
     <string name="imageDummyText">image</string>
     <string name="please_wait">Please wait..</string>
+    <string name="new_words">New Words</string>
+    <string name="past">Past</string>
 </resources>

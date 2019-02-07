@@ -1,5 +1,7 @@
 package com.asusuigbo.frank.asusuigbo
 
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -9,7 +11,7 @@ import com.google.firebase.database.*
 class UserConnection {
     companion object {
         fun populateList(dataList: ArrayList<QuestionGroup>, requestedLesson: String,
-                         question: TextView, radioGroup: RadioGroup){
+                         question: TextView, radioGroup: RadioGroup, progressBar: ProgressBar){
 
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference  = database.getReference("Lessons/$requestedLesson")
@@ -25,7 +27,6 @@ class UserConnection {
                         val optionsList = ArrayList<String>()
                         temp.CorrectAnswer = d.child("CorrectAnswer").value.toString()
                         temp.Question = d.child("Question").value.toString()
-                        temp.SelectedAnswer = d.child("SelectedAnswer").value.toString()
 
                         for(t in d.child("Options").children){
                             val text = t.value.toString()
@@ -39,6 +40,8 @@ class UserConnection {
                     optionB.text = dataList[0].Options[1]
                     optionC.text = dataList[0].Options[2]
                     optionD.text = dataList[0].Options[3]
+
+                    progressBar.visibility = View.GONE
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {

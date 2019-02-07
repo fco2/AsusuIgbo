@@ -21,12 +21,13 @@ class TableOfContentHelper {
                         val imageName: String = d.child("ImageDrawableIndex").value.toString()
                         val key = d.child("LessonKey").value.toString()
                         val resId: Int = con.resources.getIdentifier(imageName,"drawable", con.packageName)
-                        val item = LessonInfo(resId, key)
+                        val lessonComplete = d.child("LessonComplete").value.toString()
+                        val item = LessonInfo(resId, key, lessonComplete)
                         dataList.add(item)
                     }
                     recyclerView!!.layoutManager = GridLayoutManager(context, 2)
                     recyclerView.hasFixedSize()
-                    recyclerView.adapter = LessonInfoAdapter(dataList)
+                    recyclerView.adapter = LessonInfoAdapter(dataList, context)
 
                     progressBar!!.visibility = View.GONE
                 }

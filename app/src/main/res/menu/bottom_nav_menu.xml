@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/home_text"
-          android:icon="@mipmap/ic_home_black_24dp"
+          android:icon="@mipmap/ic_home_white_48"
           android:id="@+id/home_icon_id"/>
     <item android:title="@string/newest_text"
-          android:icon="@mipmap/ic_whatshot_black_24dp"
+          android:icon="@mipmap/ic_whatshot_white_48"
           android:id="@+id/newest_icon_id"/>
     <item android:title="@string/profile_text"
-          android:icon="@mipmap/ic_account_circle_black_24dp"
+          android:icon="@mipmap/ic_person_white_48"
           android:id="@+id/profile_icon_id"/>
 
 </menu>
