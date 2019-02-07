@@ -50,7 +50,6 @@ class LessonActivity : AppCompatActivity() {
 
         this.setLessonData()
 
-        Toast.makeText(this, this.nextLesson, Toast.LENGTH_LONG).show()
         UserConnection.populateList(dataList, requestedLesson, question!!, radioGroup!!, this.progressBar!!)
         this.radioGroup!!.setOnCheckedChangeListener(radioGroupListener)
         this.button!!.setOnClickListener(buttonClickListener)
