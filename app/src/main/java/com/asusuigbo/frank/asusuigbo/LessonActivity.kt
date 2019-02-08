@@ -1,8 +1,9 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
+import android.app.FragmentManager
+import android.app.FragmentTransaction
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.asusuigbo.frank.asusuigbo.connection.helpers.UserConnection
+import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.database.DatabaseReference
@@ -32,7 +35,7 @@ class LessonActivity : AppCompatActivity() {
     private var optionC: RadioButton? = null
     private var optionD: RadioButton? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
-    var progressBar: ProgressBar? = null
+    private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +98,7 @@ class LessonActivity : AppCompatActivity() {
         if(this.dataList.size > 0)
             this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
         else
-            this.setUpButtonStateAndText(UserButton.Finished, R.string.finished_button_state)
+            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
@@ -141,16 +144,22 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(){
-        //TODO: add more logic here, make it show friendly screen to indicate you finished lesson.
+        this.popUpWindow!!.dismiss()
         updateCompletedLesson()
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        startActivity(intent)
+        launchCompletedLessonScreen()
     }
 
     private fun updateCompletedLesson(){
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
         dbReference.child(this.nextLesson).child("LessonComplete").setValue("TRUE")
+    }
+
+    private fun launchCompletedLessonScreen(){
+        val fm: FragmentManager = fragmentManager
+        val ft: FragmentTransaction = fm.beginTransaction()
+        ft.add(android.R.id.content, LessonCompletedFragment())
+        ft.commit()
     }
 
     private fun isCorrectAnswer(): Boolean{

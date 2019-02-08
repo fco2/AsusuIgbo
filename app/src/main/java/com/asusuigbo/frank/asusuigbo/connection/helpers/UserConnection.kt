@@ -1,10 +1,11 @@
-package com.asusuigbo.frank.asusuigbo
+package com.asusuigbo.frank.asusuigbo.connection.helpers
 
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.firebase.database.*
 

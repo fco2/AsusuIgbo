@@ -22,4 +22,6 @@
     <string name="please_wait">Please wait..</string>
     <string name="new_words">New Words</string>
     <string name="past">Past</string>
+    <string name="completed_the_lesson">You completed the lesson!</string>
+    <string name="continue_text">Continue</string>
 </resources>

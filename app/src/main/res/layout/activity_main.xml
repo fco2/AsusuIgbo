@@ -12,7 +12,7 @@
         android:layout_height="64dp"
         android:minHeight="?android:attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:elevation="5dp"
+        android:elevation="10dp"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarCustomTheme"/>
 

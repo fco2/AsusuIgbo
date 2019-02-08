@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo
+package com.asusuigbo.frank.asusuigbo.connection.helpers
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView

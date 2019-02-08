@@ -8,16 +8,6 @@
     android:id="@+id/lessons_layout_id"
     tools:context=".LessonActivity">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar_lesson_id"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:max="500"
-        android:progress="0"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,5 +120,15 @@
         android:layout_marginBottom="10dp"
         android:text="@string/answer_button_state"
         android:id="@+id/check_answer_button_id"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar_lesson_id"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:max="500"
+        android:progress="0"/>
 
 </RelativeLayout>

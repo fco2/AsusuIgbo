@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.TableOfContentHelper
+import com.asusuigbo.frank.asusuigbo.connection.helpers.TableOfContentHelper
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 
 class LessonsFragment : Fragment() {

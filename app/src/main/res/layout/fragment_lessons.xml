@@ -8,8 +8,10 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
             android:layout_below="@id/lessons_layout_id"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
+            android:scrollbarStyle="insideInset"
             android:background="@null"
             android:id="@+id/recycler_view_id" />
 

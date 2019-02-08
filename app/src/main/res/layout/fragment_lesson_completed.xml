@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".fragments.LessonCompletedFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/please_wait"
+            android:layout_above="@id/task_completed_id"
+            android:src="@drawable/congratulations"
+            android:id="@+id/image_view_congrats"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/please_wait"
+            android:src="@drawable/task_completed"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/task_completed_id"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/task_completed_id"
+            android:text="@string/completed_the_lesson"
+            />
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="18sp"
+            style="@style/RoundedCornerButtonTheme"
+            android:layout_marginBottom="30dp"
+            android:text="@string/continue_text"
+            android:id="@+id/finished_quiz_button_id"/>
+    </RelativeLayout>
+
+</FrameLayout>
