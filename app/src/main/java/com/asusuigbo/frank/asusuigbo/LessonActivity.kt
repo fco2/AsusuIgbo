@@ -173,18 +173,19 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun disableOptions(){
-        this.optionA!!.isEnabled = false
-        this.optionB!!.isEnabled = false
-        this.optionC!!.isEnabled = false
-        this.optionD!!.isEnabled = false
+        toggleOptionsFor(false)
     }
 
     private fun enableOptions(){
-        this.optionA!!.isEnabled = true
-        this.optionB!!.isEnabled = true
-        this.optionC!!.isEnabled = true
-        this.optionD!!.isEnabled = true
+        toggleOptionsFor(true)
         radioGroup!!.clearCheck()
+    }
+
+    private fun toggleOptionsFor(state: Boolean){
+        this.optionA!!.isEnabled = state
+        this.optionB!!.isEnabled = state
+        this.optionC!!.isEnabled = state
+        this.optionD!!.isEnabled = state
     }
 
     private fun setSelectedBackground(btn: RadioButton){
