@@ -36,6 +36,7 @@ class LessonActivity : AppCompatActivity() {
     private var optionD: RadioButton? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var progressBar: ProgressBar? = null
+    private var lessonStatusProgressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ class LessonActivity : AppCompatActivity() {
         this.optionC = radioGroup!!.findViewById(R.id.option_c_id)
         this.optionD = radioGroup!!.findViewById(R.id.option_d_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
+        this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
 
         this.setLessonData()
 
@@ -131,6 +133,7 @@ class LessonActivity : AppCompatActivity() {
         this.popUpWindow!!.dismiss()
         this.updateOptions()
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        setProgressBarStatus()
     }
 
     private fun updateOptions(){
@@ -143,6 +146,12 @@ class LessonActivity : AppCompatActivity() {
         clearSelectedBackground()
     }
 
+    private fun setProgressBarStatus()
+    {
+        val percent: Int = (10 - this.dataList.size) * 10
+        this.lessonStatusProgressBar!!.progress = percent
+        //TODO: fix this logic -- currently assumes questions will always be 10.
+    }
     private fun finishQuiz(){
         this.popUpWindow!!.dismiss()
         updateCompletedLesson()

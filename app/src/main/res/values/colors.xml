@@ -14,4 +14,6 @@
     <color name="lightBlue">#7daaf2</color>
     <color name="textColorBlue">#333942</color>
     <color name="inactiveCardColor">#bdbdbd</color>
+    <color name="progressColor">#2bbd7e</color>
+    <color name="progressBackgroundColor">#b9f6ca</color>
 </resources>
