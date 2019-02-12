@@ -37,6 +37,7 @@ class LessonActivity : AppCompatActivity() {
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
+    private var fullListSize: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,6 @@ class LessonActivity : AppCompatActivity() {
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
         if(group.checkedRadioButtonId != -1){
             val checkedRadioBtn: RadioButton = findViewById(checkedId)
-            setSelectedBackground(checkedRadioBtn)
             this.dataList[0].SelectedAnswer = checkedRadioBtn.tag.toString()
             this.buttonState = UserButton.AnswerSelected
             this.button!!.isEnabled = true
@@ -91,6 +91,8 @@ class LessonActivity : AppCompatActivity() {
 
     private fun answerQuestion(){
         disableOptions()
+        if(fullListSize == 0)
+            fullListSize = dataList.size
         this.currentQuestionGroup = this.dataList.removeAt(0)
         this.displaySelectionInPopUp()
 
@@ -143,14 +145,12 @@ class LessonActivity : AppCompatActivity() {
         optionC!!.text = dataList[0].Options[2]
         optionD!!.text = dataList[0].Options[3]
         enableOptions()
-        clearSelectedBackground()
     }
 
     private fun setProgressBarStatus()
     {
-        val percent: Int = (10 - this.dataList.size) * 10
+        val percent: Int = (fullListSize - this.dataList.size) * 10
         this.lessonStatusProgressBar!!.progress = percent
-        //TODO: fix this logic -- currently assumes questions will always be 10.
     }
     private fun finishQuiz(){
         this.popUpWindow!!.dismiss()
@@ -195,18 +195,5 @@ class LessonActivity : AppCompatActivity() {
         this.optionB!!.isEnabled = state
         this.optionC!!.isEnabled = state
         this.optionD!!.isEnabled = state
-    }
-
-    private fun setSelectedBackground(btn: RadioButton){
-        clearSelectedBackground()
-        btn.background = getDrawable(R.drawable.option_selected_background)
-    }
-
-    private fun clearSelectedBackground(){
-        this.optionA!!.background = getDrawable(R.drawable.option_background)
-        this.optionB!!.background = getDrawable(R.drawable.option_background)
-        this.optionC!!.background = getDrawable(R.drawable.option_background)
-        this.optionD!!.background = getDrawable(R.drawable.option_background)
-
     }
 }

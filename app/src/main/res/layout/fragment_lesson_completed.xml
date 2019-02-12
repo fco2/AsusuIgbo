@@ -8,22 +8,23 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/please_wait"
+            android:contentDescription="@string/congratulations_text"
             android:layout_above="@id/task_completed_id"
-            android:src="@drawable/congratulations"
+            android:src="@mipmap/congratulations"
             android:id="@+id/image_view_congrats"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/please_wait"
-            android:src="@drawable/task_completed"
+            android:contentDescription="@string/congratulations_image1"
+            android:src="@mipmap/task_completed"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:id="@+id/task_completed_id"/>

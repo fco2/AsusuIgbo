@@ -24,4 +24,7 @@
     <string name="past">Past</string>
     <string name="completed_the_lesson">You completed the lesson!</string>
     <string name="continue_text">Continue</string>
+    <string name="congratulations_text">Congratulations</string>
+    <string name="congratulations_image">Congratulations Image</string>
+    <string name="congratulations_image1">Congratulations Image</string>
 </resources>

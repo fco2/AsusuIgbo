@@ -20,7 +20,7 @@ class TableOfContentHelper {
                     for (d in dataSnapshot.children){
                         val imageName: String = d.child("ImageDrawableIndex").value.toString()
                         val key = d.child("LessonKey").value.toString()
-                        val resId: Int = con.resources.getIdentifier(imageName,"drawable", con.packageName)
+                        val resId: Int = con.resources.getIdentifier(imageName,"mipmap", con.packageName)
                         val lessonComplete = d.child("LessonComplete").value.toString()
                         val item = LessonInfo(resId, key, lessonComplete)
                         dataList.add(item)
