@@ -16,4 +16,6 @@
     <color name="inactiveCardColor">#bdbdbd</color>
     <color name="progressColor">#2bbd7e</color>
     <color name="progressBackgroundColor">#b9f6ca</color>
+    <color name="greenLightShade">#c5e1a5</color>
+    <color name="greenDarkShade">#94af76</color>
 </resources>

@@ -27,4 +27,6 @@
     <string name="congratulations_text">Congratulations</string>
     <string name="congratulations_image">Congratulations Image</string>
     <string name="congratulations_image1">Congratulations Image</string>
+    <string name="show_translation">Show translation</string>
+    <string name="hide_translation">Hide Translation</string>
 </resources>
