@@ -29,4 +29,7 @@
     <string name="congratulations_image1">Congratulations Image</string>
     <string name="show_translation">Show translation</string>
     <string name="hide_translation">Hide Translation</string>
+    <string name="sample_question">Questions place holder..?</string>
+    <string name="build_the_correct_translation">Build the correct translation</string>
+    <string name="move_text">Move text</string>
 </resources>
