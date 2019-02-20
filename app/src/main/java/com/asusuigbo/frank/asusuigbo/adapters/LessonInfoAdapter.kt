@@ -44,9 +44,9 @@ class LessonInfoAdapter(var lessonList: List<LessonInfo>, var context: Context) 
         holder.titleTextView!!.text = this.lessonList[position].lessonKey
         holder.cardView?.setOnClickListener { v ->
 
+            //TODO: add logic to determine which activity to launch
             val intent = Intent(v.context, LessonActivity::class.java)
             intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
-
             var nextLesson = 0
             if(itemCount != (position + 1))
                 nextLesson = position + 1
