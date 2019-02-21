@@ -136,7 +136,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progress_bar_lesson_id"
-        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:indeterminate="true"
         android:max="500"

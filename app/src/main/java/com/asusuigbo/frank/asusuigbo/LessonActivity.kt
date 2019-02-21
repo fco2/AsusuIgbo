@@ -1,17 +1,12 @@
 package com.asusuigbo.frank.asusuigbo
 
-import android.annotation.SuppressLint
 import android.app.FragmentManager
 import android.app.FragmentTransaction
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
+import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.connection.helpers.UserConnection
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
@@ -54,6 +49,7 @@ class LessonActivity : AppCompatActivity() {
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
 
+        this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
 
         UserConnection.populateList(dataList, requestedLesson, question!!, radioGroup!!, this.progressBar!!)
@@ -61,6 +57,7 @@ class LessonActivity : AppCompatActivity() {
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
+    //TODO: take this
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
         this.nextLesson = intent.getStringExtra("NEXT_LESSON")
@@ -94,7 +91,8 @@ class LessonActivity : AppCompatActivity() {
         if(fullListSize == 0)
             fullListSize = dataList.size
         this.currentQuestionGroup = this.dataList.removeAt(0)
-        this.displaySelectionInPopUp()
+        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, lessonsLayout!!,
+                currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()], isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
             this.dataList.add(this.currentQuestionGroup!!)
@@ -103,32 +101,6 @@ class LessonActivity : AppCompatActivity() {
             this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
         else
             this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
-    }
-
-    @SuppressLint("InflateParams", "SetTextI18n")
-    private fun displaySelectionInPopUp(){
-        val layoutInflater: LayoutInflater =
-                baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val customView = layoutInflater.inflate(R.layout.popup_layout, null)
-        this.popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 260)
-        this.popUpWindow!!.elevation = 10.0f
-        val popUpTextResult = customView.findViewById<TextView>(R.id.popup_text_result_id)
-        this.stylePopUp(popUpTextResult, customView)
-        this.popUpWindow!!.showAtLocation(this.lessonsLayout, Gravity.CENTER_HORIZONTAL, 0, 250)
-    }
-
-    private fun stylePopUp(popUpTextResult: TextView, customView: View) {
-        if(this.isCorrectAnswer()){
-            popUpTextResult.text = getString(R.string.you_are_correct_text)
-        }else{
-            popUpTextResult.text = getString(R.string.sorry_wrong_answer_text)
-            val rv = customView.findViewById<RelativeLayout>(R.id.custom_view_id)
-            val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
-            rv.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.wrongAnswer))
-            val msg = String.format("%s %s", getString(R.string.answer_template),
-                    currentQuestionGroup!!.Options[currentQuestionGroup!!.CorrectAnswer.toInt()])
-            correctAnswerText!!.text = msg
-        }
     }
 
     private fun nextQuestion(){
@@ -147,11 +119,13 @@ class LessonActivity : AppCompatActivity() {
         enableOptions()
     }
 
+    //TODO: take this
     private fun setProgressBarStatus()
     {
         val percent: Int = (fullListSize - this.dataList.size) * 10
         this.lessonStatusProgressBar!!.progress = percent
     }
+
     private fun finishQuiz(){
         this.popUpWindow!!.dismiss()
         updateCompletedLesson()

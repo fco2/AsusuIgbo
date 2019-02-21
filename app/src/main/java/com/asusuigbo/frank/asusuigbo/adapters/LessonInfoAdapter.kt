@@ -13,12 +13,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.SentenceCreatorActivity
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 
 /**
  * Created by Frank on 3/27/2018.
  */
-class LessonInfoAdapter(var lessonList: List<LessonInfo>, var context: Context) : RecyclerView.Adapter<LessonInfoAdapter.CustomViewHolder>(){
+class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: Context) : RecyclerView.Adapter<LessonInfoAdapter.CustomViewHolder>(){
 
     class CustomViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView? = null
@@ -45,12 +46,16 @@ class LessonInfoAdapter(var lessonList: List<LessonInfo>, var context: Context) 
         holder.cardView?.setOnClickListener { v ->
 
             //TODO: add logic to determine which activity to launch
-            val intent = Intent(v.context, LessonActivity::class.java)
-            intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
+            val intent: Intent? = if(this.lessonList[position].isMultiWords == "TRUE"){
+                Intent(v.context, SentenceCreatorActivity::class.java)
+            }else{
+                Intent(v.context, LessonActivity::class.java)
+            }
             var nextLesson = 0
             if(itemCount != (position + 1))
                 nextLesson = position + 1
-            intent.putExtra("NEXT_LESSON", "$nextLesson")
+            intent!!.putExtra("NEXT_LESSON", "$nextLesson")
+            intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             v.context.startActivity(intent)

@@ -11,9 +11,11 @@ import com.asusuigbo.frank.asusuigbo.models.SentenceInfo
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.*
 
-class SentenceBuilderHelper {
+class SentenceCreatorHelper {
     companion object {
-        fun populateList(dataList: ArrayList<SentenceInfo>, view: View, activity: Activity, textViewClickListener: View.OnClickListener){
+        //TODO: refactor to take in the correct lesson, for now, hardcoded "people" lesson
+        fun populateList(dataList: ArrayList<SentenceInfo>, workingList: ArrayList<SentenceInfo>, view: View,
+                         activity: Activity, textViewClickListener: View.OnClickListener){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database.getReference("Lessons/People")
 
@@ -22,13 +24,15 @@ class SentenceBuilderHelper {
                     for (d in dataSnapshot.children){
                         val wordBlocks = ArrayList<String>()
                         val fullSentence = d.child("FullSentence").value.toString()
+                        val correctAnswer = d.child("CorrectAnswer").value.toString()
 
                         for(t in d.child("WordBlocks").children){
                             val word = t.value.toString()
                             wordBlocks.add(word)
                         }
-                        val si = SentenceInfo(fullSentence, wordBlocks)
+                        val si = SentenceInfo(fullSentence, wordBlocks, correctAnswer)
                         dataList.add(si)
+                        workingList.add(si) //List we will work with.
                     }
                     val sourceFlexBoxLayout = view.findViewById<FlexboxLayout>(R.id.flexbox_source_id)
                     val textView = view.findViewById<TextView>(R.id.profile_question_id)
@@ -42,7 +46,7 @@ class SentenceBuilderHelper {
             })
         }
 
-        private fun buildFlexBoxContent(wordBlocks: ArrayList<String>,sourceFlexBoxLayout: FlexboxLayout,
+        fun buildFlexBoxContent(wordBlocks: ArrayList<String>,sourceFlexBoxLayout: FlexboxLayout,
                                         activity: Activity, textViewClickListener: View.OnClickListener) {
             for((index, item: String) in wordBlocks.withIndex()){
                 val view = TextView(activity.applicationContext)
