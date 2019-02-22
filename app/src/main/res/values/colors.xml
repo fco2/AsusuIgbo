@@ -10,7 +10,7 @@
     <color name="lightOrange">#ff8080</color>
     <color name="lightGreen">#99ff99</color>
     <color name="dividerColor">#e6e6e6</color>
-    <color name="wrongAnswer">#d1a5ab</color>
+    <color name="wrongAnswer">#ffcdd2</color>
     <color name="lightBlue">#7daaf2</color>
     <color name="textColorBlue">#333942</color>
     <color name="inactiveCardColor">#bdbdbd</color>

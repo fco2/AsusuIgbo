@@ -31,10 +31,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottom_nav_view_id)
 
         if(bottomNavigationView != null){ // Not Important - it is since it's nullable
-
             val menu: Menu = bottomNavigationView!!.menu
             //TODO: update back to 0.
-            selectNavMenuItem(menu.getItem(2))
+            selectNavMenuItem(menu.getItem(0))
 
             bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
                 selectNavMenuItem(item)
@@ -50,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             R.id.home_icon_id -> initializeFragment(LessonsFragment(), "Lessons")
             R.id.newest_icon_id -> initializeFragment(NewestFragment(), "New Words")
             R.id.profile_icon_id -> initializeFragment(ProfileFragment(), "Profile")
-            else -> initializeFragment(NewestFragment(), "New Words")
+            else -> initializeFragment(NewestFragment(), "Lessons")
         }
     }
 

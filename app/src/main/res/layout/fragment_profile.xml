@@ -2,79 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:id="@+id/profile_layout_id"
     tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="textStart"
-        android:text="@string/select_answer_header"
-        android:textSize="23sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="#66655c"
-        android:layout_margin="10dp"
-        android:id="@+id/profile_text_id"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:textSize="22sp"
-        android:text="@string/sample_question"
-        android:gravity="center_vertical|start"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="#656ea0"
-        android:layout_below="@id/profile_text_id"
-        android:id="@+id/profile_question_id"/>
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:flexDirection="row"
-        app:justifyContent="flex_start"
-        app:flexWrap="wrap"
-        app:showDivider="middle|end"
-        app:dividerDrawableHorizontal="@drawable/shape_divider"
-        android:layout_below="@id/profile_question_id"
-        android:id="@+id/flexbox_destination_id">
-
-
-    </com.google.android.flexbox.FlexboxLayout>
-
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        app:flexDirection="row"
-        app:justifyContent="center"
-        app:flexWrap="wrap"
-        android:layout_above="@id/check_answer_button_id"
-        android:id="@+id/flexbox_source_id">
-
-
-    </com.google.android.flexbox.FlexboxLayout>
-
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:padding="18dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="18sp"
-        android:enabled="false"
-        style="@style/RoundedCornerButtonTheme"
-        android:layout_marginBottom="10dp"
-        android:text="@string/answer_button_state"
-        android:id="@+id/check_answer_button_id"/>
+        android:text="@string/please_wait"/>
 
 </RelativeLayout>
-

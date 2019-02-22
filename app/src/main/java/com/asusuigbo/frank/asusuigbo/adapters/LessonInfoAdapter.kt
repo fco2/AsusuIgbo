@@ -34,7 +34,7 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.card_view_layout, parent, false)
+        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.single_lesson_layout, parent, false)
         return CustomViewHolder(view)
     }
 

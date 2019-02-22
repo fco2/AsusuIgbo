@@ -33,15 +33,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"
+                android:fontFamily="@font/andika"
+                android:textSize="20sp"
                 android:id="@+id/translated_text_id"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="12sp"
+                android:fontFamily="@font/andika"
+                android:textSize="20sp"
                 android:textColor="@color/colorGrey"
                 android:id="@+id/sounds_like_text_id"/>
 
@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:layout_margin="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="16sp"
+            android:fontFamily="@font/andika"
+            android:textSize="20sp"
             android:id="@+id/english_text_id"/>
     </android.support.v7.widget.CardView>
 

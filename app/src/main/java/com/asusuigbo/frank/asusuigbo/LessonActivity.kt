@@ -57,7 +57,6 @@ class LessonActivity : AppCompatActivity() {
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
-    //TODO: take this
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
         this.nextLesson = intent.getStringExtra("NEXT_LESSON")
@@ -119,7 +118,6 @@ class LessonActivity : AppCompatActivity() {
         enableOptions()
     }
 
-    //TODO: take this
     private fun setProgressBarStatus()
     {
         val percent: Int = (fullListSize - this.dataList.size) * 10
