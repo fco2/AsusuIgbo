@@ -1,6 +1,10 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
 
+import android.app.Activity
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.TextViewCompat
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -12,14 +16,10 @@ import com.google.firebase.database.*
 class UserConnection {
     companion object {
         fun populateList(dataList: ArrayList<QuestionGroup>, requestedLesson: String,
-                         question: TextView, radioGroup: RadioGroup, progressBar: ProgressBar){
+                         activity: Activity, progressBar: ProgressBar, listener: View.OnClickListener = View.OnClickListener{}){
 
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference  = database.getReference("Lessons/$requestedLesson")
-            val optionA: RadioButton = radioGroup.findViewById(R.id.option_a_id)
-            val optionB: RadioButton = radioGroup.findViewById(R.id.option_b_id)
-            val optionC: RadioButton = radioGroup.findViewById(R.id.option_c_id)
-            val optionD: RadioButton = radioGroup.findViewById(R.id.option_d_id)
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -36,11 +36,9 @@ class UserConnection {
                         temp.Options = optionsList
                         dataList.add(temp)
                     }
-                    question.text = dataList[0].Question
-                    optionA.text = dataList[0].Options[0]
-                    optionB.text = dataList[0].Options[1]
-                    optionC.text = dataList[0].Options[2]
-                    optionD.text = dataList[0].Options[3]
+                    val que: TextView = activity.findViewById(R.id.question_id)
+                    que.text = dataList[0].Question
+                    buildRadioGroupContent(dataList[0].Options, activity)
 
                     progressBar.visibility = View.GONE
                 }
@@ -49,6 +47,24 @@ class UserConnection {
                     //do nothing
                 }
             })
+        }
+
+        fun buildRadioGroupContent(optionsList: ArrayList<String>,activity: Activity){
+            val rg = activity.findViewById<RadioGroup>(R.id.radio_group_id)
+            for((index,item) in optionsList.withIndex()){
+                val view = RadioButton(activity.applicationContext)
+                val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                params.setMargins(10,10,10,10)
+                view.layoutParams = params
+                view.text = item
+                view.buttonTintList = ContextCompat.getColorStateList(activity.applicationContext, R.color.colorGrey)
+                TextViewCompat.setTextAppearance(view, R.style.FontForRadioButton)
+                view.background = ContextCompat.getDrawable(activity.applicationContext, R.drawable.option_background)
+                view.setPadding(25,25,25,25)
+                view.isClickable = true
+                view.tag = index
+                rg.addView(view)
+            }
         }
     }
 }

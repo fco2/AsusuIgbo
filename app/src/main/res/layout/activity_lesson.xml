@@ -72,47 +72,6 @@
                 android:layout_below="@id/view_divider_id"
                 android:layout_marginTop="10dp"
                 android:id="@+id/radio_group_id">
-
-                <RadioButton
-                    android:id="@+id/option_a_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/option_background"
-                    android:fontFamily="@font/andika"
-                    android:padding="10dp"
-                    android:tag="0"
-                    android:textSize="20sp" />
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/andika"
-                    android:textSize="20sp"
-                    android:background="@drawable/option_background"
-                    android:layout_margin="8dp"
-                    android:padding="10dp"
-                    android:tag="1"
-                    android:id="@+id/option_b_id"/>
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/andika"
-                    android:textSize="20sp"
-                    android:background="@drawable/option_background"
-                    android:layout_margin="8dp"
-                    android:padding="10dp"
-                    android:tag="2"
-                    android:id="@+id/option_c_id"/>
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/andika"
-                    android:textSize="20sp"
-                    android:background="@drawable/option_background"
-                    android:layout_margin="8dp"
-                    android:tag="3"
-                    android:padding="10dp"
-                    android:id="@+id/option_d_id"/>
             </RadioGroup>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

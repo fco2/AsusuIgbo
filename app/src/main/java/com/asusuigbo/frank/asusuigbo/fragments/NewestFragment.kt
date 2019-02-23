@@ -30,7 +30,7 @@ class NewestFragment : Fragment() {
         val view = inflater!!.inflate(R.layout.fragment_newest, container, false)
 
         cardView = view.findViewById(R.id.new_word_text_id)
-        button = view.findViewById(R.id.test_button_id)
+        button = view!!.findViewById(R.id.test_button_id)
         englishText = view.findViewById(R.id.english_text_id)
         translatedText = view.findViewById(R.id.translated_text_id)
         soundsLikeText = view.findViewById(R.id.sounds_like_text_id)

@@ -20,8 +20,7 @@
             android:id="@+id/popup_text_result_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/andika"
-            android:textSize="18sp"
+            android:textAppearance="@style/FontForTextView"
             android:gravity="center_horizontal|center_vertical"
             android:padding="2dp"/>
 
@@ -29,8 +28,7 @@
             android:id="@+id/correct_answer_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/andika"
-            android:textSize="18sp"
+            android:textAppearance="@style/FontForTextView"
             android:gravity="center_horizontal|center_vertical"
             android:layout_marginTop="2sp"/>
 

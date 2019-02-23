@@ -114,7 +114,8 @@ class SentenceCreatorActivity : AppCompatActivity() {
 
     private fun setProgressBarStatus()
     {
-        val percent: Int = (fullListSize - this.workingList.size) * 10
+        var percent: Int = (fullListSize - this.workingList.size) * 10
+        if(percent == 0) percent = 10
         this.lessonStatusProgressBar!!.progress = percent
     }
 
