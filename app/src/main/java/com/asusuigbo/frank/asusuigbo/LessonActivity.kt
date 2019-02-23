@@ -29,6 +29,7 @@ class LessonActivity : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
     private var fullListSize: Int = 0
+    private var selectedAnswer = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,7 @@ class LessonActivity : AppCompatActivity() {
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
         if(group.checkedRadioButtonId != -1){
             val checkedRadioBtn: RadioButton = findViewById(checkedId)
-            this.dataList[0].SelectedAnswer = checkedRadioBtn.text.toString()
+            this.selectedAnswer = checkedRadioBtn.text.toString()
             this.buttonState = UserButton.AnswerSelected
             this.button!!.isEnabled = true
         }
@@ -104,6 +105,7 @@ class LessonActivity : AppCompatActivity() {
     private fun updateOptions(){
         this.question!!.text = this.dataList[0].Question
         this.radioGroup!!.removeAllViews()
+        this.selectedAnswer = ""
         UserConnection.buildRadioGroupContent(this.dataList[0].Options, this)
     }
 
@@ -134,7 +136,7 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun isCorrectAnswer(): Boolean{
-        return this.currentQuestionGroup!!.CorrectAnswer == this.currentQuestionGroup!!.SelectedAnswer
+        return this.currentQuestionGroup!!.CorrectAnswer == this.selectedAnswer
     }
 
     private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){

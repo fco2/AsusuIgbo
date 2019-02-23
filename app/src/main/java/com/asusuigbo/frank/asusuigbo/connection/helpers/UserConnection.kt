@@ -24,16 +24,15 @@ class UserConnection {
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (d in dataSnapshot.children){
-                        val temp = QuestionGroup()
                         val optionsList = ArrayList<String>()
-                        temp.CorrectAnswer = d.child("CorrectAnswer").value.toString()
-                        temp.Question = d.child("Question").value.toString()
+                        val correctAnswer = d.child("CorrectAnswer").value.toString()
+                        val question = d.child("Question").value.toString()
 
                         for(t in d.child("Options").children){
                             val text = t.value.toString()
                             optionsList.add(text)
                         }
-                        temp.Options = optionsList
+                        val temp = QuestionGroup(question, optionsList, correctAnswer)
                         dataList.add(temp)
                     }
                     val que: TextView = activity.findViewById(R.id.question_id)

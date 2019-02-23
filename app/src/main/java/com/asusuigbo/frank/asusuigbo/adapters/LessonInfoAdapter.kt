@@ -45,7 +45,6 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         holder.titleTextView!!.text = this.lessonList[position].lessonKey
         holder.cardView?.setOnClickListener { v ->
 
-            //TODO: add logic to determine which activity to launch
             val intent: Intent? = if(this.lessonList[position].isMultiWords == "TRUE"){
                 Intent(v.context, SentenceCreatorActivity::class.java)
             }else{

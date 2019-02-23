@@ -9,13 +9,13 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.models.SentenceInfo
+import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.*
 
 class SentenceCreatorHelper {
     companion object {
-        fun populateList(dataList: ArrayList<SentenceInfo>, workingList: ArrayList<SentenceInfo>,
+        fun populateList(dataList: ArrayList<QuestionGroup>, workingList: ArrayList<QuestionGroup>,
                          activity: Activity, textViewClickListener: View.OnClickListener, requestedLesson: String){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database.getReference("Lessons/$requestedLesson")
@@ -23,22 +23,22 @@ class SentenceCreatorHelper {
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (d in dataSnapshot.children){
-                        val wordBlocks = ArrayList<String>()
-                        val fullSentence = d.child("FullSentence").value.toString()
+                        val optionsList = ArrayList<String>()
+                        val question = d.child("FullSentence").value.toString()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
 
                         for(t in d.child("WordBlocks").children){
                             val word = t.value.toString()
-                            wordBlocks.add(word)
+                            optionsList.add(word)
                         }
-                        val si = SentenceInfo(fullSentence, wordBlocks, correctAnswer)
-                        dataList.add(si)
-                        workingList.add(si) //List we will work with.
+                        val temp = QuestionGroup(question, optionsList, correctAnswer)
+                        dataList.add(temp)
+                        workingList.add(temp) //List we will work with.
                     }
                     val sourceFlexBoxLayout = activity.findViewById<FlexboxLayout>(R.id.flexbox_source_id)
                     val textView = activity.findViewById<TextView>(R.id.profile_question_id)
-                    textView.text = dataList[0].fullSentence
-                    buildFlexBoxContent(dataList[0].wordBlocks, sourceFlexBoxLayout, activity, textViewClickListener)
+                    textView.text = dataList[0].Question
+                    buildFlexBoxContent(dataList[0].Options, sourceFlexBoxLayout, activity, textViewClickListener)
 
                     val progressBar = activity.findViewById<ProgressBar>(R.id.progress_bar_lesson_id)
                     progressBar!!.visibility = View.GONE

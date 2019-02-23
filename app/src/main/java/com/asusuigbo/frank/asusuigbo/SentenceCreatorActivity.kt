@@ -9,7 +9,7 @@ import android.widget.*
 import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.connection.helpers.SentenceCreatorHelper
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
-import com.asusuigbo.frank.asusuigbo.models.SentenceInfo
+import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.DatabaseReference
@@ -20,9 +20,9 @@ class SentenceCreatorActivity : AppCompatActivity() {
     var sourceFlexBoxLayout: FlexboxLayout? = null
     var destFlexBoxLayout: FlexboxLayout? = null
     //TODO: Refactor names to proper naming convention
-    private var sentenceList: ArrayList<SentenceInfo> = ArrayList()
-    private var workingList: ArrayList<SentenceInfo> = ArrayList()
-    private lateinit var currentQuestion: SentenceInfo
+    private var sentenceList: ArrayList<QuestionGroup> = ArrayList()
+    private var workingList: ArrayList<QuestionGroup> = ArrayList()
+    private lateinit var currentQuestion: QuestionGroup
     private var selectedSentence: ArrayList<Int> = ArrayList()
     private var button: Button? = null
     private var textView: TextView? = null
@@ -94,7 +94,7 @@ class SentenceCreatorActivity : AppCompatActivity() {
             fullListSize = workingList.size
         this.currentQuestion = this.workingList.removeAt(0)
         this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, profileLayout,
-                currentQuestion.correctAnswer, isCorrectAnswer())
+                currentQuestion.CorrectAnswer, isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
             this.workingList.add(this.currentQuestion)
@@ -120,11 +120,11 @@ class SentenceCreatorActivity : AppCompatActivity() {
     }
 
     private fun updateOptions(){
-        textView!!.text = workingList[0].fullSentence
+        textView!!.text = workingList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()
         this.destFlexBoxLayout!!.removeAllViews()
         this.selectedSentence.clear()
-        SentenceCreatorHelper.buildFlexBoxContent(workingList[0].wordBlocks, sourceFlexBoxLayout!!,
+        SentenceCreatorHelper.buildFlexBoxContent(workingList[0].Options, sourceFlexBoxLayout!!,
                 this, textViewClickListener)
     }
 
@@ -162,14 +162,14 @@ class SentenceCreatorActivity : AppCompatActivity() {
     private fun buildSentence(): String{
         val sb = StringBuilder()
         for(item in selectedSentence){
-            sb.append(currentQuestion.wordBlocks.elementAt(item)).append(" ")
+            sb.append(currentQuestion.Options.elementAt(item)).append(" ")
         }
         return sb.toString().trim()
     }
 
     private fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
-        return sentence == currentQuestion.correctAnswer
+        return sentence == currentQuestion.CorrectAnswer
     }
 
     private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
