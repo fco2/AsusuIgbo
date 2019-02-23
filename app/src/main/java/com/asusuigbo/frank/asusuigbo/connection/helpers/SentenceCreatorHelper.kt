@@ -24,10 +24,10 @@ class SentenceCreatorHelper {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (d in dataSnapshot.children){
                         val optionsList = ArrayList<String>()
-                        val question = d.child("FullSentence").value.toString()
+                        val question = d.child("Question").value.toString()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
 
-                        for(t in d.child("WordBlocks").children){
+                        for(t in d.child("Options").children){
                             val word = t.value.toString()
                             optionsList.add(word)
                         }
