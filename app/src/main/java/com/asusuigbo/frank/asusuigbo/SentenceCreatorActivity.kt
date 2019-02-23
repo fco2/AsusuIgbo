@@ -1,39 +1,42 @@
 package com.asusuigbo.frank.asusuigbo
 
+import android.app.Activity
 import android.app.FragmentManager
 import android.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
-import com.asusuigbo.frank.asusuigbo.connection.helpers.SentenceCreatorHelper
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
+import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class SentenceCreatorActivity : AppCompatActivity() {
+class SentenceCreatorActivity : AppCompatActivity(), ILesson {
 
-    var sourceFlexBoxLayout: FlexboxLayout? = null
-    var destFlexBoxLayout: FlexboxLayout? = null
-    //TODO: Refactor names to proper naming convention
-    private var sentenceList: ArrayList<QuestionGroup> = ArrayList()
-    private var workingList: ArrayList<QuestionGroup> = ArrayList()
+    private var sourceFlexBoxLayout: FlexboxLayout? = null
+    private var destFlexBoxLayout: FlexboxLayout? = null
+    override var dataList: ArrayList<QuestionGroup> = ArrayList()
+    override var workingList: ArrayList<QuestionGroup> = ArrayList()
     private lateinit var currentQuestion: QuestionGroup
     private var selectedSentence: ArrayList<Int> = ArrayList()
     private var button: Button? = null
-    private var textView: TextView? = null
+    private var questionTextView: TextView? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private lateinit var profileLayout: RelativeLayout
     private var popUpWindow: PopupWindow? = null
-    private var requestedLesson: String = ""
+    override var requestedLesson: String = ""
     private var nextLesson: String = ""
-    private var progressBar: ProgressBar? = null
+    override var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
     private var fullListSize: Int = 0
+    override var activity: Activity = this
+    override var textViewClickListener: View.OnClickListener = View.OnClickListener { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +45,13 @@ class SentenceCreatorActivity : AppCompatActivity() {
         sourceFlexBoxLayout = findViewById(R.id.flexbox_source_id)
         destFlexBoxLayout = findViewById(R.id.flexbox_destination_id)
         button = findViewById(R.id.check_answer_button_id)
-        textView = findViewById(R.id.profile_question_id)
+        questionTextView = findViewById(R.id.profile_question_id)
         profileLayout = findViewById(R.id.profile_layout_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
         this.setLessonData()
 
-        SentenceCreatorHelper.populateList(sentenceList, workingList, this,
-                textViewClickListener, this.requestedLesson)
+        DataLoader.populateList(this)
         button!!.setOnClickListener(buttonClickListener)
     }
 
@@ -72,19 +74,21 @@ class SentenceCreatorActivity : AppCompatActivity() {
         }
     }
 
-    private val textViewClickListener = View.OnClickListener { v ->
-        if(!button!!.isEnabled)
-            button!!.isEnabled = true
-        this.buttonState = UserButton.AnswerSelected
+    init{
+        textViewClickListener = View.OnClickListener { v ->
+            if(!button!!.isEnabled)
+                button!!.isEnabled = true
+            this.buttonState = UserButton.AnswerSelected
 
-        if(destFlexBoxLayout!!.indexOfChild(v) == -1){
-            sourceFlexBoxLayout!!.removeView(v)
-            destFlexBoxLayout!!.addView(v)
-            selectedSentence.add(v.tag as Int)
-        }else{
-            destFlexBoxLayout!!.removeView(v)
-            sourceFlexBoxLayout!!.addView(v)
-            selectedSentence.remove(v.tag as Int)
+            if(destFlexBoxLayout!!.indexOfChild(v) == -1){
+                sourceFlexBoxLayout!!.removeView(v)
+                destFlexBoxLayout!!.addView(v)
+                selectedSentence.add(v.tag as Int)
+            }else{
+                destFlexBoxLayout!!.removeView(v)
+                sourceFlexBoxLayout!!.addView(v)
+                selectedSentence.remove(v.tag as Int)
+            }
         }
     }
 
@@ -120,12 +124,11 @@ class SentenceCreatorActivity : AppCompatActivity() {
     }
 
     private fun updateOptions(){
-        textView!!.text = workingList[0].Question
+        questionTextView!!.text = workingList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()
         this.destFlexBoxLayout!!.removeAllViews()
         this.selectedSentence.clear()
-        SentenceCreatorHelper.buildFlexBoxContent(workingList[0].Options, sourceFlexBoxLayout!!,
-                this, textViewClickListener)
+        DataLoader.buildFlexBoxContent(this)
     }
 
     private fun finishQuiz(){
@@ -167,7 +170,7 @@ class SentenceCreatorActivity : AppCompatActivity() {
         return sb.toString().trim()
     }
 
-    private fun isCorrectAnswer(): Boolean{
+    override fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
         return sentence == currentQuestion.CorrectAnswer
     }

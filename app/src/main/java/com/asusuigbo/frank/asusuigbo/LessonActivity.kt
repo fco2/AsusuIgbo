@@ -1,5 +1,6 @@
 package com.asusuigbo.frank.asusuigbo
 
+import android.app.Activity
 import android.app.FragmentManager
 import android.app.FragmentTransaction
 import android.os.Bundle
@@ -7,29 +8,32 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
-import com.asusuigbo.frank.asusuigbo.connection.helpers.UserConnection
+import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
+import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class LessonActivity : AppCompatActivity() {
-
-    private var dataList: ArrayList<QuestionGroup> = ArrayList()
+class LessonActivity : AppCompatActivity(), ILesson {
+    override var workingList: ArrayList<QuestionGroup> = ArrayList()
+    override var textViewClickListener = View.OnClickListener{}
+    override var dataList: ArrayList<QuestionGroup> = ArrayList()
     private var button: Button? = null
     private var question: TextView? = null
     private var popUpWindow: PopupWindow? = null
     private var lessonsLayout: RelativeLayout? = null
     private var currentQuestionGroup: QuestionGroup? = null
-    private var requestedLesson: String = ""
+    override var requestedLesson: String = ""
     private var nextLesson: String = ""
     private var radioGroup: RadioGroup? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
-    private var progressBar: ProgressBar? = null
+    override var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
     private var fullListSize: Int = 0
     private var selectedAnswer = ""
+    override var activity: Activity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +49,7 @@ class LessonActivity : AppCompatActivity() {
         this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
 
-        UserConnection.populateList(dataList, requestedLesson,this, this.progressBar!!)
+        DataLoader.populateList(this)
         this.radioGroup!!.setOnCheckedChangeListener(radioGroupListener)
         this.button!!.setOnClickListener(buttonClickListener)
     }
@@ -55,6 +59,7 @@ class LessonActivity : AppCompatActivity() {
         this.nextLesson = intent.getStringExtra("NEXT_LESSON")
     }
 
+    //TODO: different
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
         if(group.checkedRadioButtonId != -1){
             val checkedRadioBtn: RadioButton = findViewById(checkedId)
@@ -96,17 +101,19 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun nextQuestion(){
+        //TODO: inject view switch here based on dataList[0].newProperty
         this.popUpWindow!!.dismiss()
         this.updateOptions()
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         setProgressBarStatus()
     }
 
+    //TODO: different
     private fun updateOptions(){
         this.question!!.text = this.dataList[0].Question
         this.radioGroup!!.removeAllViews()
         this.selectedAnswer = ""
-        UserConnection.buildRadioGroupContent(this.dataList[0].Options, this)
+        DataLoader.buildRadioGroupContent(this)
     }
 
     private fun setProgressBarStatus()
@@ -135,7 +142,7 @@ class LessonActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    private fun isCorrectAnswer(): Boolean{
+    override fun isCorrectAnswer(): Boolean{
         return this.currentQuestionGroup!!.CorrectAnswer == this.selectedAnswer
     }
 
@@ -145,6 +152,7 @@ class LessonActivity : AppCompatActivity() {
         this.buttonState = buttonState
     }
 
+    //TODO: different
     private fun disableOptions(){
         for(index in 0 until radioGroup!!.childCount){
             val v = radioGroup!!.getChildAt(index)
