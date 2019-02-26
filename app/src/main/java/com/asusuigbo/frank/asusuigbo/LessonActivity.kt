@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class LessonActivity : AppCompatActivity(), ILesson {
-    override var workingList: ArrayList<QuestionGroup> = ArrayList()
     override var textViewClickListener = View.OnClickListener{}
     private var lessonsLayout: RelativeLayout? = null
     private var radioGroup: RadioGroup? = null

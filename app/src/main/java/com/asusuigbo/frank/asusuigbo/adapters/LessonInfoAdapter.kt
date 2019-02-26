@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.SentenceCreatorActivity
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 
 /**

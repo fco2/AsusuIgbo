@@ -10,7 +10,6 @@ interface ILesson {
     var requestedLesson: String
     var activity: Activity
     var progressBar: ProgressBar?
-    var workingList: ArrayList<QuestionGroup>
     var textViewClickListener: View.OnClickListener
 
     fun isCorrectAnswer() : Boolean

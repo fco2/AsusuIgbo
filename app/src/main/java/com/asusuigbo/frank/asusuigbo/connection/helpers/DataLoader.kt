@@ -9,7 +9,6 @@ import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.SentenceCreatorActivity
 import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
@@ -35,7 +34,6 @@ class DataLoader {
                         }
                         val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
-                        lessonActivity.workingList.add(temp)
                     }
                     val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
                     val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
