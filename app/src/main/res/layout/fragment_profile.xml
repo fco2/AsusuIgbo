@@ -2,10 +2,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/please_wait"/>
+    tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment"
+    android:animateLayoutChanges="true"
+    android:id="@+id/root_layout">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/lightOrange"
+        android:layout_alignParentTop="true"
+        android:id="@+id/test_id">
 
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/view_1"
+        layout="@layout/testing_second"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/test_id"
+        android:layout_above="@id/check_answer_button_id"/>
+
+
+    <include
+        android:id="@+id/view_2"
+        layout="@layout/testing_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/test_id"
+        android:layout_above="@id/check_answer_button_id"/>
+
+    <Button
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        style="@style/RoundedCornerButtonTheme"
+        android:layout_marginBottom="10dp"
+        android:text="@string/click_me"
+        android:id="@+id/check_answer_button_id"/>
 </RelativeLayout>

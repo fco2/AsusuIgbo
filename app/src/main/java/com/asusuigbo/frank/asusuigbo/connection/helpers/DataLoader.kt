@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
-import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
-import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.SentenceCreatorActivity
+import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.*
@@ -27,22 +27,29 @@ class DataLoader {
                         val optionsList = ArrayList<String>()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
                         val question = d.child("Question").value.toString()
+                        val lessonFormat = d.child("LessonFormat").value.toString()
 
                         for(t in d.child("Options").children){
                             val text = t.value.toString()
                             optionsList.add(text)
                         }
-                        val temp = QuestionGroup(question, optionsList, correctAnswer)
+                        val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
-                        if(lessonActivity is SentenceCreatorActivity) lessonActivity.workingList.add(temp)
+                        lessonActivity.workingList.add(temp)
                     }
+                    val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
+                    val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
 
-                    if(lessonActivity is LessonActivity){
-                        val que: TextView = lessonActivity.activity.findViewById(R.id.question_id)
+                    if(lessonActivity.dataList[0].LessonFormat == "SingleSelect"){
+                        multiSelectLayout.visibility = View.GONE
+                        singleSelectLayout.visibility = View.VISIBLE
+                        val que: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
                         que.text = lessonActivity.dataList[0].Question
                         buildRadioGroupContent(lessonActivity)
                     }else{
-                        val que: TextView = lessonActivity.activity.findViewById(R.id.profile_question_id)
+                        singleSelectLayout.visibility = View.GONE
+                        multiSelectLayout.visibility = View.VISIBLE
+                        val que: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
                         que.text = lessonActivity.dataList[0].Question
                         buildFlexBoxContent(lessonActivity)
                     }
@@ -76,7 +83,7 @@ class DataLoader {
         }
 
         fun buildFlexBoxContent(sentenceCreatorActivity: ILesson) {
-            for((index, item: String) in sentenceCreatorActivity.workingList[0].Options.withIndex()){
+            for((index, item: String) in sentenceCreatorActivity.dataList[0].Options.withIndex()){
                 val view = TextView(sentenceCreatorActivity.activity.applicationContext)
                 val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)

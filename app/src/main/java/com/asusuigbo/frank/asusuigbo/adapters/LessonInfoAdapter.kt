@@ -45,15 +45,11 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         holder.titleTextView!!.text = this.lessonList[position].lessonKey
         holder.cardView?.setOnClickListener { v ->
 
-            val intent: Intent? = if(this.lessonList[position].isMultiWords == "TRUE"){
-                Intent(v.context, SentenceCreatorActivity::class.java)
-            }else{
-                Intent(v.context, LessonActivity::class.java)
-            }
+            val intent = Intent(v.context, LessonActivity::class.java)
             var nextLesson = 0
             if(itemCount != (position + 1))
                 nextLesson = position + 1
-            intent!!.putExtra("NEXT_LESSON", "$nextLesson")
+            intent.putExtra("NEXT_LESSON", "$nextLesson")
             intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

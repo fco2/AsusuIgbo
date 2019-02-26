@@ -31,4 +31,5 @@
     <string name="hide_translation">Hide Translation</string>
     <string name="sample_question">Questions place holder..?</string>
     <string name="move_text">Move text</string>
+    <string name="click_me">Click me</string>
 </resources>

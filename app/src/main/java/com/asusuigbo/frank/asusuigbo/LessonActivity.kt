@@ -13,21 +13,29 @@ import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
+import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class LessonActivity : AppCompatActivity(), ILesson {
     override var workingList: ArrayList<QuestionGroup> = ArrayList()
     override var textViewClickListener = View.OnClickListener{}
+    private var lessonsLayout: RelativeLayout? = null
+    private var radioGroup: RadioGroup? = null
+    private lateinit var multiSelectLayout: RelativeLayout
+    private lateinit var singleSelectLayout: RelativeLayout
+    private var sourceFlexBoxLayout: FlexboxLayout? = null
+    private var destFlexBoxLayout: FlexboxLayout? = null
+    private var selectedSentence: ArrayList<Int> = ArrayList()
+    
     override var dataList: ArrayList<QuestionGroup> = ArrayList()
     private var button: Button? = null
-    private var question: TextView? = null
+    private lateinit var singleQuestionTextView: TextView
+    private lateinit var multiQuestionTextView: TextView
     private var popUpWindow: PopupWindow? = null
-    private var lessonsLayout: RelativeLayout? = null
-    private var currentQuestionGroup: QuestionGroup? = null
+    private lateinit var currentQuestion: QuestionGroup
     override var requestedLesson: String = ""
     private var nextLesson: String = ""
-    private var radioGroup: RadioGroup? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     override var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
@@ -41,10 +49,17 @@ class LessonActivity : AppCompatActivity(), ILesson {
 
         this.lessonsLayout = findViewById(R.id.lessons_layout_id)
         this.button = findViewById(R.id.check_answer_button_id)
-        this.question = findViewById(R.id.question_id)
+        this.singleQuestionTextView = findViewById(R.id.single_question_id)
+        this.multiQuestionTextView = findViewById(R.id.multi_question_id)
         this.radioGroup = findViewById(R.id.radio_group_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
+        this.singleSelectLayout = findViewById(R.id.single_select_layout_id)
+        this.multiSelectLayout = findViewById(R.id.multi_select_layout_id)
+
+        //second set
+        sourceFlexBoxLayout = findViewById(R.id.flexbox_source_id)
+        destFlexBoxLayout = findViewById(R.id.flexbox_destination_id)
 
         this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
@@ -54,12 +69,29 @@ class LessonActivity : AppCompatActivity(), ILesson {
         this.button!!.setOnClickListener(buttonClickListener)
     }
 
+    init{
+        textViewClickListener = View.OnClickListener { v ->
+            if(!button!!.isEnabled)
+                button!!.isEnabled = true
+            this.buttonState = UserButton.AnswerSelected
+
+            if(destFlexBoxLayout!!.indexOfChild(v) == -1){
+                sourceFlexBoxLayout!!.removeView(v)
+                destFlexBoxLayout!!.addView(v)
+                selectedSentence.add(v.tag as Int)
+            }else{
+                destFlexBoxLayout!!.removeView(v)
+                sourceFlexBoxLayout!!.addView(v)
+                selectedSentence.remove(v.tag as Int)
+            }
+        }
+    }
+
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
         this.nextLesson = intent.getStringExtra("NEXT_LESSON")
     }
 
-    //TODO: different
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
         if(group.checkedRadioButtonId != -1){
             val checkedRadioBtn: RadioButton = findViewById(checkedId)
@@ -84,15 +116,16 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun answerQuestion(){
-        disableOptions()
         if(fullListSize == 0)
             fullListSize = dataList.size
-        this.currentQuestionGroup = this.dataList.removeAt(0)
+        this.currentQuestion = this.dataList.removeAt(0)
+        disableOptions()
+
         this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, lessonsLayout!!,
-                currentQuestionGroup!!.CorrectAnswer, isCorrectAnswer())
+                currentQuestion.CorrectAnswer, isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
-            this.dataList.add(this.currentQuestionGroup!!)
+            this.dataList.add(this.currentQuestion)
 
         if(this.dataList.size > 0)
             this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
@@ -101,19 +134,31 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun nextQuestion(){
-        //TODO: inject view switch here based on dataList[0].newProperty
         this.popUpWindow!!.dismiss()
         this.updateOptions()
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         setProgressBarStatus()
     }
 
-    //TODO: different
     private fun updateOptions(){
-        this.question!!.text = this.dataList[0].Question
-        this.radioGroup!!.removeAllViews()
-        this.selectedAnswer = ""
-        DataLoader.buildRadioGroupContent(this)
+        if(this.dataList[0].LessonFormat == "SingleSelect"){
+            multiSelectLayout.visibility = View.GONE
+            singleSelectLayout.visibility = View.VISIBLE
+
+            this.singleQuestionTextView.text = this.dataList[0].Question
+            this.radioGroup!!.removeAllViews()
+            this.selectedAnswer = ""
+            DataLoader.buildRadioGroupContent(this)
+        }else{
+            singleSelectLayout.visibility = View.GONE
+            multiSelectLayout.visibility = View.VISIBLE
+
+            multiQuestionTextView.text = dataList[0].Question
+            this.sourceFlexBoxLayout!!.removeAllViews()
+            this.destFlexBoxLayout!!.removeAllViews()
+            this.selectedSentence.clear()
+            DataLoader.buildFlexBoxContent(this)
+        }
     }
 
     private fun setProgressBarStatus()
@@ -143,7 +188,12 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     override fun isCorrectAnswer(): Boolean{
-        return this.currentQuestionGroup!!.CorrectAnswer == this.selectedAnswer
+        return if(this.currentQuestion.LessonFormat == "SingleSelect")
+            this.currentQuestion.CorrectAnswer == this.selectedAnswer
+        else{
+            val sentence = this.buildSentence()
+            sentence == currentQuestion.CorrectAnswer
+        }
     }
 
     private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
@@ -152,11 +202,30 @@ class LessonActivity : AppCompatActivity(), ILesson {
         this.buttonState = buttonState
     }
 
-    //TODO: different
     private fun disableOptions(){
-        for(index in 0 until radioGroup!!.childCount){
-            val v = radioGroup!!.getChildAt(index)
+        if(this.currentQuestion.LessonFormat == "SingleSelect"){
+            for(index in 0 until radioGroup!!.childCount){
+                val v = radioGroup!!.getChildAt(index)
+                v.isEnabled = false
+            }
+        }else{
+            disableViewsFor(sourceFlexBoxLayout!!)
+            disableViewsFor(destFlexBoxLayout!!)
+        }
+    }
+
+    private fun disableViewsFor(flyt: FlexboxLayout){
+        for(index in 0 until flyt.childCount){
+            val v = flyt.getChildAt(index)
             v.isEnabled = false
         }
+    }
+
+    private fun buildSentence(): String{
+        val sb = StringBuilder()
+        for(item in selectedSentence){
+            sb.append(currentQuestion.Options.elementAt(item)).append(" ")
+        }
+        return sb.toString().trim()
     }
 }

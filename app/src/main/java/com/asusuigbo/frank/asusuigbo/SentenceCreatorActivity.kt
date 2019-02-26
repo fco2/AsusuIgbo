@@ -21,6 +21,7 @@ class SentenceCreatorActivity : AppCompatActivity(), ILesson {
 
     private var sourceFlexBoxLayout: FlexboxLayout? = null
     private var destFlexBoxLayout: FlexboxLayout? = null
+
     override var dataList: ArrayList<QuestionGroup> = ArrayList()
     override var workingList: ArrayList<QuestionGroup> = ArrayList()
     private lateinit var currentQuestion: QuestionGroup
@@ -123,6 +124,7 @@ class SentenceCreatorActivity : AppCompatActivity(), ILesson {
         this.lessonStatusProgressBar!!.progress = percent
     }
 
+    //TODO: different
     private fun updateOptions(){
         questionTextView!!.text = workingList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()
