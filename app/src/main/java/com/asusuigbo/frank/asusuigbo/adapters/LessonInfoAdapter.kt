@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
@@ -56,10 +57,15 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         }
 
         if(this.lessonList[position].lessonComplete == "FALSE"){
-            holder.cardView?.isEnabled = false
             val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
             holder.cardView?.cardBackgroundColor = ColorStateList.valueOf(color)
             holder.cardView?.elevation = 0.0f
+
+            val shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_animation)
+            //this replaces default onclick for cardView
+            holder.cardView?.setOnClickListener{v ->
+                v.startAnimation(shakeAnimation)
+            }
         }
     }
 }

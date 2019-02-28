@@ -27,6 +27,7 @@ class LessonCompletedFragment : Fragment() {
 
     private var customOnClickListener = View.OnClickListener {
         val intent = Intent(contextData, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 
