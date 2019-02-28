@@ -18,8 +18,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class LessonActivity : AppCompatActivity(), ILesson {
+    override var dataListSize: Int = 0
     override var textViewClickListener = View.OnClickListener{}
-    private var lessonsLayout: RelativeLayout? = null
+    var lessonsLayout: RelativeLayout? = null
     private var radioGroup: RadioGroup? = null
     private lateinit var multiSelectLayout: RelativeLayout
     private lateinit var singleSelectLayout: RelativeLayout
@@ -32,13 +33,12 @@ class LessonActivity : AppCompatActivity(), ILesson {
     private lateinit var singleQuestionTextView: TextView
     private lateinit var multiQuestionTextView: TextView
     private var popUpWindow: PopupWindow? = null
-    private lateinit var currentQuestion: QuestionGroup
+    lateinit var currentQuestion: QuestionGroup
     override var requestedLesson: String = ""
     private var nextLesson: String = ""
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     override var progressBar: ProgressBar? = null
     private var lessonStatusProgressBar: ProgressBar? = null
-    private var fullListSize: Int = 0
     private var selectedAnswer = ""
     override var activity: Activity = this
 
@@ -115,13 +115,10 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun answerQuestion(){
-        if(fullListSize == 0)
-            fullListSize = dataList.size
         this.currentQuestion = this.dataList.removeAt(0)
         disableOptions()
 
-        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, lessonsLayout!!,
-                currentQuestion.CorrectAnswer, isCorrectAnswer())
+        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
             this.dataList.add(this.currentQuestion)
@@ -162,9 +159,10 @@ class LessonActivity : AppCompatActivity(), ILesson {
 
     private fun setProgressBarStatus()
     {
-        var percent: Int = (fullListSize - this.dataList.size) * 10
-        if(percent == 0) percent = 10
-        this.lessonStatusProgressBar!!.progress = percent
+        val percent: Double = (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
+        var result = Math.round(percent).toInt()
+        result = if(result == 0) 5 else result
+        this.lessonStatusProgressBar!!.progress = result
     }
 
     private fun finishQuiz(){

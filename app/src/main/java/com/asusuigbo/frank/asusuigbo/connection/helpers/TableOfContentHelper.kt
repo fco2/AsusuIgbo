@@ -22,8 +22,7 @@ class TableOfContentHelper {
                         val key = d.child("LessonKey").value.toString()
                         val resId: Int = con.resources.getIdentifier(imageName,"mipmap", con.packageName)
                         val lessonComplete = d.child("LessonComplete").value.toString()
-                        val isMultiWords = d.child("IsMultiWords").value.toString()
-                        val item = LessonInfo(resId, key, lessonComplete, isMultiWords)
+                        val item = LessonInfo(resId, key, lessonComplete)
                         dataList.add(item)
                     }
                     recyclerView!!.layoutManager = GridLayoutManager(context, 2)

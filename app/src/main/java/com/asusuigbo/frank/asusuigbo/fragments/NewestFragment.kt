@@ -1,24 +1,26 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
+import com.asusuigbo.frank.asusuigbo.FlipAnimation
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.database.*
 
 class NewestFragment : Fragment() {
 
-    private lateinit var cardView: CardView
+    private lateinit var backCardView: CardView
+    private lateinit var frontCardView: CardView
+    private lateinit var parentLayout: RelativeLayout
     private lateinit var button: Button
-    private var isViewShown = false
     private lateinit var englishText: TextView
     private lateinit var translatedText: TextView
     private lateinit var soundsLikeText: TextView
@@ -29,50 +31,29 @@ class NewestFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_newest, container, false)
 
-        cardView = view.findViewById(R.id.new_word_text_id)
+        backCardView = view.findViewById(R.id.translated_text_card_view)
+        frontCardView = view.findViewById(R.id.english_text_card_view)
+        parentLayout = view.findViewById(R.id.fragment_newest_layout_id)
         button = view!!.findViewById(R.id.test_button_id)
         englishText = view.findViewById(R.id.english_text_id)
         translatedText = view.findViewById(R.id.translated_text_id)
         soundsLikeText = view.findViewById(R.id.sounds_like_text_id)
         progressBar = view.findViewById(R.id.loading_new_words_id)
-        progressBar.visibility = View.VISIBLE
         this.loadDataFromFireBase()
-
-        cardView.visibility = View.INVISIBLE
         button.setOnClickListener(clickListener)
         return view
     }
 
     private val clickListener = View.OnClickListener {
-        when (this.isViewShown) {
-            true -> {
-                slideUp(this.cardView)
-            }
-            else -> {
-                slideDown(this.cardView)
-            }
+        val flipAnimation = FlipAnimation(frontCardView, backCardView)
+
+        if(frontCardView.visibility == View.GONE){
+            flipAnimation.reverse()
+            button.text = activity.getText(R.string.show_translation)
+        }else{
+            button.text = activity.getText(R.string.hide_translation)
         }
-    }
-
-    private fun slideDown(view: CardView?){
-        view!!.visibility = View.VISIBLE
-        this.slide(view, 0f, view.height.toFloat() + 15f)
-        this.isViewShown = true
-        this.button.text = getString(R.string.hide_translation)
-    }
-
-    private fun slideUp(view: CardView?){
-        this.slide(view, view!!.height.toFloat() + 15f,0f )
-        this.isViewShown = false
-        this.button.text = getString(R.string.show_translation)
-    }
-
-    private fun slide(view: CardView?, fromYDelta: Float, toYDelta: Float){
-        val animate = TranslateAnimation(0f, 0f,
-                fromYDelta, toYDelta)
-        animate.duration = 500
-        animate.fillAfter = true
-        view!!.startAnimation(animate)
+        parentLayout.startAnimation(flipAnimation)
     }
 
     private fun loadDataFromFireBase(){

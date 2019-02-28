@@ -35,6 +35,7 @@ class DataLoader {
                         val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
                     }
+                    lessonActivity.dataListSize = lessonActivity.dataList.size
                     val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
                     val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
 

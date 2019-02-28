@@ -11,6 +11,7 @@ interface ILesson {
     var activity: Activity
     var progressBar: ProgressBar?
     var textViewClickListener: View.OnClickListener
+    var dataListSize: Int
 
     fun isCorrectAnswer() : Boolean
 }
