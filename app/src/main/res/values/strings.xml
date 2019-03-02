@@ -32,4 +32,8 @@
     <string name="sample_question">Questions place holder..?</string>
     <string name="move_text">Move text</string>
     <string name="click_me">Click me</string>
+    <string name="user_profile_image">User profile image</string>
+    <string name="temporary_username">Temporary username</string>
+    <string name="lessons_completed_text">Lessons completed</string>
+    <string name="ten">10</string>
 </resources>

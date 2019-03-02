@@ -3,6 +3,8 @@ package com.asusuigbo.frank.asusuigbo.adapters
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -34,7 +36,7 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.single_lesson_layout, parent, false)
+        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.table_of_content_lesson_layout, parent, false)
         return CustomViewHolder(view)
     }
 
@@ -60,6 +62,12 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
             val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
             holder.cardView?.cardBackgroundColor = ColorStateList.valueOf(color)
             holder.cardView?.elevation = 0.0f
+
+            //set color filter to make image appear inactive
+            val matrix = ColorMatrix()
+            matrix.setSaturation(0.0f) //default is 1.0f
+            val filter = ColorMatrixColorFilter(matrix)
+            holder.imageIndexView?.colorFilter = filter
 
             val shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_animation)
             //this replaces default onclick for cardView

@@ -172,6 +172,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun updateCompletedLesson(){
+        //change implementation to CanViewLesson, just add to the list for user
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
         dbReference.child(this.nextLesson).child("LessonComplete").setValue("TRUE")

@@ -14,22 +14,22 @@ import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 
 class LessonsFragment : Fragment() {
 
-    var recyclerView: RecyclerView? = null
-    var myList: ArrayList<LessonInfo> = ArrayList()
+    lateinit var recyclerView: RecyclerView
+    var dataList: ArrayList<LessonInfo> = ArrayList()
     var contextData: Context? = null
-    var progressBar: ProgressBar? = null
+    lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_lessons, container, false)
 
-        recyclerView = view?.findViewById(R.id.recycler_view_id)
-        this.progressBar = view?.findViewById(R.id.progress_bar_id)
-        TableOfContentHelper.populateList(myList, contextData, recyclerView, this.progressBar)
+        recyclerView = view.findViewById(R.id.recycler_view_id)
+        this.progressBar = view.findViewById(R.id.progress_bar_id)
+        TableOfContentHelper.populateList(this)
         return view
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         this.contextData = context
     }

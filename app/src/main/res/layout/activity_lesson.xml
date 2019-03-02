@@ -19,6 +19,8 @@
         android:progress="5"
         android:layout_margin="10dp"/>
 
+    <!-- Include text editor layout here -->
+
     <include layout="@layout/multi_select_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,6 +37,15 @@
         android:id="@+id/single_select_layout_id">
     </include>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar_lesson_id"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:max="500"
+        android:progress="0"/>
+
     <Button
         android:layout_width="280dp"
         android:layout_height="wrap_content"
@@ -47,14 +58,5 @@
         android:layout_marginBottom="10dp"
         android:text="@string/answer_button_state"
         android:id="@+id/check_answer_button_id"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar_lesson_id"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:max="500"
-        android:progress="0"/>
 
 </RelativeLayout>

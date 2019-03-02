@@ -1,19 +1,17 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
-import android.content.Context
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ProgressBar
 import com.asusuigbo.frank.asusuigbo.adapters.LessonInfoAdapter
+import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 import com.google.firebase.database.*
 
 class TableOfContentHelper {
     companion object {
-        fun populateList(dataList: ArrayList<LessonInfo>, context: Context?, recyclerView: RecyclerView?, progressBar: ProgressBar?){
+        fun populateList(lessonsFragment: LessonsFragment){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
-            val con = context!!.applicationContext
+            val con = lessonsFragment.contextData!!.applicationContext
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -23,13 +21,15 @@ class TableOfContentHelper {
                         val resId: Int = con.resources.getIdentifier(imageName,"mipmap", con.packageName)
                         val lessonComplete = d.child("LessonComplete").value.toString()
                         val item = LessonInfo(resId, key, lessonComplete)
-                        dataList.add(item)
+                        lessonsFragment.dataList.add(item)
                     }
-                    recyclerView!!.layoutManager = GridLayoutManager(context, 2)
-                    recyclerView.hasFixedSize()
-                    recyclerView.adapter = LessonInfoAdapter(dataList, context)
+                    //use forLoop to modify list data for lesson complete
+                    lessonsFragment.recyclerView.layoutManager = GridLayoutManager(lessonsFragment.contextData, 2)
+                    lessonsFragment.recyclerView.hasFixedSize()
+                    lessonsFragment.recyclerView.adapter = LessonInfoAdapter(lessonsFragment.dataList,
+                            lessonsFragment.contextData!!)
 
-                    progressBar!!.visibility = View.GONE
+                    lessonsFragment.progressBar.visibility = View.GONE
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {

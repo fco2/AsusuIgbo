@@ -31,6 +31,8 @@
         android:id="@+id/lessonNameId"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:fontFamily="@font/andika"
+        android:textSize="15sp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:textColor="@color/colorPrimary"
