@@ -36,12 +36,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:fontFamily="@font/andika"
-                android:gravity="center"
-                android:textSize="16sp"
                 android:layout_margin="10dp"
-                android:text="@string/temporary_username"/>
+                android:fontFamily="@font/hammersmith_one"
+                android:gravity="center"
+                android:id="@+id/username_id"
+                android:textAlignment="center"
+                android:textSize="17sp" />
 
         </android.support.v7.widget.CardView>
     </RelativeLayout>
@@ -54,55 +54,124 @@
         android:layout_margin="6dp"
         android:id="@+id/user_profile_divider"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:elevation="5dp"
-            app:cardCornerRadius="20dp"
-            android:padding="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/user_profile_divider">
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/user_profile_divider"
+        android:id="@+id/card_view_lessons_completed">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/andika"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:text="@string/lessons_completed_text"
-                    android:id="@+id/lessons_completed_template_text"/>
+                android:textAlignment="center"
+                android:fontFamily="@font/andika"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="@string/lessons_completed_text"
+                android:id="@+id/lessons_completed_template_text"/>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_toEndOf="@id/lessons_completed_template_text"
-                    android:background="@drawable/shape_divider"
-                    android:id="@+id/divider_2"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toEndOf="@id/lessons_completed_template_text"
+                android:background="@drawable/shape_divider"
+                android:id="@+id/divider_2"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/andika"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:text="@string/ten"
-                    android:layout_toEndOf="@id/divider_2"
-                    android:id="@+id/lessons_completed_value"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:fontFamily="@font/andika"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="@string/ten"
+                android:layout_toEndOf="@id/divider_2"
+                android:id="@+id/lessons_completed_value"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
-            </RelativeLayout>
+    <!-- Words learned -->
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/card_view_lessons_completed"
+        android:id="@+id/card_view_words_learned">
 
-        </android.support.v7.widget.CardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:fontFamily="@font/andika"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="@string/total_words_learned"
+                android:id="@+id/words_learned_template_text"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toEndOf="@id/words_learned_template_text"
+                android:background="@drawable/shape_divider"
+                android:id="@+id/divider_3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:fontFamily="@font/andika"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="@string/ten"
+                android:layout_toEndOf="@id/divider_3"
+                android:id="@+id/words_learned_value"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        style="@style/RoundedCornerButtonTheme"
+        android:layout_marginBottom="10dp"
+        android:text="@string/log_out"
+        android:id="@+id/sign_out_id"/>
 
 </RelativeLayout>

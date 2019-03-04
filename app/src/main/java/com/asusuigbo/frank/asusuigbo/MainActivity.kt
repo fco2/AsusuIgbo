@@ -2,9 +2,9 @@ package com.asusuigbo.frank.asusuigbo
 
 import android.app.Fragment
 import android.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         if(bottomNavigationView != null){ // Not Important - it is since it's nullable
             val menu: Menu = bottomNavigationView!!.menu
-            //TODO: update back to 0.
             selectNavMenuItem(menu.getItem(0))
 
             bottomNavigationView?.setOnNavigationItemSelectedListener { item ->

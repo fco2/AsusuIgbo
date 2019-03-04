@@ -36,7 +36,8 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
-        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.table_of_content_lesson_layout, parent, false)
+        val view = LayoutInflater.from(parent!!.context)
+                .inflate(R.layout.table_of_content_lesson_layout, parent, false)
         return CustomViewHolder(view)
     }
 
@@ -48,17 +49,18 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         holder.cardView?.setOnClickListener { v ->
 
             val intent = Intent(v.context, LessonActivity::class.java)
-            var nextLesson = 0
+            var nextLesson = "End of List"
             if(itemCount != (position + 1))
-                nextLesson = position + 1
-            intent.putExtra("NEXT_LESSON", "$nextLesson")
+                nextLesson = lessonList[position + 1].lessonKey
+
+            intent.putExtra("NEXT_LESSON", nextLesson)
             intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             v.context.startActivity(intent)
         }
 
-        if(this.lessonList[position].lessonComplete == "FALSE"){
+        if(this.lessonList[position].canViewLesson == "FALSE"){
             val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
             holder.cardView?.cardBackgroundColor = ColorStateList.valueOf(color)
             holder.cardView?.elevation = 0.0f

@@ -84,5 +84,5 @@
         android:text="@string/show_translation"
         android:textColor="@color/colorWhite"
         android:background="@drawable/rounder_corner_button_shape"
-        android:id="@+id/test_button_id"/>
+        android:id="@+id/show_translation_button_id"/>
 </RelativeLayout>

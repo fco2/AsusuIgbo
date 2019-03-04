@@ -36,4 +36,13 @@
     <string name="temporary_username">Temporary username</string>
     <string name="lessons_completed_text">Lessons completed</string>
     <string name="ten">10</string>
+    <string name="app_logo">App Logo</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="log_out">Log Out</string>
+    <string name="no_account_sign_up">No Account? Sign Up</string>
+    <string name="username">Username</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="total_words_learned">Total words learned</string>
 </resources>

@@ -34,7 +34,7 @@ class NewestFragment : Fragment() {
         backCardView = view.findViewById(R.id.translated_text_card_view)
         frontCardView = view.findViewById(R.id.english_text_card_view)
         parentLayout = view.findViewById(R.id.fragment_newest_layout_id)
-        button = view!!.findViewById(R.id.test_button_id)
+        button = view!!.findViewById(R.id.show_translation_button_id)
         englishText = view.findViewById(R.id.english_text_id)
         translatedText = view.findViewById(R.id.translated_text_id)
         soundsLikeText = view.findViewById(R.id.sounds_like_text_id)

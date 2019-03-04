@@ -4,6 +4,7 @@ import android.view.View
 import com.asusuigbo.frank.asusuigbo.adapters.LessonInfoAdapter
 import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class TableOfContentHelper {
@@ -19,17 +20,36 @@ class TableOfContentHelper {
                         val imageName: String = d.child("ImageDrawableIndex").value.toString()
                         val key = d.child("LessonKey").value.toString()
                         val resId: Int = con.resources.getIdentifier(imageName,"mipmap", con.packageName)
-                        val lessonComplete = d.child("LessonComplete").value.toString()
-                        val item = LessonInfo(resId, key, lessonComplete)
+                        val item = LessonInfo(resId, key)
                         lessonsFragment.dataList.add(item)
                     }
-                    //use forLoop to modify list data for lesson complete
-                    lessonsFragment.recyclerView.layoutManager = GridLayoutManager(lessonsFragment.contextData, 2)
-                    lessonsFragment.recyclerView.hasFixedSize()
-                    lessonsFragment.recyclerView.adapter = LessonInfoAdapter(lessonsFragment.dataList,
-                            lessonsFragment.contextData!!)
+                    val auth = FirebaseAuth.getInstance()
+                    val lessonsActivatedDbRef = database.reference
+                            .child("UserLessonsActivated").child(auth.currentUser!!.uid)
 
-                    lessonsFragment.progressBar.visibility = View.GONE
+                    lessonsActivatedDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onDataChange(p0: DataSnapshot) {
+                            val hs: HashSet<String> = HashSet()
+                            for(item: DataSnapshot in p0.children){
+                                hs.add(item.key.toString())
+                            }
+
+                            for(item in lessonsFragment.dataList){
+                                if(hs.contains(item.lessonKey)){
+                                    item.canViewLesson = "TRUE"
+                                }
+                            }
+                            lessonsFragment.recyclerView.layoutManager =
+                                    GridLayoutManager(lessonsFragment.contextData, 2)
+                            lessonsFragment.recyclerView.hasFixedSize()
+                            lessonsFragment.recyclerView.adapter = LessonInfoAdapter(lessonsFragment.dataList,
+                                    lessonsFragment.contextData!!)
+
+                            lessonsFragment.progressBar.visibility = View.GONE
+                        }
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+                    })
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {

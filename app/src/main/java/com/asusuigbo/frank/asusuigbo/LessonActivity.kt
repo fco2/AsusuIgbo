@@ -14,6 +14,7 @@ import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -55,8 +56,6 @@ class LessonActivity : AppCompatActivity(), ILesson {
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
         this.singleSelectLayout = findViewById(R.id.single_select_layout_id)
         this.multiSelectLayout = findViewById(R.id.multi_select_layout_id)
-
-        //second set
         sourceFlexBoxLayout = findViewById(R.id.flexbox_source_id)
         destFlexBoxLayout = findViewById(R.id.flexbox_destination_id)
 
@@ -172,10 +171,11 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun updateCompletedLesson(){
-        //change implementation to CanViewLesson, just add to the list for user
+        val auth = FirebaseAuth.getInstance()
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
-        dbReference.child(this.nextLesson).child("LessonComplete").setValue("TRUE")
+        val dbReference: DatabaseReference = database.reference
+        dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
+                .child(this.nextLesson).setValue("TRUE")
     }
 
     private fun launchCompletedLessonScreen(){
