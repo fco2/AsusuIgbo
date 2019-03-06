@@ -44,9 +44,11 @@
             android:maxLines="1"
             android:singleLine="true"
             android:inputType="text"
+            android:focusedByDefault="false"
             android:hint="@string/username"
             android:textColor="@color/colorWhite"
-            android:id="@+id/username_id"/>
+            android:id="@+id/username_id"
+            tools:ignore="UnusedAttribute" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -65,12 +67,21 @@
             android:id="@+id/password_id"/>
     </android.support.design.widget.TextInputLayout>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        android:id="@+id/loading_sign_up_id"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|center_horizontal"
         android:layout_margin="30dp"
         android:padding="18dp"
+        android:textSize="18sp"
         android:textAllCaps="false"
         android:text="@string/sign_up"
         android:textColor="@color/colorWhite"

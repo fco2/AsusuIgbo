@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.getInstance
@@ -17,6 +18,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signUpBtn: Button
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
         signUpBtn = findViewById(R.id.sign_up_link_id)
         emailEditText = findViewById(R.id.email_id)
         passwordEditText = findViewById(R.id.password_id)
+        progressBar = findViewById(R.id.loading_login_id)
         loginBtn.setOnClickListener(loginClickListener)
         signUpBtn.setOnClickListener(signUpClickListener)
 
@@ -39,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val loginClickListener = View.OnClickListener {
+        progressBar.visibility = View.VISIBLE
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
@@ -48,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+                            progressBar.visibility = View.GONE
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
                             Log.d("DEBUG", auth.currentUser!!.uid)
@@ -60,7 +65,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val signUpClickListener = View.OnClickListener {
+        progressBar.visibility = View.VISIBLE
         startActivity(Intent(this, SignUpActivity::class.java))
+        progressBar.visibility = View.GONE
+        finish()
     }
 
 }

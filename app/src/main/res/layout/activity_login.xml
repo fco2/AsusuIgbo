@@ -30,7 +30,9 @@
             android:inputType="textEmailAddress"
             android:hint="@string/email"
             android:textColor="@color/colorWhite"
-            android:id="@+id/email_id"/>
+            android:focusedByDefault="false"
+            android:id="@+id/email_id"
+            tools:ignore="UnusedAttribute" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -61,6 +63,14 @@
         android:textSize="18sp"
         android:background="@drawable/rounder_corner_button_shape"
         android:id="@+id/login_button_id"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        android:id="@+id/loading_login_id"/>
 
     <Button
         android:layout_width="match_parent"
