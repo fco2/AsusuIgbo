@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
 import com.asusuigbo.frank.asusuigbo.fragments.NewestFragment
 import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
@@ -15,15 +16,15 @@ import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
 class MainActivity : AppCompatActivity() {
 
     private var bottomNavigationView: BottomNavigationView? = null
-    private var toolbar: Toolbar? = null
+    private lateinit var toolbarText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        toolbar = findViewById(R.id.toolbar_main)
-        toolbar!!.title = resources.getString(R.string.lessons_text)
+        toolbarText = findViewById(R.id.toolbar_text_id)
+        toolbarText.text = resources.getString(R.string.lessons_text)
         setUpBottomNavigation()
     }
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         if(bottomNavigationView != null){ // Not Important - it is since it's nullable
             val menu: Menu = bottomNavigationView!!.menu
+            bottomNavigationView!!.itemIconTintList = null
             selectNavMenuItem(menu.getItem(0))
 
             bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
@@ -57,6 +59,6 @@ class MainActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         ft.replace(R.id.frame_layout_id, fragment)
         ft.commit()
-        toolbar!!.title = title
+        toolbarText.text = title
     }
 }

@@ -20,7 +20,7 @@ class LessonsFragment : Fragment() {
     var dataList: ArrayList<LessonInfo> = ArrayList()
     var contextData: Context? = null
     lateinit var progressBar: ProgressBar
-    lateinit var auth: FirebaseAuth // TODO: we could make this a property
+    lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

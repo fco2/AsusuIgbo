@@ -7,9 +7,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ToolbarCustomTheme" parent="Theme.AppCompat">
+    <!-- Theme for toolbar -->
+    <style name="ToolbarCustomTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/galindo</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorPrimary">#FFFFFF</item>
     </style>
+    <!-- end toolbar -->
 
     <style name="RoundedCornerButtonTheme" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounder_corner_button_shape</item>

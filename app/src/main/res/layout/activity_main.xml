@@ -9,12 +9,19 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="68dp"
         android:minHeight="?android:attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:elevation="10dp"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ToolbarCustomTheme"/>
+        android:elevation="12dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="@style/ToolbarCustomTextAppearance"
+            android:id="@+id/toolbar_text_id"/>
+    </android.support.v7.widget.Toolbar>
 
    <FrameLayout
        android:layout_width="match_parent"
@@ -29,8 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="4dp"
-        android:backgroundTint="#FFFFFF"
-        android:foregroundTint="#546e7a"
+
         android:background="#FFFFFF"
         android:elevation="20dp"
         app:menu="@menu/bottom_nav_menu"

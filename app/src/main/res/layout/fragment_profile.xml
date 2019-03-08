@@ -127,15 +127,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp">
+
             <TextView
+                android:id="@+id/words_learned_template_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:fontFamily="@font/andika"
+                android:fontFamily="@font/galindo"
                 android:gravity="center"
-                android:textSize="16sp"
                 android:text="@string/total_words_learned"
-                android:id="@+id/words_learned_template_text"/>
+                android:textAlignment="center"
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="1dp"
