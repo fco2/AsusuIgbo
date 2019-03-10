@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var signUpBtn: Button
+    private lateinit var loginBtn: Button
     private lateinit var email: EditText
     private lateinit var username: EditText
     private lateinit var password: EditText
@@ -27,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         signUpBtn = findViewById(R.id.sign_up_button_id)
+        loginBtn = findViewById(R.id.login_link_id)
         email = findViewById(R.id.email_id)
         username = findViewById(R.id.username_id)
         password = findViewById(R.id.password_id)
@@ -34,10 +36,10 @@ class SignUpActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         signUpBtn.setOnClickListener(signUpClickListener)
+        loginBtn.setOnClickListener(loginClickListener)
     }
 
     private val signUpClickListener = View.OnClickListener {
-        progressBar.visibility = View.VISIBLE
         val usernameText = username.text.toString()
         val emailText = email.text.toString()
         val passwordText = password.text.toString()
@@ -45,6 +47,7 @@ class SignUpActivity : AppCompatActivity() {
         if(usernameText.isEmpty() || emailText.isEmpty() || passwordText.isEmpty()){
             Toast.makeText(this, "Please fill email, username and password.", Toast.LENGTH_LONG).show()
         }else{
+            progressBar.visibility = View.VISIBLE
             auth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful){
@@ -54,10 +57,19 @@ class SignUpActivity : AppCompatActivity() {
                             progressBar.visibility = View.GONE
                             finish()
                         }else{
-
+                            Toast.makeText(this, "Unable to create account: ${task.exception!!.message}",
+                                    Toast.LENGTH_LONG).show()
+                            progressBar.visibility = View.GONE
                         }
                     }
         }
+    }
+
+    private val loginClickListener = View.OnClickListener {
+        progressBar.visibility = View.VISIBLE
+        startActivity(Intent(this, LoginActivity::class.java))
+        progressBar.visibility = View.GONE
+        finish()
     }
 
     private fun setUpNewUserData(username: String){

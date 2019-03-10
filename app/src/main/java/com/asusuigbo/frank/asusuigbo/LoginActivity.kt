@@ -42,13 +42,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val loginClickListener = View.OnClickListener {
-        progressBar.visibility = View.VISIBLE
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
         if(email.isEmpty() || password.isEmpty()){
             Toast.makeText(this, "Please fill email and password.", Toast.LENGTH_LONG).show()
         }else{
+            progressBar.visibility = View.VISIBLE
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
                         }else{
                             Toast.makeText(this, "Please enter a registered email and password.",
                                     Toast.LENGTH_LONG).show()
+                            progressBar.visibility = View.GONE
                         }
                     }
         }
