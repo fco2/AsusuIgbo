@@ -226,7 +226,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
             val sentence = this.buildSentence()
             sentence == currentQuestion.CorrectAnswer
         }else{
-            this.currentQuestion.CorrectAnswer == this.selectedAnswer
+            this.currentQuestion.CorrectAnswer.toLowerCase() == this.selectedAnswer.toLowerCase()
         }
     }
 
