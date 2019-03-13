@@ -32,7 +32,7 @@
     <!-- Fonts -->
     <style name="FontForTextView">
         <item name="android:fontFamily">andika</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">#455a64</item>
     </style>
 

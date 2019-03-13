@@ -45,4 +45,6 @@
     <string name="username">Username</string>
     <string name="sign_up">Sign Up</string>
     <string name="total_words_learned">Total words learned</string>
+    <string name="write_translation">Write translation..</string>
+    <string name="type_translation">Translate the sentence below</string>
 </resources>

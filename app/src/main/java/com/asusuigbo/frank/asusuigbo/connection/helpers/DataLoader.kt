@@ -38,19 +38,33 @@ class DataLoader {
                     lessonActivity.dataListSize = lessonActivity.dataList.size
                     val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
                     val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
+                    val writtenTextLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.written_text_layout_id)
 
-                    if(lessonActivity.dataList[0].LessonFormat == "SingleSelect"){
-                        multiSelectLayout.visibility = View.GONE
-                        singleSelectLayout.visibility = View.VISIBLE
-                        val que: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
-                        que.text = lessonActivity.dataList[0].Question
-                        buildRadioGroupContent(lessonActivity)
-                    }else{
-                        singleSelectLayout.visibility = View.GONE
-                        multiSelectLayout.visibility = View.VISIBLE
-                        val que: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
-                        que.text = lessonActivity.dataList[0].Question
-                        buildFlexBoxContent(lessonActivity)
+                    //TODO: add another else for WrittenText
+                    when {
+                        lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
+                            multiSelectLayout.visibility = View.GONE
+                            writtenTextLayout.visibility = View.GONE
+                            singleSelectLayout.visibility = View.VISIBLE
+                            val que: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
+                            que.text = lessonActivity.dataList[0].Question
+                            buildRadioGroupContent(lessonActivity)
+                        }
+                        lessonActivity.dataList[0].LessonFormat == "MultiSelect" -> {
+                            singleSelectLayout.visibility = View.GONE
+                            writtenTextLayout.visibility = View.GONE
+                            multiSelectLayout.visibility = View.VISIBLE
+                            val que: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
+                            que.text = lessonActivity.dataList[0].Question
+                            buildFlexBoxContent(lessonActivity)
+                        }
+                        else -> {
+                            multiSelectLayout.visibility = View.GONE
+                            singleSelectLayout.visibility = View.GONE
+                            writtenTextLayout.visibility = View.VISIBLE
+                            val que: TextView = lessonActivity.activity.findViewById(R.id.written_text_question_id)
+                            que.text = lessonActivity.dataList[0].Question
+                        }
                     }
                     lessonActivity.progressBar!!.visibility = View.GONE
                 }

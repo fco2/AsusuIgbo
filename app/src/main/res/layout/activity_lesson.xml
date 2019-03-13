@@ -20,6 +20,13 @@
         android:layout_margin="10dp"/>
 
     <!-- Include text editor layout here -->
+    <include layout="@layout/written_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/check_answer_button_id"
+        android:layout_below="@id/lesson_progress_id"
+        android:id="@+id/written_text_layout_id">
+    </include>
 
     <include layout="@layout/multi_select_layout"
         android:layout_width="match_parent"

@@ -11,7 +11,7 @@ class TableOfContentHelper {
     companion object {
         fun populateList(lessonsFragment: LessonsFragment){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-            val dbReference: DatabaseReference = database.getReference("TableOfContent/Items")
+            val dbReference: DatabaseReference = database.getReference("TableOfContent")
             val con = lessonsFragment.contextData!!.applicationContext
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
