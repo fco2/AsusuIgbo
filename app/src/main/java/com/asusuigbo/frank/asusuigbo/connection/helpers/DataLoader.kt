@@ -40,7 +40,6 @@ class DataLoader {
                     val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
                     val writtenTextLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.written_text_layout_id)
 
-                    //TODO: add another else for WrittenText
                     when {
                         lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
                             multiSelectLayout.visibility = View.GONE
