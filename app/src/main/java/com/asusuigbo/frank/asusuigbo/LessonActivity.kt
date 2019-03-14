@@ -46,6 +46,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
     private var selectedAnswer = ""
+    private var lessonCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +97,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
         this.nextLesson = intent.getStringExtra("NEXT_LESSON")
+        this.lessonCount = intent.getIntExtra("LESSON_COUNT", 0)
     }
 
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
@@ -212,6 +214,10 @@ class LessonActivity : AppCompatActivity(), ILesson {
         val dbReference: DatabaseReference = database.reference
         dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
                 .child(this.nextLesson).setValue("TRUE")
+        dbReference.child("Users").child(auth.currentUser!!.uid)
+                .child("WordsLearned").setValue((this.lessonCount * 8).toString())
+        dbReference.child("Users").child(auth.currentUser!!.uid)
+                .child("LessonsCompleted").setValue(this.lessonCount.toString())
     }
 
     private fun launchCompletedLessonScreen(){
@@ -226,7 +232,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
             val sentence = this.buildSentence()
             sentence == currentQuestion.CorrectAnswer
         }else{
-            this.currentQuestion.CorrectAnswer.toLowerCase() == this.selectedAnswer.toLowerCase()
+            this.currentQuestion.CorrectAnswer.toLowerCase().trim() == this.selectedAnswer.toLowerCase().trim()
         }
     }
 

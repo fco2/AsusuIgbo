@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
@@ -19,6 +20,9 @@ class ProfileFragment : Fragment() {
     private lateinit var signOutBtn: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var username: TextView
+    private lateinit var lessonsCompleted: TextView
+    private lateinit var wordsLearned: TextView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -26,6 +30,11 @@ class ProfileFragment : Fragment() {
         val view =  inflater!!.inflate(R.layout.fragment_profile, container, false)
         signOutBtn = view.findViewById(R.id.sign_out_id)
         username = view.findViewById(R.id.username_id)
+        lessonsCompleted = view.findViewById(R.id.lessons_completed_value)
+        wordsLearned = view.findViewById(R.id.words_learned_value)
+        progressBar = view.findViewById(R.id.progress_bar_profile_id)
+        progressBar.visibility = View.VISIBLE
+
         auth = FirebaseAuth.getInstance()
         setUserName()
         signOutBtn.setOnClickListener(signOutClickListener)
@@ -33,17 +42,6 @@ class ProfileFragment : Fragment() {
     }
 
     private val signOutClickListener = View.OnClickListener {
-        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val dbReference: DatabaseReference = database.reference
-        //TODO: move from here --> update profile info
-       // dbReference.child("Users").child(auth.currentUser!!.uid).child("Username").setValue("Frank")
-        //dbReference.child("Users").child(auth.currentUser!!.uid).child("WordsLearned").setValue("0")
-
-        //TODO: --> delete data from table.
-        //dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
-        //        .child("Person").removeValue()
-
-        //TODO: this remains to sign user out
         if(auth.currentUser != null){
             auth.signOut()
             startActivity(Intent(activity.applicationContext, LoginActivity::class.java))
@@ -57,6 +55,12 @@ class ProfileFragment : Fragment() {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 username.text = p0.child("Users").child(auth.currentUser!!.uid).child("Username").value.toString()
+                wordsLearned.text = p0.child("Users").child(auth.currentUser!!.uid)
+                        .child("WordsLearned").value.toString()
+                lessonsCompleted.text = p0.child("Users").child(auth.currentUser!!.uid)
+                        .child("LessonsCompleted").value.toString()
+
+                progressBar.visibility = View.GONE
             }
         })
     }

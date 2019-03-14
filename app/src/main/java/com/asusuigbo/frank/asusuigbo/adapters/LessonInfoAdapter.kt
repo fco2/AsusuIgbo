@@ -55,6 +55,7 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
 
             intent.putExtra("NEXT_LESSON", nextLesson)
             intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
+            intent.putExtra("LESSON_COUNT", (position + 1))
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             v.context.startActivity(intent)

@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="18dp"
             android:padding="10dp"
             android:layout_marginStart="40dp"
             android:layout_toEndOf="@id/user_profile_img_view"
@@ -105,7 +105,6 @@
                 android:fontFamily="@font/andika"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:text="@string/ten"
                 android:layout_toEndOf="@id/divider_2"
                 android:id="@+id/lessons_completed_value"/>
         </RelativeLayout>
@@ -164,7 +163,6 @@
                 android:fontFamily="@font/andika"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:text="@string/ten"
                 android:layout_toEndOf="@id/divider_3"
                 android:id="@+id/words_learned_value"/>
         </RelativeLayout>
@@ -182,5 +180,14 @@
         android:layout_marginBottom="10dp"
         android:text="@string/log_out"
         android:id="@+id/sign_out_id"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar_profile_id"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:max="500"
+        android:progress="0"/>
 
 </RelativeLayout>
