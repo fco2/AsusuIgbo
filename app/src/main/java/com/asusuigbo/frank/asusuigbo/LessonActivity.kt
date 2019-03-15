@@ -17,8 +17,7 @@ import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class LessonActivity : AppCompatActivity(), ILesson {
     override var dataListSize: Int = 0
@@ -212,12 +211,29 @@ class LessonActivity : AppCompatActivity(), ILesson {
         val auth = FirebaseAuth.getInstance()
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val dbReference: DatabaseReference = database.reference
+        var lastUpdatedWL: Int; var lastUpdatedLC: Int
+
+        dbReference.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                lastUpdatedWL = p0.child("Users").child(auth.currentUser!!.uid)
+                        .child("WordsLearned").value as Int
+                lastUpdatedWL = Math.max((lessonCount * 8), lastUpdatedWL)
+                lastUpdatedLC = p0.child("Users").child(auth.currentUser!!.uid)
+                        .child("LessonsCompleted").value as Int
+                lastUpdatedLC = Math.max(lessonCount, lastUpdatedLC)
+                updateUserInfo(dbReference, auth, lastUpdatedWL, lastUpdatedLC)
+            }
+            override fun onCancelled(p0: DatabaseError) { }
+        })
+    }
+    
+    private fun updateUserInfo(dbReference: DatabaseReference, auth: FirebaseAuth, lastUpdatedWL: Int, lastUpdatedLC: Int){
         dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
                 .child(this.nextLesson).setValue("TRUE")
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue((this.lessonCount * 8).toString())
+                .child("WordsLearned").setValue(lastUpdatedWL.toString())
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("LessonsCompleted").setValue(this.lessonCount.toString())
+                .child("LessonsCompleted").setValue(lastUpdatedLC.toString())
     }
 
     private fun launchCompletedLessonScreen(){
