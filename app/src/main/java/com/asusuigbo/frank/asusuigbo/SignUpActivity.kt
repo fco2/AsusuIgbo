@@ -76,6 +76,7 @@ class SignUpActivity : AppCompatActivity() {
         val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
         dbReference.child("Users").child(auth.currentUser!!.uid).child("Username").setValue(username)
         dbReference.child("Users").child(auth.currentUser!!.uid).child("WordsLearned").setValue("0")
+        dbReference.child("Users").child(auth.currentUser!!.uid).child("LessonsCompleted").setValue("0")
         dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
                 .child("Intro").setValue("True")
     }

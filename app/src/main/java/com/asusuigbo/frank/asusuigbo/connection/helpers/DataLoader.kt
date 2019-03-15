@@ -12,6 +12,7 @@ import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class DataLoader {
@@ -22,6 +23,7 @@ class DataLoader {
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val auth = FirebaseAuth.getInstance()
                     for (d in dataSnapshot.children){
                         val optionsList = ArrayList<String>()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
@@ -35,6 +37,7 @@ class DataLoader {
                         val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
                     }
+
                     lessonActivity.dataListSize = lessonActivity.dataList.size
                     val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
                     val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
@@ -65,12 +68,21 @@ class DataLoader {
                             que.text = lessonActivity.dataList[0].Question
                         }
                     }
-                    lessonActivity.progressBar!!.visibility = View.GONE
-                }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    //do nothing
+                    database.reference.addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onDataChange(p0: DataSnapshot) {
+                            var temp = p0.child("Users").child(auth.currentUser!!.uid)
+                                    .child("WordsLearned").value.toString()
+                            lessonActivity.lastUpdatedWL = Integer.parseInt(temp)
+                            temp = p0.child("Users").child(auth.currentUser!!.uid)
+                                    .child("LessonsCompleted").value.toString()
+                            lessonActivity.lastUpdatedLC = Integer.parseInt(temp)
+                            lessonActivity.progressBar!!.visibility = View.GONE
+                        }
+                        override fun onCancelled(p0: DatabaseError) { }
+                    })
                 }
+                override fun onCancelled(databaseError: DatabaseError) {}
             })
         }
 

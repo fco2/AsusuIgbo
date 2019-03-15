@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class LessonActivity : AppCompatActivity(), ILesson {
+    override var lastUpdatedWL: Int = 0
+    override var lastUpdatedLC: Int = 0
     override var dataListSize: Int = 0
     override var textViewClickListener = View.OnClickListener{}
     override var dataList: ArrayList<QuestionGroup> = ArrayList()
@@ -204,36 +206,23 @@ class LessonActivity : AppCompatActivity(), ILesson {
     private fun finishQuiz(){
         this.popUpWindow!!.dismiss()
         updateCompletedLesson()
-        launchCompletedLessonScreen()
     }
 
     private fun updateCompletedLesson(){
         val auth = FirebaseAuth.getInstance()
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val dbReference: DatabaseReference = database.reference
-        var lastUpdatedWL: Int; var lastUpdatedLC: Int
 
-        dbReference.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                lastUpdatedWL = p0.child("Users").child(auth.currentUser!!.uid)
-                        .child("WordsLearned").value as Int
-                lastUpdatedWL = Math.max((lessonCount * 8), lastUpdatedWL)
-                lastUpdatedLC = p0.child("Users").child(auth.currentUser!!.uid)
-                        .child("LessonsCompleted").value as Int
-                lastUpdatedLC = Math.max(lessonCount, lastUpdatedLC)
-                updateUserInfo(dbReference, auth, lastUpdatedWL, lastUpdatedLC)
-            }
-            override fun onCancelled(p0: DatabaseError) { }
-        })
-    }
-    
-    private fun updateUserInfo(dbReference: DatabaseReference, auth: FirebaseAuth, lastUpdatedWL: Int, lastUpdatedLC: Int){
         dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
                 .child(this.nextLesson).setValue("TRUE")
+
+        var temp = Math.max((lessonCount * 8), lastUpdatedWL)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue(lastUpdatedWL.toString())
+                .child("WordsLearned").setValue(temp)
+        temp = Math.max(lessonCount, lastUpdatedLC)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("LessonsCompleted").setValue(lastUpdatedLC.toString())
+                .child("LessonsCompleted").setValue(temp)
+        launchCompletedLessonScreen()
     }
 
     private fun launchCompletedLessonScreen(){
