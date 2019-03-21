@@ -39,8 +39,18 @@ class TableOfContentHelper {
                                     item.canViewLesson = "TRUE"
                                 }
                             }
-                            lessonsFragment.recyclerView.layoutManager =
-                                    GridLayoutManager(lessonsFragment.contextData, 2)
+
+                            val glm = GridLayoutManager(lessonsFragment.contextData, 2)
+                            //this block below makes the recyclerView staggered
+                            glm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                                override fun getSpanSize(position: Int): Int { //Index begins at 1
+                                    return if(position % 3 == 0 || position % 3 == 1)
+                                        1
+                                    else
+                                        glm.spanCount
+                                }
+                            }
+                            lessonsFragment.recyclerView.layoutManager = glm
                             lessonsFragment.recyclerView.hasFixedSize()
                             lessonsFragment.recyclerView.adapter = LessonInfoAdapter(lessonsFragment.dataList,
                                     lessonsFragment.contextData!!)

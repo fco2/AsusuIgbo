@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.connection.helpers.TableOfContentHelper
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
@@ -20,7 +19,7 @@ class LessonsFragment : Fragment() {
     var dataList: ArrayList<LessonInfo> = ArrayList()
     var contextData: Context? = null
     lateinit var progressBar: ProgressBar
-    lateinit var auth: FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,7 +30,6 @@ class LessonsFragment : Fragment() {
         TableOfContentHelper.populateList(this)
 
         auth = FirebaseAuth.getInstance()
-        //Toast.makeText(activity.applicationContext, "USERNAME: ${auth.currentUser!!.uid}", Toast.LENGTH_LONG).show()
         return view
     }
 

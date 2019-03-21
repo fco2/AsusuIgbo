@@ -23,6 +23,7 @@
             android:id="@+id/translated_text_card_view"
             card_view:cardCornerRadius="10dp"
             android:layout_margin="10dp"
+            card_view:cardElevation="8dp"
             android:visibility="invisible"
             card_view:cardBackgroundColor="@color/colorWhite">
             <LinearLayout
@@ -53,6 +54,7 @@
             android:layout_height="200dp"
             android:layout_centerInParent="true"
             android:padding="5dp"
+            card_view:cardElevation="8dp"
             card_view:cardCornerRadius="10dp"
             android:layout_margin="10dp"
             android:id="@+id/english_text_card_view">

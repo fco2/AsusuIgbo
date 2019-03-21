@@ -5,7 +5,6 @@ import android.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -15,7 +14,7 @@ import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private var bottomNavigationView: BottomNavigationView? = null
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var toolbarText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,15 +30,13 @@ class MainActivity : AppCompatActivity() {
     private fun setUpBottomNavigation(){
         bottomNavigationView = findViewById(R.id.bottom_nav_view_id)
 
-        if(bottomNavigationView != null){ // Not Important - it is since it's nullable
-            val menu: Menu = bottomNavigationView!!.menu
-            bottomNavigationView!!.itemIconTintList = null
-            selectNavMenuItem(menu.getItem(0))
+        val menu: Menu = bottomNavigationView.menu
+        bottomNavigationView.itemIconTintList = null
+        selectNavMenuItem(menu.getItem(0))
 
-            bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
-                selectNavMenuItem(item)
-                false
-            }
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            selectNavMenuItem(item)
+            false
         }
     }
 

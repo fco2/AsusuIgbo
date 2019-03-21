@@ -41,6 +41,16 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         return CustomViewHolder(view)
     }
 
+    override fun getItemId(position: Int): Long {
+         super.getItemId(position)
+         return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        super.getItemViewType(position)
+        return position
+    }
+
     override fun getItemCount(): Int = this.lessonList.size
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
