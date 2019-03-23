@@ -24,7 +24,7 @@ class PopupHelper {
             popUpWindow.elevation = 10.0f
             val popUpTextResult = customView.findViewById<TextView>(R.id.popup_text_result_id)
             this.stylePopUp(popUpTextResult, customView, lessonActivity, isCorrectAnswer)
-            popUpWindow.showAtLocation(lessonActivity.lessonsLayout, Gravity.CENTER_HORIZONTAL, 0, 400)
+            popUpWindow.showAtLocation(lessonActivity.lessonsLayout, Gravity.BOTTOM, 0, 500)
             return popUpWindow
         }
 

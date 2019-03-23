@@ -218,10 +218,10 @@ class LessonActivity : AppCompatActivity(), ILesson {
 
         var temp = Math.max((lessonCount * 8), lastUpdatedWL)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue(temp)
+                .child("WordsLearned").setValue(temp.toString())
         temp = Math.max(lessonCount, lastUpdatedLC)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("LessonsCompleted").setValue(temp)
+                .child("LessonsCompleted").setValue(temp.toString())
         launchCompletedLessonScreen()
     }
 
