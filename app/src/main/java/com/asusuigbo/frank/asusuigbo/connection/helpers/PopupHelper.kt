@@ -1,11 +1,14 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
 
 import android.content.Context
+import android.graphics.Point
 import android.support.v4.content.ContextCompat
+import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -20,7 +23,13 @@ class PopupHelper {
                     lessonActivity.activity.baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val customView = layoutInflater.inflate(R.layout.popup_layout, lessonActivity.activity.lessons_layout_id,
                     false)
-            val popUpWindow = PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, 260)
+
+            val display = lessonActivity.windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val width = size.x
+            val popUpWindow = PopupWindow(customView, (width * 0.8).toInt(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
             popUpWindow.elevation = 10.0f
             val popUpTextResult = customView.findViewById<TextView>(R.id.popup_text_result_id)
             this.stylePopUp(popUpTextResult, customView, lessonActivity, isCorrectAnswer)
