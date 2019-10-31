@@ -15,7 +15,7 @@
         android:textColor="#9e9e9e"
         android:id="@+id/instruction_single_id"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/instruction_single_id"
@@ -58,6 +58,6 @@
             android:id="@+id/radio_group_id">
         </RadioGroup>
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
 
 </RelativeLayout>

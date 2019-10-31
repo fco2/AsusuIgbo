@@ -1,13 +1,13 @@
 package com.asusuigbo.frank.asusuigbo
 
-import android.app.Fragment
-import android.app.FragmentManager
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
 import com.asusuigbo.frank.asusuigbo.fragments.NewestFragment
 import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeFragment(fragment: Fragment, title: String){
-        val fm: FragmentManager = fragmentManager
+        val fm: FragmentManager = supportFragmentManager
         val ft = fm.beginTransaction()
         ft.replace(R.id.frame_layout_id, fragment)
         ft.commit()

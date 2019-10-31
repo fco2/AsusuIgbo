@@ -23,7 +23,7 @@
                 android:src="@mipmap/user_profile_image"
                 android:id="@+id/user_profile_img_view"/>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="5dp"
@@ -43,7 +43,7 @@
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
     <View
@@ -54,7 +54,7 @@
         android:layout_margin="6dp"
         android:id="@+id/user_profile_divider"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:elevation="5dp"
@@ -108,10 +108,10 @@
                 android:layout_toEndOf="@id/divider_2"
                 android:id="@+id/lessons_completed_value"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <!-- Words learned -->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:elevation="5dp"
@@ -166,7 +166,7 @@
                 android:layout_toEndOf="@id/divider_3"
                 android:id="@+id/words_learned_value"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:layout_width="280dp"

@@ -7,37 +7,28 @@
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     android:background="#90caf9"
+    android:padding="10dp"
     android:id="@+id/custom_view_id">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill"
-        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/popup_text_result_id"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cambo"
             android:textSize="15sp"
+            android:layout_centerHorizontal="true"
             android:textColor="#455a64"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/correct_answer_id"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/popup_text_result_id"
             android:fontFamily="@font/cambo"
+            android:layout_centerHorizontal="true"
             android:textSize="15sp"
             android:textColor="#455a64"
-            android:gravity="center"
-            android:layout_gravity="fill"
-            android:layout_marginTop="2sp"/>
-
-
-    </RelativeLayout>
-
+            android:paddingTop="20sp"/>
 
 </RelativeLayout>

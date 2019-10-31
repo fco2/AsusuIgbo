@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.asusuigbo.frank.asusuigbo.MainActivity">
     
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="68dp"
@@ -21,7 +21,7 @@
             android:gravity="center"
             android:textAppearance="@style/ToolbarCustomTextAppearance"
             android:id="@+id/toolbar_text_id"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
    <FrameLayout
        android:layout_width="match_parent"
@@ -31,7 +31,7 @@
        android:layout_above="@id/bottom_nav_view_id"
        android:id="@+id/frame_layout_id"/>
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

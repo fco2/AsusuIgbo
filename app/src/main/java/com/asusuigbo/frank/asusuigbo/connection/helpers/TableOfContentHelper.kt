@@ -1,5 +1,5 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
-import android.support.v7.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import android.view.View
 import com.asusuigbo.frank.asusuigbo.adapters.LessonInfoAdapter
 import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
@@ -40,9 +40,9 @@ class TableOfContentHelper {
                                 }
                             }
 
-                            val glm = GridLayoutManager(lessonsFragment.contextData, 2)
+                            val glm = androidx.recyclerview.widget.GridLayoutManager(lessonsFragment.contextData, 2)
                             //this block below makes the recyclerView staggered
-                            glm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                            glm.spanSizeLookup = object : androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int { //Index begins at 1
                                     return if(position % 3 == 0 || position % 3 == 1)
                                         1

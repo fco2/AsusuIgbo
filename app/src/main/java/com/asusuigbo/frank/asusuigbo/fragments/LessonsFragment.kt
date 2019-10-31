@@ -1,13 +1,13 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
-import android.app.Fragment
+
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.connection.helpers.TableOfContentHelper
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
@@ -15,13 +15,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LessonsFragment : Fragment() {
 
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     var dataList: ArrayList<LessonInfo> = ArrayList()
     var contextData: Context? = null
     lateinit var progressBar: ProgressBar
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_lessons, container, false)
 

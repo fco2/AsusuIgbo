@@ -5,10 +5,9 @@
     android:background="#cfd8dc"
     tools:context="com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/lessons_layout_id"
             android:scrollbars="vertical"
             android:fadeScrollbars="true"
             android:scrollbarStyle="insideInset"

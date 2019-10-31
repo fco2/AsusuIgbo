@@ -1,6 +1,5 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
-import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
@@ -24,10 +24,10 @@ class ProfileFragment : Fragment() {
     private lateinit var wordsLearned: TextView
     private lateinit var progressBar: ProgressBar
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view =  inflater!!.inflate(R.layout.fragment_profile, container, false)
+        val view =  inflater.inflate(R.layout.fragment_profile, container, false)
         signOutBtn = view.findViewById(R.id.sign_out_id)
         username = view.findViewById(R.id.username_id)
         lessonsCompleted = view.findViewById(R.id.lessons_completed_value)
@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
     private val signOutClickListener = View.OnClickListener {
         if(auth.currentUser != null){
             auth.signOut()
-            startActivity(Intent(activity.applicationContext, LoginActivity::class.java))
+            startActivity(Intent(activity!!.applicationContext, LoginActivity::class.java))
         }
     }
 

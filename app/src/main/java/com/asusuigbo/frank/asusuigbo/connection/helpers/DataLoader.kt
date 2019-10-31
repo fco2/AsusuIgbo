@@ -1,15 +1,15 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
 
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.TextViewCompat
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -17,13 +17,15 @@ import com.google.firebase.database.*
 
 class DataLoader {
     companion object {
-        fun populateList(lessonActivity: ILesson){
+        fun populateList(lessonActivity: LessonActivity){
+            //TODO: make a reference for dictionary here
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database.getReference("Lessons/${lessonActivity.requestedLesson}")
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val auth = FirebaseAuth.getInstance()
+                    //TODO: Load dictionary here 
                     for (d in dataSnapshot.children){
                         val optionsList = ArrayList<String>()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
@@ -86,7 +88,7 @@ class DataLoader {
             })
         }
 
-        fun buildRadioGroupContent(lessonActivity: ILesson){
+        fun buildRadioGroupContent(lessonActivity: LessonActivity){
             val rg = lessonActivity.activity.findViewById<RadioGroup>(R.id.radio_group_id)
             for((index,item) in lessonActivity.dataList[0].Options.withIndex()){
                 val view = RadioButton(lessonActivity.activity.applicationContext)
@@ -106,7 +108,7 @@ class DataLoader {
             }
         }
 
-        fun buildFlexBoxContent(sentenceCreatorActivity: ILesson) {
+        fun buildFlexBoxContent(sentenceCreatorActivity: LessonActivity) {
             for((index, item: String) in sentenceCreatorActivity.dataList[0].Options.withIndex()){
                 val view = TextView(sentenceCreatorActivity.activity.applicationContext)
                 val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)

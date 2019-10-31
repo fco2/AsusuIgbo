@@ -18,7 +18,7 @@
         android:background="@null"
         android:contentDescription="@string/app_logo"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
@@ -31,9 +31,9 @@
             android:hint="@string/email"
             android:textColor="@color/colorWhite"
             android:id="@+id/email_id"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
@@ -49,9 +49,9 @@
             android:textColor="@color/colorWhite"
             android:id="@+id/username_id"
             tools:ignore="UnusedAttribute" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
@@ -65,7 +65,7 @@
             android:hint="@string/password"
             android:textColor="@color/colorWhite"
             android:id="@+id/password_id"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"

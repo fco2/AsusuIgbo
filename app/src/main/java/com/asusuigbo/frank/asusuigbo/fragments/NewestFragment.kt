@@ -1,9 +1,8 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
 
-import android.app.Fragment
 import android.os.Bundle
-import android.support.v7.widget.CardView
+import androidx.cardview.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.FlipAnimation
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.database.*
@@ -26,10 +26,10 @@ class NewestFragment : Fragment() {
     private lateinit var soundsLikeText: TextView
     private lateinit var progressBar: ProgressBar
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.fragment_newest, container, false)
+        val view = inflater.inflate(R.layout.fragment_newest, container, false)
 
         backCardView = view.findViewById(R.id.translated_text_card_view)
         frontCardView = view.findViewById(R.id.english_text_card_view)
@@ -49,9 +49,9 @@ class NewestFragment : Fragment() {
 
         if(frontCardView.visibility == View.GONE){
             flipAnimation.reverse()
-            button.text = activity.getText(R.string.show_translation)
+            button.text = activity!!.getText(R.string.show_translation)
         }else{
-            button.text = activity.getText(R.string.hide_translation)
+            button.text = activity!!.getText(R.string.hide_translation)
         }
         parentLayout.startAnimation(flipAnimation)
     }

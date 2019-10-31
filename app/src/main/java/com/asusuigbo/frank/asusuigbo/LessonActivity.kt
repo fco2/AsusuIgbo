@@ -1,33 +1,35 @@
 package com.asusuigbo.frank.asusuigbo
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.FragmentManager
-import android.app.FragmentTransaction
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
-import com.asusuigbo.frank.asusuigbo.interfaces.ILesson
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlin.math.max
+import kotlin.math.roundToInt
 
-class LessonActivity : AppCompatActivity(), ILesson {
-    override var lastUpdatedWL: Int = 0
-    override var lastUpdatedLC: Int = 0
-    override var dataListSize: Int = 0
-    override var textViewClickListener = View.OnClickListener{}
-    override var dataList: ArrayList<QuestionGroup> = ArrayList()
-    override var progressBar: ProgressBar? = null
-    override var requestedLesson: String = ""
-    override var activity: Activity = this
+class LessonActivity : AppCompatActivity() {
+     var lastUpdatedWL: Int = 0
+     var lastUpdatedLC: Int = 0
+     var dataListSize: Int = 0
+     var textViewClickListener = View.OnClickListener{}
+     var dataList: ArrayList<QuestionGroup> = ArrayList()
+     var progressBar: ProgressBar? = null
+     var requestedLesson: String = ""
+     var activity: Activity = this
     var lessonsLayout: RelativeLayout? = null
     private var radioGroup: RadioGroup? = null
     private lateinit var multiSelectLayout: RelativeLayout
@@ -78,6 +80,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     init{
+        //TODO: move to it's own class
         textViewClickListener = View.OnClickListener { v ->
             if(!button!!.isEnabled)
                 button!!.isEnabled = true
@@ -102,6 +105,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
+        //TODo: move to it's own class
         if(group.checkedRadioButtonId != -1){
             val checkedRadioBtn: RadioButton = findViewById(checkedId)
             this.selectedAnswer = checkedRadioBtn.text.toString()
@@ -111,13 +115,14 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun writtenTextChangeListener(){
+        //TODo: move to it's own class
         this.writtenTextAnswer.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 selectedAnswer = p0.toString()
 
                 //Toast.makeText(applicationContext, selectedAnswer, Toast.LENGTH_LONG).show()
                 buttonState = UserButton.AnswerSelected
-                button!!.isEnabled = !selectedAnswer.trim().isEmpty()
+                button!!.isEnabled = selectedAnswer.trim().isNotEmpty()
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -161,6 +166,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun updateOptions(){
+        //TODO: move each block to it's own class
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
                 multiSelectLayout.visibility = View.GONE
@@ -198,7 +204,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     private fun setProgressBarStatus()
     {
         val percent: Double = (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
-        var result = Math.round(percent).toInt()
+        var result = percent.roundToInt()
         result = if(result == 0) 5 else result
         this.lessonStatusProgressBar!!.progress = result
     }
@@ -216,23 +222,25 @@ class LessonActivity : AppCompatActivity(), ILesson {
         dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
                 .child(this.nextLesson).setValue("TRUE")
 
-        var temp = Math.max((lessonCount * 8), lastUpdatedWL)
+        var temp = max((lessonCount * 8), lastUpdatedWL)
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(temp.toString())
-        temp = Math.max(lessonCount, lastUpdatedLC)
+        temp = max(lessonCount, lastUpdatedLC)
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("LessonsCompleted").setValue(temp.toString())
         launchCompletedLessonScreen()
     }
 
     private fun launchCompletedLessonScreen(){
-        val fm: FragmentManager = fragmentManager
+        val fm= supportFragmentManager
         val ft: FragmentTransaction = fm.beginTransaction()
-        ft.add(android.R.id.content, LessonCompletedFragment())
+        val lf = LessonCompletedFragment()
+        ft.add(android.R.id.content, lf, "LessonCompletedFragment")
         ft.commit()
     }
 
-    override fun isCorrectAnswer(): Boolean{
+    @SuppressLint("DefaultLocale")
+    fun isCorrectAnswer(): Boolean{
         return if(this.currentQuestion.LessonFormat == "MultiSelect"){
             val sentence = this.buildSentence()
             sentence == currentQuestion.CorrectAnswer
@@ -248,6 +256,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
     }
 
     private fun disableOptions(){
+        //TODO: move each block to it's own class
         when {
             this.currentQuestion.LessonFormat == "SingleSelect" -> {
                 for(index in 0 until radioGroup!!.childCount){
@@ -263,6 +272,7 @@ class LessonActivity : AppCompatActivity(), ILesson {
         }
     }
 
+    //TODO: move to it's own class
     private fun disableViewsFor(flyt: FlexboxLayout){
         for(index in 0 until flyt.childCount){
             val v = flyt.getChildAt(index)
