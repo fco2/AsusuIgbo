@@ -108,20 +108,20 @@ class DataLoader {
             }
         }
 
-        fun buildFlexBoxContent(sentenceCreatorActivity: LessonActivity) {
-            for((index, item: String) in sentenceCreatorActivity.dataList[0].Options.withIndex()){
-                val view = TextView(sentenceCreatorActivity.activity.applicationContext)
+        fun buildFlexBoxContent(lessonActivity: LessonActivity) {
+            for((index, item: String) in lessonActivity.dataList[0].Options.withIndex()){
+                val view = TextView(lessonActivity.activity.applicationContext)
                 val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)
                 view.layoutParams = params
                 view.text = item
                 TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-                view.background = ContextCompat.getDrawable(sentenceCreatorActivity.activity.applicationContext, R.drawable.word_background)
+                view.background = ContextCompat.getDrawable(lessonActivity.activity.applicationContext, R.drawable.word_background)
                 view.setPadding(25,25,25,25)
                 view.isClickable = true
                 view.tag = index
-                view.setOnClickListener(sentenceCreatorActivity.textViewClickListener)
-                val sourceFlexBoxLayout: FlexboxLayout = sentenceCreatorActivity.activity.findViewById(R.id.flexbox_source_id)
+                view.setOnClickListener(lessonActivity.textViewClickListener)
+                val sourceFlexBoxLayout: FlexboxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
                 sourceFlexBoxLayout.addView(view)
             }
         }
