@@ -24,25 +24,17 @@ class TableOfContentHelper {
                         lessonsFragment.dataList.add(item)
                     }
                     val auth = FirebaseAuth.getInstance()
-                    val lessonsActivatedDbRef = database.reference
-                            .child("UserLessonsActivated").child(auth.currentUser!!.uid)
+                    val lessonsActivatedDbRef = database.reference.child("Users")
+                        .child(auth.currentUser!!.uid)
 
                     lessonsActivatedDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
                         override fun onDataChange(p0: DataSnapshot) {
-                            val hs: HashSet<String> = HashSet()
-                            for(item: DataSnapshot in p0.children){
-                                hs.add(item.key.toString())
-                            }
+                            val viewableLessons = p0.child("LessonsCompleted").value
+                                .toString().toInt()
 
-                            for(item in lessonsFragment.dataList){
-                                if(hs.contains(item.lessonKey)){
-                                    item.canViewLesson = "TRUE"
-                                }
-                            }
-
-                            val glm = androidx.recyclerview.widget.GridLayoutManager(lessonsFragment.contextData, 2)
+                            val glm = GridLayoutManager(lessonsFragment.contextData, 2)
                             //this block below makes the recyclerView staggered
-                            glm.spanSizeLookup = object : androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup() {
+                            glm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int { //Index begins at 1
                                     return if(position % 3 == 0 || position % 3 == 1)
                                         1
@@ -53,7 +45,7 @@ class TableOfContentHelper {
                             lessonsFragment.recyclerView.layoutManager = glm
                             lessonsFragment.recyclerView.hasFixedSize()
                             lessonsFragment.recyclerView.adapter = LessonInfoAdapter(lessonsFragment.dataList,
-                                    lessonsFragment.contextData!!)
+                                    lessonsFragment.contextData!!, viewableLessons)
 
                             lessonsFragment.progressBar.visibility = View.GONE
                         }

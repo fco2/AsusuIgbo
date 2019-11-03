@@ -11,9 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adbc2428-860b-488d-a02c-d78f29865074" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -25,7 +23,11 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +38,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="HT81P1A01458" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -61,36 +64,36 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-              <folding>
-                <element signature="e#48#215#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="42" column="24" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="24" />
+            <state relative-caret-position="3297">
+              <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
               <folding>
-                <element signature="e#39#989#0" expanded="true" />
+                <element signature="e#39#1074#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="19" column="47" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="47" />
+            <state relative-caret-position="294">
+              <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
               <folding>
-                <element signature="e#48#239#0" expanded="true" />
+                <element signature="e#48#710#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="115">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+              <folding>
+                <element signature="e#57#400#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="115" column="42" lean-forward="true" selection-start-line="115" selection-start-column="42" selection-end-line="115" selection-end-column="42" />
+            <state relative-caret-position="213">
+              <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
               <folding>
                 <element signature="e#58#613#0" expanded="true" />
               </folding>
@@ -142,6 +145,8 @@
       <find>lessonComplete</find>
       <find>sign_out</find>
       <find>lastUpdatedLessonsCompleted</find>
+      <find>sentenceCreatorActivity</find>
+      <find>canV</find>
     </findStrings>
     <replaceStrings>
       <replace>ImgIndex</replace>
@@ -157,6 +162,7 @@
       <replace>canViewLesson</replace>
       <replace>log_out</replace>
       <replace>lastUpdatedLC</replace>
+      <replace>lessonActivity</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -166,16 +172,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/anim/simple_fade_in.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/anim/simple_fade_out.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/FlipAnimation.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/shake_animation.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/multi_select_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/user_profile_bgd.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/SplashScreenActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/UserInfo.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/home_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
@@ -196,7 +198,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/SignUpActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/interfaces/ILesson.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_newest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/table_of_content_lesson_layout.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/PopupHelper.kt" />
@@ -211,20 +212,25 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/NewestFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/MainActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/Option.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="170" />
-    <option name="y" value="96" />
-    <option name="width" value="1026" />
-    <option name="height" value="576" />
+    <option name="x" value="1530" />
+    <option name="y" value="172" />
+    <option name="width" value="1024" />
+    <option name="height" value="579" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -234,9 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -308,6 +311,16 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="asusuigbo" type="462c0819:PsiDirectoryNode" />
               <item name="fragments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AsusuIgbo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AsusuIgbo" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="asusuigbo" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AsusuIgbo" type="b2602c69:ProjectViewProjectNode" />
@@ -411,6 +424,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -538,12 +554,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1374" height="772" extended-state="6" />
+    <frame x="1362" y="0" width="1288" height="1028" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.27272728" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.2917342" />
       <window_info id="Structure" order="3" side_tool="true" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="Build Variants" order="5" side_tool="true" />
@@ -556,9 +572,9 @@
       <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.56349206" />
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5030257" side_tool="true" weight="0.3" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.3276923" />
-      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4969743" weight="0.25873017" />
-      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.32698414" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4969743" weight="0.18397291" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.3261851" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.32659933" />
       <window_info anchor="bottom" id="Messages" order="10" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -571,14 +587,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/single_select_layout.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/text_cursor_color.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -616,12 +624,12 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-164">
           <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/SignUpActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -722,13 +730,6 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/section_action.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/UserButton.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -794,20 +795,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/LessonCompletedFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
@@ -846,16 +833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
-          <folding>
-            <element signature="e#48#710#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
@@ -874,16 +851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#48#313#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -894,32 +861,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="82" lean-forward="true" selection-start-line="2" selection-start-column="82" selection-end-line="2" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#48#294#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="57" lean-forward="true" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
+          <folding>
+            <element signature="e#48#313#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="42" column="24" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="24" />
+        <state relative-caret-position="3297">
+          <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
           <folding>
-            <element signature="e#39#989#0" expanded="true" />
+            <element signature="e#39#1074#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="115" column="42" lean-forward="true" selection-start-line="115" selection-start-column="42" selection-end-line="115" selection-end-column="42" />
+        <state relative-caret-position="213">
+          <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
           <folding>
             <element signature="e#58#613#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="19" column="47" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="47" />
+        <state relative-caret-position="115">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
           <folding>
-            <element signature="e#48#239#0" expanded="true" />
+            <element signature="e#57#400#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#48#710#0" expanded="true" />
           </folding>
         </state>
       </provider>

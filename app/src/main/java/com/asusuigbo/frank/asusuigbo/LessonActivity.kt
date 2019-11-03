@@ -160,18 +160,14 @@ class LessonActivity : AppCompatActivity() {
 
     private fun updateCompletedLesson(){
         val auth = FirebaseAuth.getInstance()
-        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val dbReference: DatabaseReference = database.reference
+        val dbReference: DatabaseReference  = FirebaseDatabase.getInstance().reference
 
-        dbReference.child("UserLessonsActivated").child(auth.currentUser!!.uid)
-                .child(this.nextLesson).setValue("TRUE")
-
-        var temp = max((lessonCount * 8), lastUpdatedWL)
+        val wordsLearned = max((lessonCount * 8), lastUpdatedWL)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue(temp.toString())
-        temp = max(lessonCount, lastUpdatedLC)
+                .child("WordsLearned").setValue(wordsLearned.toString())
+        val lessonsCompleted = max(lessonCount, lastUpdatedLC)
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("LessonsCompleted").setValue(temp.toString())
+                .child("LessonsCompleted").setValue(lessonsCompleted.toString())
         launchCompletedLessonScreen()
     }
 
@@ -183,6 +179,7 @@ class LessonActivity : AppCompatActivity() {
         ft.commit()
     }
 
+    //TODO: push implementation to adapter classes.
     private fun isCorrectAnswer(): Boolean{
         return if(this.currentQuestion.LessonFormat == "MultiSelect"){
             val sentence = this.buildSentenceViewAdapter.buildSentence()

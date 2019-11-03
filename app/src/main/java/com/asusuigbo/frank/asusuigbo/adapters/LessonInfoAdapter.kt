@@ -5,15 +5,15 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import androidx.core.content.ContextCompat
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.LessonInfo
@@ -21,7 +21,11 @@ import com.asusuigbo.frank.asusuigbo.models.LessonInfo
 /**
  * Created by Frank on 3/27/2018.
  */
-class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: Context) : RecyclerView.Adapter<LessonInfoAdapter.CustomViewHolder>(){
+class LessonInfoAdapter(
+    private var lessonList: List<LessonInfo>,
+    var context: Context,
+    private var viewableLessons: Int
+) : RecyclerView.Adapter<LessonInfoAdapter.CustomViewHolder>(){
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView? = null
@@ -29,7 +33,7 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
         var titleTextView: TextView? = null
 
         init {
-            cardView = itemView!!.findViewById(R.id.card_view_id)
+            cardView = itemView.findViewById(R.id.card_view_id)
             imageIndexView = itemView.findViewById(R.id.lessonImageId)
             titleTextView = itemView.findViewById(R.id.lessonNameId)
         }
@@ -54,10 +58,9 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
     override fun getItemCount(): Int = this.lessonList.size
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder!!.imageIndexView!!.setImageResource(this.lessonList[position].imageDrawableIndex)
+        holder.imageIndexView!!.setImageResource(this.lessonList[position].imageDrawableIndex)
         holder.titleTextView!!.text = this.lessonList[position].lessonKey
         holder.cardView?.setOnClickListener { v ->
-
             val intent = Intent(v.context, LessonActivity::class.java)
             var nextLesson = "End of List"
             if(itemCount != (position + 1))
@@ -71,7 +74,7 @@ class LessonInfoAdapter(private var lessonList: List<LessonInfo>, var context: C
             v.context.startActivity(intent)
         }
 
-        if(this.lessonList[position].canViewLesson == "FALSE"){
+        if(position > this.viewableLessons ){
             val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
             holder.cardView?.setCardBackgroundColor(ColorStateList.valueOf(color))
             holder.cardView?.elevation = 0.0f

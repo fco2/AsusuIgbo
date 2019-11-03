@@ -10,6 +10,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -20,21 +21,23 @@ class DataLoader {
         fun populateList(lessonActivity: LessonActivity){
             //TODO: make a reference for dictionary here
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-            val dbReference: DatabaseReference = database.getReference("Lessons/${lessonActivity.requestedLesson}")
+            val dbReference: DatabaseReference = database
+                .getReference("Lessons/${lessonActivity.requestedLesson}")
 
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val auth = FirebaseAuth.getInstance()
                     //TODO: Load dictionary here 
                     for (d in dataSnapshot.children){
-                        val optionsList = ArrayList<String>()
+                        val optionsList = ArrayList<OptionInfo>()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
                         val question = d.child("Question").value.toString()
                         val lessonFormat = d.child("LessonFormat").value.toString()
 
                         for(t in d.child("Options").children){
-                            val text = t.value.toString()
-                            optionsList.add(text)
+                            //TODO: will be modified to handle additional info
+                            val text = t.child("Option").value.toString()
+                            optionsList.add(OptionInfo(text))
                         }
                         val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
@@ -92,10 +95,11 @@ class DataLoader {
             val rg = lessonActivity.activity.findViewById<RadioGroup>(R.id.radio_group_id)
             for((index,item) in lessonActivity.dataList[0].Options.withIndex()){
                 val view = RadioButton(lessonActivity.activity.applicationContext)
-                val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)
                 view.layoutParams = params
-                view.text = item
+                view.text = item.Option
                 view.buttonTintList = ContextCompat.
                         getColorStateList(lessonActivity.activity.applicationContext, R.color.colorGrey)
                 TextViewCompat.setTextAppearance(view, R.style.FontForRadioButton)
@@ -109,12 +113,12 @@ class DataLoader {
         }
 
         fun buildFlexBoxContent(lessonActivity: LessonActivity) {
-            for((index, item: String) in lessonActivity.dataList[0].Options.withIndex()){
+            for((index, item: OptionInfo) in lessonActivity.dataList[0].Options.withIndex()){
                 val view = TextView(lessonActivity.activity.applicationContext)
                 val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)
                 view.layoutParams = params
-                view.text = item
+                view.text = item.Option
                 TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
                 view.background = ContextCompat.getDrawable(lessonActivity.activity.applicationContext, R.drawable.word_background)
                 view.setPadding(25,25,25,25)
