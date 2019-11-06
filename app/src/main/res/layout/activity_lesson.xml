@@ -20,7 +20,7 @@
         android:layout_margin="10dp"/>
 
     <!-- Include text editor layout here -->
-    <include layout="@layout/written_text_layout"
+    <include layout="@layout/adapter_written_text_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
@@ -29,7 +29,7 @@
         android:id="@+id/written_text_layout_id">
     </include>
 
-    <include layout="@layout/multi_select_layout"
+    <include layout="@layout/adapter_multi_select_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
@@ -38,7 +38,7 @@
         android:id="@+id/multi_select_layout_id">
     </include>
 
-    <include layout="@layout/single_select_layout"
+    <include layout="@layout/adapter_single_select_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"

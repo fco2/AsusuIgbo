@@ -1,45 +1,60 @@
 package com.asusuigbo.frank.asusuigbo.adapters
 
 import android.view.View
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 
 class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
+    var textViewClickListener = View.OnClickListener{}
+    var multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
+    private var multiQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
+    private var sourceFlexBoxLayout: FlexboxLayout? = null
+    private var destFlexBoxLayout: FlexboxLayout? = null
+    private var selectedSentence: ArrayList<Int> = ArrayList()
 
-    fun initializeViewClickListener(){
-        lessonActivity.textViewClickListener = View.OnClickListener { v ->
+    init{
+        this.sourceFlexBoxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
+        this.destFlexBoxLayout = lessonActivity.activity.findViewById(R.id.flexbox_destination_id)
+        this.initializeViewClickListener()
+    }
+
+    private fun initializeViewClickListener(){
+        this.textViewClickListener = View.OnClickListener { v ->
             if(!lessonActivity.button!!.isEnabled)
                 lessonActivity.button!!.isEnabled = true
             lessonActivity.buttonState = UserButton.AnswerSelected
 
-            if(lessonActivity.destFlexBoxLayout!!.indexOfChild(v) == -1){
-                lessonActivity.sourceFlexBoxLayout!!.removeView(v)
-                lessonActivity.destFlexBoxLayout!!.addView(v)
-                lessonActivity.selectedSentence.add(v.tag as Int)
+            if(this.destFlexBoxLayout!!.indexOfChild(v) == -1){
+                this.sourceFlexBoxLayout!!.removeView(v)
+                this.destFlexBoxLayout!!.addView(v)
+                this.selectedSentence.add(v.tag as Int)
             }else{
-                lessonActivity.destFlexBoxLayout!!.removeView(v)
-                lessonActivity.sourceFlexBoxLayout!!.addView(v)
-                lessonActivity.selectedSentence.remove(v.tag as Int)
+                this.destFlexBoxLayout!!.removeView(v)
+                this.sourceFlexBoxLayout!!.addView(v)
+                this.selectedSentence.remove(v.tag as Int)
             }
         }
     }
 
     fun updateOptions(){
-        lessonActivity.singleSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextLayout.visibility = View.GONE
-        lessonActivity.multiSelectLayout.visibility = View.VISIBLE
-        lessonActivity.multiQuestionTextView.text = lessonActivity.dataList[0].Question
-        lessonActivity.sourceFlexBoxLayout!!.removeAllViews()
-        lessonActivity.destFlexBoxLayout!!.removeAllViews()
-        lessonActivity.selectedSentence.clear()
+        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
+        lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+        this.multiSelectLayout.visibility = View.VISIBLE
+        this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
+        this.sourceFlexBoxLayout!!.removeAllViews()
+        this.destFlexBoxLayout!!.removeAllViews()
+        this.selectedSentence.clear()
         DataLoader.buildFlexBoxContent(lessonActivity)
     }
 
     fun disableOptions(){
-        disableViewsFor(lessonActivity.sourceFlexBoxLayout!!)
-        disableViewsFor(lessonActivity.destFlexBoxLayout!!)
+        disableViewsFor(this.sourceFlexBoxLayout!!)
+        disableViewsFor(this.destFlexBoxLayout!!)
     }
 
     private fun disableViewsFor(flyt: FlexboxLayout){
@@ -51,7 +66,7 @@ class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
 
     fun buildSentence(): String{
         val sb = StringBuilder()
-        for(item in lessonActivity.selectedSentence){
+        for(item in this.selectedSentence){
             sb.append(lessonActivity.currentQuestion.Options.elementAt(item)).append(" ")
         }
         return sb.toString().trim()

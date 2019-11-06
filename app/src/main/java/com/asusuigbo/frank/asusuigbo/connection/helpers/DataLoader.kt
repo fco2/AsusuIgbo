@@ -124,7 +124,7 @@ class DataLoader {
                 view.setPadding(25,25,25,25)
                 view.isClickable = true
                 view.tag = index
-                view.setOnClickListener(lessonActivity.textViewClickListener)
+                view.setOnClickListener(lessonActivity.buildSentenceViewAdapter.textViewClickListener)
                 val sourceFlexBoxLayout: FlexboxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
                 sourceFlexBoxLayout.addView(view)
             }

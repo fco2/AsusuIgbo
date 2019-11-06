@@ -14,7 +14,6 @@ import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
-import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -27,35 +26,22 @@ class LessonActivity : AppCompatActivity() {
      var lastUpdatedWL: Int = 0
      var lastUpdatedLC: Int = 0
      var dataListSize: Int = 0
-     var textViewClickListener = View.OnClickListener{}
-     var dataList: ArrayList<QuestionGroup> = ArrayList()
-     var progressBar: ProgressBar? = null
-     var requestedLesson: String = ""
-     var activity: Activity = this
+    var dataList: ArrayList<QuestionGroup> = ArrayList()
+    var progressBar: ProgressBar? = null
+    var requestedLesson: String = ""
+    var activity: Activity = this
     var lessonsLayout: RelativeLayout? = null
-    var radioGroup: RadioGroup? = null
-    lateinit var multiSelectLayout: RelativeLayout
-    lateinit var singleSelectLayout: RelativeLayout
-    lateinit var writtenTextLayout: RelativeLayout
-    lateinit var writtenTextQuestion: TextView
-    lateinit var writtenTextAnswer: EditText
-    var sourceFlexBoxLayout: FlexboxLayout? = null
-    var destFlexBoxLayout: FlexboxLayout? = null
-    var selectedSentence: ArrayList<Int> = ArrayList()
     var button: Button? = null
-    lateinit var singleQuestionTextView: TextView
-    lateinit var multiQuestionTextView: TextView
     private var popUpWindow: PopupWindow? = null
     lateinit var currentQuestion: QuestionGroup
-    private var nextLesson: String = ""
     var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
     private var lessonCount = 0
-
-    private lateinit var singleSelectViewAdapter: SingleSelectViewAdapter
-    private var  buildSentenceViewAdapter: BuildSentenceViewAdapter = BuildSentenceViewAdapter(this)
-    private lateinit var writtenTextViewAdapter: WrittenTextViewAdapter
+    lateinit var singleSelectViewAdapter: SingleSelectViewAdapter
+    //needs to be initialized within init{] method that is why this one is here
+    lateinit var buildSentenceViewAdapter: BuildSentenceViewAdapter
+    lateinit var writtenTextViewAdapter: WrittenTextViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,38 +49,19 @@ class LessonActivity : AppCompatActivity() {
 
         this.singleSelectViewAdapter = SingleSelectViewAdapter(this)
         this.writtenTextViewAdapter = WrittenTextViewAdapter(this)
-
-        this.lessonsLayout = findViewById(R.id.lessons_layout_id)
+        this.buildSentenceViewAdapter  = BuildSentenceViewAdapter(this)
         this.button = findViewById(R.id.check_answer_button_id)
-        this.singleQuestionTextView = findViewById(R.id.single_question_id)
-        this.multiQuestionTextView = findViewById(R.id.multi_question_id)
-        this.radioGroup = findViewById(R.id.radio_group_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
-        this.singleSelectLayout = findViewById(R.id.single_select_layout_id)
-        this.multiSelectLayout = findViewById(R.id.multi_select_layout_id)
-        this.sourceFlexBoxLayout = findViewById(R.id.flexbox_source_id)
-        this.destFlexBoxLayout = findViewById(R.id.flexbox_destination_id)
-        this.writtenTextLayout = findViewById(R.id.written_text_layout_id)
-        this.writtenTextQuestion = findViewById(R.id.written_text_question_id)
-        this.writtenTextAnswer = findViewById(R.id.written_text_answer_id)
-
+        this.lessonsLayout = findViewById(R.id.lessons_layout_id)
         this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
-
         DataLoader.populateList(this)
-        this.radioGroup!!.setOnCheckedChangeListener(this.singleSelectViewAdapter.radioGroupListener)
         this.button!!.setOnClickListener(buttonClickListener)
-        this.writtenTextViewAdapter.writtenTextChangeListener()
-    }
-
-    init{
-        this.buildSentenceViewAdapter.initializeViewClickListener()
     }
 
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")
-        this.nextLesson = intent.getStringExtra("NEXT_LESSON")
         this.lessonCount = intent.getIntExtra("LESSON_COUNT", 0)
     }
 
@@ -179,7 +146,7 @@ class LessonActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    //TODO: push implementation to adapter classes.
+    //TODO: push implementation to adapter classes., use when block here, pair similar answer types...
     private fun isCorrectAnswer(): Boolean{
         return if(this.currentQuestion.LessonFormat == "MultiSelect"){
             val sentence = this.buildSentenceViewAdapter.buildSentence()

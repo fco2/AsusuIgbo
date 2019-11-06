@@ -62,11 +62,6 @@ class LessonInfoAdapter(
         holder.titleTextView!!.text = this.lessonList[position].lessonKey
         holder.cardView?.setOnClickListener { v ->
             val intent = Intent(v.context, LessonActivity::class.java)
-            var nextLesson = "End of List"
-            if(itemCount != (position + 1))
-                nextLesson = lessonList[position + 1].lessonKey
-
-            intent.putExtra("NEXT_LESSON", nextLesson)
             intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
             intent.putExtra("LESSON_COUNT", (position + 1))
             // You need this if starting activity outside an activity context
