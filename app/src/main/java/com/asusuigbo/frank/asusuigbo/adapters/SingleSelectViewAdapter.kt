@@ -12,7 +12,7 @@ import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 class SingleSelectViewAdapter(private val lessonActivity: LessonActivity) {
     private var radioGroup: RadioGroup = lessonActivity.activity.findViewById(R.id.radio_group_id)
-    private var singleQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
+    var singleQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
     var singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
 
     init{

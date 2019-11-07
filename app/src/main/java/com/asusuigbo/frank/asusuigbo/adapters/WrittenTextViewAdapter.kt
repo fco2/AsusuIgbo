@@ -12,7 +12,7 @@ import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 class WrittenTextViewAdapter(private val lessonActivity: LessonActivity) {
     var writtenTextLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.written_text_layout_id)
-    private var writtenTextQuestion: TextView = lessonActivity.activity.findViewById(R.id.written_text_question_id)
+    var writtenTextQuestion: TextView = lessonActivity.activity.findViewById(R.id.written_text_question_id)
     private var writtenTextAnswer: EditText = lessonActivity.activity.findViewById(R.id.written_text_answer_id)
 
     init{

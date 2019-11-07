@@ -1,13 +1,12 @@
 package com.asusuigbo.frank.asusuigbo.connection.helpers
 
-import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
@@ -44,33 +43,43 @@ class DataLoader {
                     }
 
                     lessonActivity.dataListSize = lessonActivity.dataList.size
-                    val singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
-                    val multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
-                    val writtenTextLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.written_text_layout_id)
 
                     when {
                         lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
-                            multiSelectLayout.visibility = View.GONE
-                            writtenTextLayout.visibility = View.GONE
-                            singleSelectLayout.visibility = View.VISIBLE
-                            val que: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
-                            que.text = lessonActivity.dataList[0].Question
+                            lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
+                            lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+                            lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
+                            lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.VISIBLE
+                            lessonActivity.singleSelectViewAdapter.singleQuestionTextView.text =
+                                lessonActivity.dataList[0].Question
                             buildRadioGroupContent(lessonActivity)
                         }
                         lessonActivity.dataList[0].LessonFormat == "MultiSelect" -> {
-                            singleSelectLayout.visibility = View.GONE
-                            writtenTextLayout.visibility = View.GONE
-                            multiSelectLayout.visibility = View.VISIBLE
-                            val que: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
-                            que.text = lessonActivity.dataList[0].Question
+                            lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
+                            lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+                            lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
+                            lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.VISIBLE
+                            lessonActivity.buildSentenceViewAdapter.multiQuestionTextView.text =
+                                lessonActivity.dataList[0].Question
                             buildFlexBoxContent(lessonActivity)
                         }
+                        lessonActivity.dataList[0].LessonFormat == "ImageSelect" -> {
+                            lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
+                            lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
+                            lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+                            lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.VISIBLE
+
+                            lessonActivity.imgChoiceViewAdapter.imgChoiceQuestion.text =
+                                lessonActivity.dataList[0].Question
+                            setUpImageChoiceView(lessonActivity)
+                        }
                         else -> {
-                            multiSelectLayout.visibility = View.GONE
-                            singleSelectLayout.visibility = View.GONE
-                            writtenTextLayout.visibility = View.VISIBLE
-                            val que: TextView = lessonActivity.activity.findViewById(R.id.written_text_question_id)
-                            que.text = lessonActivity.dataList[0].Question
+                            lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
+                            lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
+                            lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
+                            lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.VISIBLE
+                            lessonActivity.writtenTextViewAdapter.writtenTextQuestion.text =
+                                lessonActivity.dataList[0].Question
                         }
                     }
 
@@ -128,6 +137,10 @@ class DataLoader {
                 val sourceFlexBoxLayout: FlexboxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
                 sourceFlexBoxLayout.addView(view)
             }
+        }
+
+        fun setUpImageChoiceView(lessonActivity: LessonActivity){
+
         }
     }
 }

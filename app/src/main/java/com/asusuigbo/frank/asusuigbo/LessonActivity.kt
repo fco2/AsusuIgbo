@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.asusuigbo.frank.asusuigbo.adapters.BuildSentenceViewAdapter
+import com.asusuigbo.frank.asusuigbo.adapters.ImageChoiceViewAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.SingleSelectViewAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.WrittenTextViewAdapter
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
@@ -42,6 +43,7 @@ class LessonActivity : AppCompatActivity() {
     //needs to be initialized within init{] method that is why this one is here
     lateinit var buildSentenceViewAdapter: BuildSentenceViewAdapter
     lateinit var writtenTextViewAdapter: WrittenTextViewAdapter
+    lateinit var  imgChoiceViewAdapter: ImageChoiceViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class LessonActivity : AppCompatActivity() {
         this.singleSelectViewAdapter = SingleSelectViewAdapter(this)
         this.writtenTextViewAdapter = WrittenTextViewAdapter(this)
         this.buildSentenceViewAdapter  = BuildSentenceViewAdapter(this)
+        this.imgChoiceViewAdapter = ImageChoiceViewAdapter(this)
         this.button = findViewById(R.id.check_answer_button_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)

@@ -12,7 +12,7 @@ import com.google.android.flexbox.FlexboxLayout
 class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
     var textViewClickListener = View.OnClickListener{}
     var multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
-    private var multiQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
+    var multiQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
     private var sourceFlexBoxLayout: FlexboxLayout? = null
     private var destFlexBoxLayout: FlexboxLayout? = null
     private var selectedSentence: ArrayList<Int> = ArrayList()
