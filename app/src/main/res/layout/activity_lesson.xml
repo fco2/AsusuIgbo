@@ -19,6 +19,16 @@
         android:progress="5"
         android:layout_margin="10dp"/>
 
+    <!-- Image choice view -->
+    <include layout="@layout/adapter_image_choice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_above="@id/check_answer_button_id"
+        android:layout_below="@id/lesson_progress_id"
+        android:id="@+id/image_choice_layout_id">
+    </include>
+
     <!-- Include text editor layout here -->
     <include layout="@layout/adapter_written_text_layout"
         android:layout_width="match_parent"
@@ -45,16 +55,6 @@
         android:layout_above="@id/check_answer_button_id"
         android:layout_below="@id/lesson_progress_id"
         android:id="@+id/single_select_layout_id">
-    </include>
-
-    <!-- Image choice view -->
-    <include layout="@layout/adapter_image_choice_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:layout_above="@id/check_answer_button_id"
-        android:layout_below="@id/single_select_layout_id"
-        android:id="@+id/image_choice_layout_id">
     </include>
 
     <ProgressBar

@@ -46,8 +46,8 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
         holder.imgChoiceImg.setImageResource(resourceId)
         holder.imgChoiceCardView.setOnClickListener {
             //remove color filter for all items
-            for(i in 0 until lessonActivity.imgChoiceViewAdapter.recyclerView.childCount){
-                val view: View = lessonActivity.imgChoiceViewAdapter.recyclerView.getChildAt(i)
+            for(i in 0 until lessonActivity.imgChoiceView.recyclerView.childCount){
+                val view: View = lessonActivity.imgChoiceView.recyclerView.getChildAt(i)
                 view.background.clearColorFilter()
                 val image = view.findViewById<ImageView>(R.id.img_choice_img)
                 image.clearColorFilter()

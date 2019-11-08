@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.view.helpers
 
 import android.view.View
 import android.widget.RadioButton
@@ -10,7 +10,7 @@ import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 
-class SingleSelectViewAdapter(private val lessonActivity: LessonActivity) {
+class SingleSelectView(private val lessonActivity: LessonActivity) {
     private var radioGroup: RadioGroup = lessonActivity.activity.findViewById(R.id.radio_group_id)
     var singleQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.single_question_id)
     var singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
@@ -29,10 +29,10 @@ class SingleSelectViewAdapter(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
-        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
-        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.VISIBLE
+        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
+        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
+        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
+        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.VISIBLE
         this.singleQuestionTextView.text = lessonActivity.dataList[0].Question
         this.radioGroup.removeAllViews()
         lessonActivity.selectedAnswer = ""

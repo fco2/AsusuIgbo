@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.view.helpers
 
 import android.view.View
 import android.widget.RelativeLayout
@@ -9,7 +9,7 @@ import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 
-class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
+class BuildSentenceView(private val lessonActivity: LessonActivity) {
     var textViewClickListener = View.OnClickListener{}
     var multiSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.multi_select_layout_id)
     var multiQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
@@ -42,9 +42,9 @@ class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
-        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
+        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
+        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
+        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
         this.multiSelectLayout.visibility = View.VISIBLE
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()

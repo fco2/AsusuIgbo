@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.view.helpers
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,7 +10,7 @@ import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 
-class WrittenTextViewAdapter(private val lessonActivity: LessonActivity) {
+class WrittenTextView(private val lessonActivity: LessonActivity) {
     var writtenTextLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.written_text_layout_id)
     var writtenTextQuestion: TextView = lessonActivity.activity.findViewById(R.id.written_text_question_id)
     private var writtenTextAnswer: EditText = lessonActivity.activity.findViewById(R.id.written_text_answer_id)
@@ -20,9 +20,9 @@ class WrittenTextViewAdapter(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
-        lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
-        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
+        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
+        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
+        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
         this.writtenTextLayout.visibility = View.VISIBLE
         lessonActivity.selectedAnswer = ""
         this.writtenTextQuestion.text = lessonActivity.dataList[0].Question

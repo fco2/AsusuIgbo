@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import com.asusuigbo.frank.asusuigbo.adapters.BuildSentenceViewAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.ImageChoiceViewAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.SingleSelectViewAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.WrittenTextViewAdapter
+import com.asusuigbo.frank.asusuigbo.view.helpers.BuildSentenceView
+import com.asusuigbo.frank.asusuigbo.view.helpers.ImageChoiceView
+import com.asusuigbo.frank.asusuigbo.view.helpers.SingleSelectView
+import com.asusuigbo.frank.asusuigbo.view.helpers.WrittenTextView
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
@@ -39,20 +39,20 @@ class LessonActivity : AppCompatActivity() {
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
     private var lessonCount = 0
-    lateinit var singleSelectViewAdapter: SingleSelectViewAdapter
+    lateinit var singleSelectView: SingleSelectView
     //needs to be initialized within init{] method that is why this one is here
-    lateinit var buildSentenceViewAdapter: BuildSentenceViewAdapter
-    lateinit var writtenTextViewAdapter: WrittenTextViewAdapter
-    lateinit var  imgChoiceViewAdapter: ImageChoiceViewAdapter
+    lateinit var buildSentenceView: BuildSentenceView
+    lateinit var writtenTextView: WrittenTextView
+    lateinit var  imgChoiceView: ImageChoiceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson)
 
-        this.singleSelectViewAdapter = SingleSelectViewAdapter(this)
-        this.writtenTextViewAdapter = WrittenTextViewAdapter(this)
-        this.buildSentenceViewAdapter  = BuildSentenceViewAdapter(this)
-        this.imgChoiceViewAdapter = ImageChoiceViewAdapter(this)
+        this.singleSelectView = SingleSelectView(this)
+        this.writtenTextView = WrittenTextView(this)
+        this.buildSentenceView  = BuildSentenceView(this)
+        this.imgChoiceView = ImageChoiceView(this)
         this.button = findViewById(R.id.check_answer_button_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
@@ -105,31 +105,32 @@ class LessonActivity : AppCompatActivity() {
     private fun disableOptions(){
         when {
             this.currentQuestion.LessonFormat == "SingleSelect" -> {
-                this.singleSelectViewAdapter.disableOptions()
+                this.singleSelectView.disableOptions()
             }
             this.currentQuestion.LessonFormat == "MultiSelect" -> {
-                this.buildSentenceViewAdapter.disableOptions()
+                this.buildSentenceView.disableOptions()
             }
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
-                this.imgChoiceViewAdapter.disableOptions()
+                this.imgChoiceView.disableOptions()
             }
-            else -> this.writtenTextViewAdapter.disableOptions()
+            else -> this.writtenTextView.disableOptions()
         }
     }
 
     private fun updateOptions(){
+        Toast.makeText(this, "Lesson: ${this.dataList[0].LessonFormat}", Toast.LENGTH_LONG).show()
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
-                this.singleSelectViewAdapter.updateOptions()
+                this.singleSelectView.updateOptions()
             }
             this.dataList[0].LessonFormat == "MultiSelect" -> {
-                this.buildSentenceViewAdapter.updateOptions()
+                this.buildSentenceView.updateOptions()
             }
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
-                this.imgChoiceViewAdapter.updateOptions()
+                this.imgChoiceView.updateOptions()
             }
             else -> {
-                this.writtenTextViewAdapter.updateOptions()
+                this.writtenTextView.updateOptions()
             }
         }
     }
@@ -170,9 +171,9 @@ class LessonActivity : AppCompatActivity() {
     private fun isCorrectAnswer(): Boolean{
         return when {
             this.currentQuestion.LessonFormat == "MultiSelect" -> {
-                buildSentenceViewAdapter.isCorrectAnswer()
+                buildSentenceView.isCorrectAnswer()
             }
-            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceViewAdapter.isCorrectAnswer()
+            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceView.isCorrectAnswer()
             this.currentQuestion.LessonFormat in listOf("SingleSelect", "WrittenText") -> {
                 this.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                         this.selectedAnswer.toLowerCase(Locale.getDefault()).trim()

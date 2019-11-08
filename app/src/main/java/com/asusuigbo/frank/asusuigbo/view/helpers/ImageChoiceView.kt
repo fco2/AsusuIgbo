@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.view.helpers
 
 import android.view.View
 import android.widget.RelativeLayout
@@ -9,7 +9,7 @@ import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 
-class ImageChoiceViewAdapter(private val lessonActivity: LessonActivity) {
+class ImageChoiceView(private val lessonActivity: LessonActivity) {
     var imgChoiceLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.image_choice_layout_id)
     var imgChoiceQuestion: TextView = lessonActivity.activity.findViewById(R.id.img_choice_question_id)
     var recyclerView: RecyclerView = lessonActivity.activity.findViewById(R.id.img_choice_recycler_view_id)
@@ -21,13 +21,13 @@ class ImageChoiceViewAdapter(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
-        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
-        this.imgChoiceLayout.visibility = View.VISIBLE
+        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
+        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
+        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
         this.imgChoiceQuestion.text = lessonActivity.dataList[0].Question
-        lessonActivity.selectedAnswer = ""
         DataLoader.setUpImageChoiceView(lessonActivity)
+        this.imgChoiceLayout.visibility = View.VISIBLE
+        lessonActivity.selectedAnswer = ""
     }
 
     fun disableOptions(){
