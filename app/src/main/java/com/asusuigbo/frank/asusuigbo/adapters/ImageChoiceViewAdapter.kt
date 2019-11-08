@@ -3,45 +3,40 @@ package com.asusuigbo.frank.asusuigbo.adapters
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
+import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 
 class ImageChoiceViewAdapter(private val lessonActivity: LessonActivity) {
-    //TODO: set background for selected cardview....
     var imgChoiceLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.image_choice_layout_id)
     var imgChoiceQuestion: TextView = lessonActivity.activity.findViewById(R.id.img_choice_question_id)
-    private var cardViewTopLeft: CardView = lessonActivity.activity.findViewById(R.id.img_choice_card_view_tl)
-    private var cardViewTopRight: CardView = lessonActivity.activity.findViewById(R.id.img_choice_card_view_tr)
-    private var cardViewBottomLeft: CardView = lessonActivity.activity.findViewById(R.id.img_choice_card_view_bl)
-    private var cardViewBottomRight: CardView = lessonActivity.activity.findViewById(R.id.img_choice_card_view_br)
-    private var translatedWordTopLeft: TextView = lessonActivity.activity.findViewById(R.id.img_choice_text_top_left)
-    private var translatedWordTopRight: TextView = lessonActivity.activity.findViewById(R.id.img_choice_text_top_right)
-    private var translatedWordBottomLeft: TextView = lessonActivity.activity.findViewById(R.id.img_choice_text_bottom_left)
-    private var translatedWordBottomRight: TextView = lessonActivity.activity.findViewById(R.id.img_choice_text_bottom_right)
-    private var imgViewTopLeft: TextView = lessonActivity.activity.findViewById(R.id.img_choice_img_top_left)
-    private var imgViewTopRight: TextView = lessonActivity.activity.findViewById(R.id.img_choice_img_top_right)
-    private var imgViewBottomLeft: TextView = lessonActivity.activity.findViewById(R.id.img_choice_img_bottom_left)
-    private var imgViewBottomRight: TextView = lessonActivity.activity.findViewById(R.id.img_choice_img_bottom_right)
+    var recyclerView: RecyclerView = lessonActivity.activity.findViewById(R.id.img_choice_recycler_view_id)
+    val itemOffsetDecoration = ItemOffsetDecoration(lessonActivity.applicationContext, R.dimen.item_offset)
+    var isItemDecoratorSet = false
 
-    init{
-        cardViewTopLeft.setOnClickListener { v ->
-            //TODO: set click listener action
-        }
-
-        cardViewTopRight.setOnClickListener { v ->
-            //TODO: set click listener action
-        }
-
-        cardViewBottomLeft.setOnClickListener { v ->
-            //TODO: set click listener action
-        }
-
-        cardViewBottomRight.setOnClickListener { v ->
-            //TODO: set click listener action
-        }
+    fun isCorrectAnswer(): Boolean{
+        return lessonActivity.selectedAnswer == lessonActivity.currentQuestion.CorrectAnswer
     }
 
+    fun updateOptions(){
+        lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
+        lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+        lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
+        this.imgChoiceLayout.visibility = View.VISIBLE
+        this.imgChoiceQuestion.text = lessonActivity.dataList[0].Question
+        lessonActivity.selectedAnswer = ""
+        DataLoader.setUpImageChoiceView(lessonActivity)
+    }
+
+    fun disableOptions(){
+        val rvChildCount = this.recyclerView.childCount
+        for(i in 0 until rvChildCount){
+            val view: View = this.recyclerView.getChildAt(i)
+            view.isClickable = false
+        }
+    }
 }
 
 

@@ -22,6 +22,7 @@ class WrittenTextViewAdapter(private val lessonActivity: LessonActivity) {
     fun updateOptions(){
         lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
         lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
+        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
         this.writtenTextLayout.visibility = View.VISIBLE
         lessonActivity.selectedAnswer = ""
         this.writtenTextQuestion.text = lessonActivity.dataList[0].Question

@@ -102,6 +102,21 @@ class LessonActivity : AppCompatActivity() {
         setProgressBarStatus()
     }
 
+    private fun disableOptions(){
+        when {
+            this.currentQuestion.LessonFormat == "SingleSelect" -> {
+                this.singleSelectViewAdapter.disableOptions()
+            }
+            this.currentQuestion.LessonFormat == "MultiSelect" -> {
+                this.buildSentenceViewAdapter.disableOptions()
+            }
+            this.currentQuestion.LessonFormat == "ImageSelect" -> {
+                this.imgChoiceViewAdapter.disableOptions()
+            }
+            else -> this.writtenTextViewAdapter.disableOptions()
+        }
+    }
+
     private fun updateOptions(){
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
@@ -109,6 +124,9 @@ class LessonActivity : AppCompatActivity() {
             }
             this.dataList[0].LessonFormat == "MultiSelect" -> {
                 this.buildSentenceViewAdapter.updateOptions()
+            }
+            this.currentQuestion.LessonFormat == "ImageSelect" -> {
+                this.imgChoiceViewAdapter.updateOptions()
             }
             else -> {
                 this.writtenTextViewAdapter.updateOptions()
@@ -149,14 +167,17 @@ class LessonActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    //TODO: push implementation to adapter classes., use when block here, pair similar answer types...
     private fun isCorrectAnswer(): Boolean{
-        return if(this.currentQuestion.LessonFormat == "MultiSelect"){
-            val sentence = this.buildSentenceViewAdapter.buildSentence()
-            sentence == currentQuestion.CorrectAnswer
-        }else{
-            this.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
-                    this.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
+        return when {
+            this.currentQuestion.LessonFormat == "MultiSelect" -> {
+                buildSentenceViewAdapter.isCorrectAnswer()
+            }
+            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceViewAdapter.isCorrectAnswer()
+            this.currentQuestion.LessonFormat in listOf("SingleSelect", "WrittenText") -> {
+                this.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                        this.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
+            }
+            else -> false
         }
     }
 
@@ -164,17 +185,5 @@ class LessonActivity : AppCompatActivity() {
         this.button!!.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button!!.text = getString(buttonText)
         this.buttonState = buttonState
-    }
-
-    private fun disableOptions(){
-        when {
-            this.currentQuestion.LessonFormat == "SingleSelect" -> {
-                this.singleSelectViewAdapter.disableOptions()
-            }
-            this.currentQuestion.LessonFormat == "MultiSelect" -> {
-                this.buildSentenceViewAdapter.disableOptions()
-            }
-            else -> this.writtenTextViewAdapter.disableOptions()
-        }
     }
 }

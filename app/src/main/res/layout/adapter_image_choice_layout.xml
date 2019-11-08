@@ -2,173 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eceff1"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
-    <!-- TextView here -->
+    android:background="#eceff1">
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:padding="4dp"
         android:fontFamily="@font/bree_serif"
         android:textSize="18sp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="12dp"
         android:textColor="#9e9e9e"
         android:id="@+id/img_choice_question_id"/>
 
-    <GridLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:rowCount="2"
-        android:columnCount="2"
-        android:padding="16dp"
-        android:layout_below="@id/img_choice_question_id">
-
-        <!-- Top left -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@color/colorWhite"
-            card_view:cardCornerRadius="8dp"
-            android:id="@+id/img_choice_card_view_tl">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/img_choice_text_top_left"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/answer_template"
-                    android:id="@+id/img_choice_img_top_left"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:fontFamily="@font/bree_serif"
-                    android:textSize="14sp"
-                    android:textColor="#9e9e9e"
-                    android:id="@+id/img_choice_text_top_left"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Top right -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@color/colorWhite"
-            card_view:cardCornerRadius="8dp"
-            android:id="@+id/img_choice_card_view_tr">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/img_choice_text_top_right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/answer_template"
-                    android:id="@+id/img_choice_img_top_right"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:fontFamily="@font/bree_serif"
-                    android:textSize="14sp"
-                    android:textColor="#9e9e9e"
-                    android:id="@+id/img_choice_text_top_right"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Bottom left -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@color/colorWhite"
-            card_view:cardCornerRadius="8dp"
-            android:id="@+id/img_choice_card_view_bl">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/img_choice_text_bottom_left"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/answer_template"
-                    android:id="@+id/img_choice_img_bottom_left"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:fontFamily="@font/bree_serif"
-                    android:textSize="14sp"
-                    android:textColor="#9e9e9e"
-                    android:id="@+id/img_choice_text_bottom_left"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Bottom right -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@color/colorWhite"
-            card_view:cardCornerRadius="8dp"
-            android:id="@+id/img_choice_card_view_br">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/img_choice_text_bottom_right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/answer_template"
-                    android:id="@+id/img_choice_img_bottom_right"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:fontFamily="@font/bree_serif"
-                    android:textSize="14sp"
-                    android:textColor="#9e9e9e"
-                    android:id="@+id/img_choice_text_bottom_right"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
+        android:layout_below="@id/img_choice_question_id"
+        android:padding="5dp"
+        android:id="@+id/img_choice_recycler_view_id">
+    </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>

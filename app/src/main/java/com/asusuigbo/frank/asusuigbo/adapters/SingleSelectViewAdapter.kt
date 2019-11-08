@@ -31,6 +31,7 @@ class SingleSelectViewAdapter(private val lessonActivity: LessonActivity) {
     fun updateOptions(){
         lessonActivity.buildSentenceViewAdapter.multiSelectLayout.visibility = View.GONE
         lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
         lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.VISIBLE
         this.singleQuestionTextView.text = lessonActivity.dataList[0].Question
         this.radioGroup.removeAllViews()

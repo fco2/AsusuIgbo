@@ -7,8 +7,10 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.adapters.ImgChoiceOptionsAdapter
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
@@ -34,14 +36,13 @@ class DataLoader {
                         val lessonFormat = d.child("LessonFormat").value.toString()
 
                         for(t in d.child("Options").children){
-                            //TODO: will be modified to handle additional info
-                            val text = t.child("Option").value.toString()
-                            optionsList.add(OptionInfo(text))
+                            val option = t.child("Option").value.toString()
+                            val additionalInfo = t.child("AdditionalInfo").value.toString()
+                            optionsList.add(OptionInfo(option, additionalInfo))
                         }
                         val temp = QuestionGroup(question, optionsList, correctAnswer, lessonFormat)
                         lessonActivity.dataList.add(temp)
                     }
-
                     lessonActivity.dataListSize = lessonActivity.dataList.size
 
                     when {
@@ -140,7 +141,17 @@ class DataLoader {
         }
 
         fun setUpImageChoiceView(lessonActivity: LessonActivity){
-
+            lessonActivity.imgChoiceViewAdapter.recyclerView.layoutManager =
+                GridLayoutManager(lessonActivity.applicationContext, 2)
+            lessonActivity.imgChoiceViewAdapter.recyclerView.hasFixedSize()
+            //set this conditionally to prevent multiplication
+            if(!lessonActivity.imgChoiceViewAdapter.isItemDecoratorSet){
+                lessonActivity.imgChoiceViewAdapter.recyclerView.
+                    addItemDecoration(lessonActivity.imgChoiceViewAdapter.itemOffsetDecoration)
+                lessonActivity.imgChoiceViewAdapter.isItemDecoratorSet = true
+            }
+            val adapter = ImgChoiceOptionsAdapter(lessonActivity.dataList[0].Options, lessonActivity)
+            lessonActivity.imgChoiceViewAdapter.recyclerView.adapter = adapter
         }
     }
 }

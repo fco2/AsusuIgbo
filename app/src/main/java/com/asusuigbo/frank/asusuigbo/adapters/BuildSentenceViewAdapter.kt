@@ -44,6 +44,7 @@ class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
     fun updateOptions(){
         lessonActivity.singleSelectViewAdapter.singleSelectLayout.visibility = View.GONE
         lessonActivity.writtenTextViewAdapter.writtenTextLayout.visibility = View.GONE
+        lessonActivity.imgChoiceViewAdapter.imgChoiceLayout.visibility = View.GONE
         this.multiSelectLayout.visibility = View.VISIBLE
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()
@@ -64,7 +65,12 @@ class BuildSentenceViewAdapter(private val lessonActivity: LessonActivity) {
         }
     }
 
-    fun buildSentence(): String{
+    fun isCorrectAnswer(): Boolean{
+        val sentence = this.buildSentence()
+        return sentence == lessonActivity.currentQuestion.CorrectAnswer
+    }
+
+    private fun buildSentence(): String{
         val sb = StringBuilder()
         for(item in this.selectedSentence){
             sb.append(lessonActivity.currentQuestion.Options.elementAt(item)).append(" ")

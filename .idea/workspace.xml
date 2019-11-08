@@ -11,12 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adbc2428-860b-488d-a02c-d78f29865074" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/chuka.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_boy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_girl.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_man.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_placeholder.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_woman.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImgChoiceOptionsAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/helpers/ItemOffsetDecoration.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bgd_image_choice.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/component_img_choice_options.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/dimen.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -34,10 +33,18 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_lesson.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_lesson.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/adapter_image_choice_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/adapter_image_choice_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/hourglass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_boy.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_boy.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_girl.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_girl.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_man.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_man.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_placeholder.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_placeholder.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_woman.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_woman.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/nigeria_flag1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/nigeria_flag2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/team.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,6 +55,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="HT81P1A01458" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -73,13 +81,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImgChoiceOptionsAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="53" column="71" lean-forward="true" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
-              <folding>
-                <element signature="e#39#1026#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="126">
+              <caret line="6" column="29" lean-forward="true" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -87,39 +92,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-945">
-              <caret line="79" column="109" selection-start-line="79" selection-start-column="109" selection-end-line="79" selection-end-column="109" />
+            <state relative-caret-position="-2153">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
               <folding>
-                <element signature="e#58#631#0" expanded="true" />
+                <element signature="e#58#755#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="481">
+              <caret line="175" column="45" selection-start-line="175" selection-start-column="45" selection-end-line="175" selection-end-column="45" />
+              <folding>
+                <element signature="e#39#1095#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_lesson.xml">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceViewAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="56" column="47" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="47" />
+            <state relative-caret-position="210">
+              <caret line="11" column="74" lean-forward="true" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
+              <folding>
+                <element signature="e#48#346#0" expanded="true" />
+              </folding>
             </state>
           </provider>
-          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceViewAdapter.kt">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-405">
-              <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="343">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+              <folding>
+                <element signature="e#48#420#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -133,9 +146,10 @@
         <option value="Class" />
         <option value="Kotlin Enum" />
         <option value="Kotlin Interface" />
-        <option value="resourceFile" />
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="valueResourceFile" />
+        <option value="Kotlin Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -187,13 +201,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/user_profile_bgd.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/SplashScreenActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/UserInfo.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/home_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/newest_menu_selector.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/user_menu_selector.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/home_menu_selector.xml" />
@@ -222,7 +229,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/NewestFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/MainActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/Option.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt" />
@@ -231,21 +237,28 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_lesson.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceOptionsAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/helpers/ItemOffsetDecoration.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/dimen.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/bgd_image_choice_parent.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/component_img_choice_options.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/adapter_image_choice_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceViewAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceViewAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImgChoiceOptionsAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="411" />
-    <option name="y" value="59" />
-    <option name="width" value="1024" />
-    <option name="height" value="579" />
+    <option name="x" value="1366" />
+    <option name="width" value="1280" />
+    <option name="height" value="1024" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -255,7 +268,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -353,6 +365,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="anim" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AsusuIgbo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AsusuIgbo" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
               <item name="drawable" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -398,15 +419,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="mipmap-mdpi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AsusuIgbo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AsusuIgbo" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
               <item name="mipmap-xhdpi" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -441,6 +453,7 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -456,12 +469,12 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-hdpi" />
       <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\drawable" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xxxhdpi" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xxhdpi" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xhdpi" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-mdpi" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-hdpi\bottom_nav_icons" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.asusuigbo.frank.asusuigbo.interfaces" />
@@ -473,12 +486,12 @@
     <key name="android.template.packageName">
       <recent name="com.asusuigbo.frank.asusuigbo" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-hdpi" />
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\drawable" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-hdpi\bottom_nav_icons" />
-      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xxxhdpi" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xxhdpi" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-xhdpi" />
+      <recent name="C:\Users\Frank\AndroidStudioProjects\AsusuIgbo\app\src\main\res\mipmap-mdpi" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -569,12 +582,41 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1374" height="772" extended-state="6" />
+    <frame x="1366" y="0" width="1280" height="1028" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.26136363" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.26094005" />
+      <window_info id="Structure" order="3" side_tool="true" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info id="Build Variants" order="5" side_tool="true" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="Designer" order="7" />
+      <window_info id="Resources Explorer" order="8" />
+      <window_info anchor="bottom" id="Logcat" order="0" sideWeight="0.49920127" weight="0.43650794" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.47142857" />
+      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.5609481" />
+      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5030257" side_tool="true" weight="0.3" />
+      <window_info anchor="bottom" id="Version Control" order="5" weight="0.32698414" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4969743" weight="0.18171558" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.5090293" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.32659933" />
+      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" weight="0.32980332" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Assistant" order="5" weight="0.3287879" />
+      <window_info anchor="right" id="Preview" order="6" weight="0.18962723" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info id="Capture Tool" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.26094005" />
       <window_info id="Structure" order="3" side_tool="true" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="Build Variants" order="5" side_tool="true" />
@@ -587,9 +629,9 @@
       <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.5619048" />
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5030257" side_tool="true" weight="0.3" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.32698414" />
-      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4969743" weight="0.18253969" />
-      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.5095238" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.4969743" weight="0.18171558" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.5090293" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.32659933" />
       <window_info anchor="bottom" id="Messages" order="10" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -598,61 +640,10 @@
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="right" id="Assistant" order="5" weight="0.3287879" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.19015151" />
-    </layout>
+      <window_info anchor="right" id="Preview" order="6" weight="0.18962723" />
+    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/PopupHelper.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#58#533#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_lessons.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="47" lean-forward="true" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/section_action.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/UserButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/interfaces/ILesson.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/FlipAnimation.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/asusuigbo/frank/asusuigbo/ExampleInstrumentedTest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="18" column="25" lean-forward="true" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -664,8 +655,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_dict.xml">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
@@ -699,12 +690,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_lesson_completed.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -737,44 +728,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="82" lean-forward="true" selection-start-line="2" selection-start-column="82" selection-end-line="2" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/LessonInfo.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#57#400#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
-          <folding>
-            <element signature="e#48#710#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -786,21 +743,18 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_single_select_layout.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="339">
           <caret line="25" column="43" lean-forward="true" selection-start-line="17" selection-start-column="3" selection-end-line="25" selection-end-column="43" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/custom_launcher_round.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/hourglass.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_close.png">
       <provider selected="true" editor-type-id="images" />
@@ -823,108 +777,205 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/congratulations.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/team.png">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_man2.jpg" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_woman.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1158">
-          <caret line="57" column="54" lean-forward="true" selection-start-line="57" selection-start-column="54" selection-end-line="57" selection-end-column="54" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_man2.jpg">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_choice_man.jpg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_woman.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_choice_man.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_image_choice_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="24" column="25" lean-forward="true" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="53" column="71" lean-forward="true" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
-          <folding>
-            <element signature="e#39#1026#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_multi_select_layout.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="24" lean-forward="true" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
       <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="37" column="52" selection-start-line="37" selection-start-column="52" selection-end-line="37" selection-end-column="52" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_lesson.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="56" column="47" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="47" />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+        <state relative-caret-position="202">
+          <caret line="45" column="30" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/helpers/ItemOffsetDecoration.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        <state relative-caret-position="189">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
           <folding>
-            <element signature="e#48#401#0" expanded="true" />
+            <element signature="e#47#126#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/OptionInfo.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimen.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="11" lean-forward="true" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/bgd_image_choice.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/TableOfContentHelper.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="47" column="82" selection-start-line="47" selection-start-column="67" selection-end-line="47" selection-end-column="82" />
+          <folding>
+            <element signature="e#57#400#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/team.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/hourglass.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/component_img_choice_options.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="51" lean-forward="true" selection-start-line="4" selection-start-column="51" selection-end-line="4" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="19" column="48" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/LessonInfoAdapter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="72" column="82" selection-start-line="72" selection-start-column="61" selection-end-line="72" selection-end-column="82" />
+          <folding>
+            <element signature="e#48#710#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_image_choice_layout.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="33" lean-forward="true" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/shake_animation.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="33" lean-forward="true" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/WrittenTextViewAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="534">
+          <caret line="39" column="61" lean-forward="true" selection-start-line="39" selection-start-column="61" selection-end-line="39" selection-end-column="61" />
           <folding>
             <element signature="e#48#378#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/BuildSentenceViewAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-945">
-          <caret line="79" column="109" selection-start-line="79" selection-start-column="109" selection-end-line="79" selection-end-column="109" />
+        <state relative-caret-position="646">
+          <caret line="51" column="29" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="29" />
           <folding>
-            <element signature="e#58#631#0" expanded="true" />
+            <element signature="e#48#401#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/SingleSelectViewAdapter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#48#420#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImageChoiceViewAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405">
-          <caret line="6" column="51" lean-forward="true" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+        <state relative-caret-position="210">
+          <caret line="11" column="74" lean-forward="true" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
+          <folding>
+            <element signature="e#48#346#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/ImgChoiceOptionsAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="126">
+          <caret line="6" column="29" lean-forward="true" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/connection/helpers/DataLoader.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2153">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="e#58#755#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/LessonActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="175" column="45" selection-start-line="175" selection-start-column="45" selection-end-line="175" selection-end-column="45" />
+          <folding>
+            <element signature="e#39#1095#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

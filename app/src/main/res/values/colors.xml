@@ -18,4 +18,5 @@
     <color name="progressBackgroundColor">#b9f6ca</color>
     <color name="greenLightShade">#43a047</color>
     <color name="greenDarkShade">#1b5e20</color>
+    <color name="selectedImgChoiceOption">#e3f2fd</color>
 </resources>
