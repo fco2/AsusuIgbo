@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.connection.helpers
+package com.asusuigbo.frank.asusuigbo.helpers
 
 import android.content.Context
 import android.graphics.Point
@@ -30,7 +30,12 @@ class PopupHelper {
                     ViewGroup.LayoutParams.WRAP_CONTENT)
             popUpWindow.elevation = 10.0f
             val popUpTextResult = customView.findViewById<TextView>(R.id.popup_text_result_id)
-            this.stylePopUp(popUpTextResult, customView, lessonActivity, isCorrectAnswer)
+            stylePopUp(
+                popUpTextResult,
+                customView,
+                lessonActivity,
+                isCorrectAnswer
+            )
             popUpWindow.showAtLocation(lessonActivity.lessonsLayout, Gravity.BOTTOM, 0, 500)
             return popUpWindow
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,11 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
 
     override fun getItemCount(): Int = optionList.size
 
+    override fun getItemId(position: Int): Long {
+        super.getItemId(position)
+        return position.toLong()
+    }
+
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.imgChoiceText.text = optionList[position].Option
         val resourceId: Int = getResourceId(position)
@@ -59,8 +65,7 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             holder.imgChoiceCardView.background.colorFilter = filter
             holder.imgChoiceImg.colorFilter = filter
             //enable button click and set buttonState
-            lessonActivity.button!!.isEnabled = true
-            lessonActivity.buttonState = UserButton.AnswerSelected
+            lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             lessonActivity.selectedAnswer = optionList[position].Option
         }
     }

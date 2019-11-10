@@ -20,10 +20,7 @@ class WrittenTextView(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
-        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-        this.writtenTextLayout.visibility = View.VISIBLE
+        lessonActivity.viewDisplayManager("WrittenText")
         lessonActivity.selectedAnswer = ""
         this.writtenTextQuestion.text = lessonActivity.dataList[0].Question
         this.writtenTextAnswer.text.clear()
@@ -38,8 +35,7 @@ class WrittenTextView(private val lessonActivity: LessonActivity) {
         this.writtenTextAnswer.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 lessonActivity.selectedAnswer = p0.toString()
-                lessonActivity.buttonState = UserButton.AnswerSelected
-                lessonActivity.button!!.isEnabled = lessonActivity.selectedAnswer.trim().isNotEmpty()
+                lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

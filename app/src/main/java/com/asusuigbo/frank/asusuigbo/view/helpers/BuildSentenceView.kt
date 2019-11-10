@@ -25,9 +25,7 @@ class BuildSentenceView(private val lessonActivity: LessonActivity) {
 
     private fun initializeViewClickListener(){
         this.textViewClickListener = View.OnClickListener { v ->
-            if(!lessonActivity.button!!.isEnabled)
-                lessonActivity.button!!.isEnabled = true
-            lessonActivity.buttonState = UserButton.AnswerSelected
+            lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
 
             if(this.destFlexBoxLayout!!.indexOfChild(v) == -1){
                 this.sourceFlexBoxLayout!!.removeView(v)
@@ -42,10 +40,7 @@ class BuildSentenceView(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-        this.multiSelectLayout.visibility = View.VISIBLE
+        lessonActivity.viewDisplayManager("MultiSelect")
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
         this.sourceFlexBoxLayout!!.removeAllViews()
         this.destFlexBoxLayout!!.removeAllViews()

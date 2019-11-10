@@ -11,7 +11,7 @@ import com.asusuigbo.frank.asusuigbo.view.helpers.ImageChoiceView
 import com.asusuigbo.frank.asusuigbo.view.helpers.SingleSelectView
 import com.asusuigbo.frank.asusuigbo.view.helpers.WrittenTextView
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
-import com.asusuigbo.frank.asusuigbo.connection.helpers.PopupHelper
+import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
@@ -35,7 +35,7 @@ class LessonActivity : AppCompatActivity() {
     var button: Button? = null
     private var popUpWindow: PopupWindow? = null
     lateinit var currentQuestion: QuestionGroup
-    var buttonState: UserButton = UserButton.AnswerNotSelected
+    private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
     private var lessonCount = 0
@@ -85,7 +85,7 @@ class LessonActivity : AppCompatActivity() {
     private fun answerQuestion(){
         this.currentQuestion = this.dataList.removeAt(0)
         disableOptions()
-        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, isCorrectAnswer())
+        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, this.isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
             this.dataList.add(this.currentQuestion)
@@ -113,12 +113,14 @@ class LessonActivity : AppCompatActivity() {
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
                 this.imgChoiceView.disableOptions()
             }
-            else -> this.writtenTextView.disableOptions()
+            this.currentQuestion.LessonFormat == "WrittenText" -> {
+                this.writtenTextView.disableOptions()
+            }
+            else -> return
         }
     }
 
     private fun updateOptions(){
-        Toast.makeText(this, "Lesson: ${this.dataList[0].LessonFormat}", Toast.LENGTH_LONG).show()
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
                 this.singleSelectView.updateOptions()
@@ -129,10 +131,22 @@ class LessonActivity : AppCompatActivity() {
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
                 this.imgChoiceView.updateOptions()
             }
-            else -> {
+            this.currentQuestion.LessonFormat == "WrittenText" -> {
                 this.writtenTextView.updateOptions()
             }
+            else -> return
         }
+    }
+
+    fun viewDisplayManager(givenView: String = "SingleSelect"){
+        this.buildSentenceView.multiSelectLayout.visibility =
+            if(givenView == "MultiSelect") View.VISIBLE else View.GONE
+        this.writtenTextView.writtenTextLayout.visibility =
+            if(givenView == "WrittenText") View.VISIBLE else View.GONE
+        this.imgChoiceView.imgChoiceLayout.visibility =
+            if(givenView == "ImageSelect") View.VISIBLE else View.GONE
+        this.singleSelectView.singleSelectLayout.visibility =
+            if(givenView == "SingleSelect") View.VISIBLE else View.GONE
     }
 
     private fun setProgressBarStatus(){
@@ -182,7 +196,7 @@ class LessonActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button!!.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button!!.text = getString(buttonText)
         this.buttonState = buttonState

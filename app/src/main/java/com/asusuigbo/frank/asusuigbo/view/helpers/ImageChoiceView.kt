@@ -21,12 +21,9 @@ class ImageChoiceView(private val lessonActivity: LessonActivity) {
     }
 
     fun updateOptions(){
-        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
+        lessonActivity.viewDisplayManager("ImageSelect")
         this.imgChoiceQuestion.text = lessonActivity.dataList[0].Question
         DataLoader.setUpImageChoiceView(lessonActivity)
-        this.imgChoiceLayout.visibility = View.VISIBLE
         lessonActivity.selectedAnswer = ""
     }
 

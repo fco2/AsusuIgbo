@@ -47,40 +47,30 @@ class DataLoader {
 
                     when {
                         lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
-                            lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-                            lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-                            lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-                            lessonActivity.singleSelectView.singleSelectLayout.visibility = View.VISIBLE
+                            lessonActivity.viewDisplayManager()
                             lessonActivity.singleSelectView.singleQuestionTextView.text =
                                 lessonActivity.dataList[0].Question
                             buildRadioGroupContent(lessonActivity)
                         }
                         lessonActivity.dataList[0].LessonFormat == "MultiSelect" -> {
-                            lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
-                            lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-                            lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-                            lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.VISIBLE
+                            lessonActivity.viewDisplayManager("MultiSelect")
                             lessonActivity.buildSentenceView.multiQuestionTextView.text =
                                 lessonActivity.dataList[0].Question
                             buildFlexBoxContent(lessonActivity)
                         }
                         lessonActivity.dataList[0].LessonFormat == "ImageSelect" -> {
-                            lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-                            lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
-                            lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-                            lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.VISIBLE
-
+                            lessonActivity.viewDisplayManager("ImageSelect")
                             lessonActivity.imgChoiceView.imgChoiceQuestion.text =
                                 lessonActivity.dataList[0].Question
                             setUpImageChoiceView(lessonActivity)
                         }
-                        else -> {
-                            lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-                            lessonActivity.singleSelectView.singleSelectLayout.visibility = View.GONE
-                            lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-                            lessonActivity.writtenTextView.writtenTextLayout.visibility = View.VISIBLE
+                        lessonActivity.dataList[0].LessonFormat == "WrittenText" -> {
+                            lessonActivity.viewDisplayManager("WrittenText")
                             lessonActivity.writtenTextView.writtenTextQuestion.text =
                                 lessonActivity.dataList[0].Question
+                        }
+                        else -> {
+                            return
                         }
                     }
 
@@ -103,6 +93,7 @@ class DataLoader {
 
         fun buildRadioGroupContent(lessonActivity: LessonActivity){
             val rg = lessonActivity.activity.findViewById<RadioGroup>(R.id.radio_group_id)
+            rg.clearCheck()
             for((index,item) in lessonActivity.dataList[0].Options.withIndex()){
                 val view = RadioButton(lessonActivity.activity.applicationContext)
                 val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -141,9 +132,12 @@ class DataLoader {
         }
 
         fun setUpImageChoiceView(lessonActivity: LessonActivity){
-            lessonActivity.imgChoiceView.recyclerView.layoutManager =
-                GridLayoutManager(lessonActivity.applicationContext, 2)
-            lessonActivity.imgChoiceView.recyclerView.hasFixedSize()
+            if (lessonActivity.imgChoiceView.recyclerView.layoutManager == null){
+                lessonActivity.imgChoiceView.recyclerView.layoutManager =
+                    GridLayoutManager(lessonActivity.applicationContext, 2)
+                lessonActivity.imgChoiceView.recyclerView.hasFixedSize()
+            }
+
             //set this conditionally to prevent multiplication
             if(!lessonActivity.imgChoiceView.isItemDecoratorSet){
                 lessonActivity.imgChoiceView.recyclerView.

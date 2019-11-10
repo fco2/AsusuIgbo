@@ -1,6 +1,5 @@
 package com.asusuigbo.frank.asusuigbo.view.helpers
 
-import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
@@ -16,23 +15,22 @@ class SingleSelectView(private val lessonActivity: LessonActivity) {
     var singleSelectLayout: RelativeLayout = lessonActivity.activity.findViewById(R.id.single_select_layout_id)
 
     init{
+        //TODO: bug here...
+        this.invokeCheckedButtonListener()
+    }
 
-        val radioGroupListener = RadioGroup.OnCheckedChangeListener{ group, checkedId ->
+    private fun invokeCheckedButtonListener(){
+        radioGroup.setOnCheckedChangeListener{ group, checkedId ->
             if(group.checkedRadioButtonId != -1){ //if it is a valid checked radio button
                 val checkedRadioBtn: RadioButton = lessonActivity.activity.findViewById(checkedId)
                 lessonActivity.selectedAnswer = checkedRadioBtn.text.toString()
-                lessonActivity.buttonState = UserButton.AnswerSelected
-                lessonActivity.button!!.isEnabled = true
+                lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             }
         }
-        this.radioGroup.setOnCheckedChangeListener(radioGroupListener)
     }
 
     fun updateOptions(){
-        lessonActivity.buildSentenceView.multiSelectLayout.visibility = View.GONE
-        lessonActivity.writtenTextView.writtenTextLayout.visibility = View.GONE
-        lessonActivity.imgChoiceView.imgChoiceLayout.visibility = View.GONE
-        lessonActivity.singleSelectView.singleSelectLayout.visibility = View.VISIBLE
+        lessonActivity.viewDisplayManager()
         this.singleQuestionTextView.text = lessonActivity.dataList[0].Question
         this.radioGroup.removeAllViews()
         lessonActivity.selectedAnswer = ""
