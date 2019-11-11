@@ -6,13 +6,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import com.asusuigbo.frank.asusuigbo.view.helpers.BuildSentenceView
-import com.asusuigbo.frank.asusuigbo.view.helpers.ImageChoiceView
-import com.asusuigbo.frank.asusuigbo.view.helpers.SingleSelectView
-import com.asusuigbo.frank.asusuigbo.view.helpers.WrittenTextView
 import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
+import com.asusuigbo.frank.asusuigbo.fragments.*
 import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
-import com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
@@ -39,20 +35,15 @@ class LessonActivity : AppCompatActivity() {
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
     private var lessonCount = 0
-    lateinit var singleSelectView: SingleSelectView
-    //needs to be initialized within init{] method that is why this one is here
-    lateinit var buildSentenceView: BuildSentenceView
-    lateinit var writtenTextView: WrittenTextView
-    lateinit var  imgChoiceView: ImageChoiceView
+    val singleSelectFragment = SingleSelectFragment.getInstance(this)
+    val imgChoiceFragment = ImgChoiceFragment.getInstance(this)
+    val writtenTextFragment = WrittenTextFragment.getInstance(this)
+    val sentenceBuilder = SentenceBuilderFragment(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson)
 
-        this.singleSelectView = SingleSelectView(this)
-        this.writtenTextView = WrittenTextView(this)
-        this.buildSentenceView  = BuildSentenceView(this)
-        this.imgChoiceView = ImageChoiceView(this)
         this.button = findViewById(R.id.check_answer_button_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
@@ -105,16 +96,16 @@ class LessonActivity : AppCompatActivity() {
     private fun disableOptions(){
         when {
             this.currentQuestion.LessonFormat == "SingleSelect" -> {
-                this.singleSelectView.disableOptions()
+                singleSelectFragment.disableOptions()
             }
             this.currentQuestion.LessonFormat == "MultiSelect" -> {
-                this.buildSentenceView.disableOptions()
+                this.sentenceBuilder.disableOptions()
             }
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
-                this.imgChoiceView.disableOptions()
+                imgChoiceFragment.disableOptions()
             }
             this.currentQuestion.LessonFormat == "WrittenText" -> {
-                this.writtenTextView.disableOptions()
+                this.writtenTextFragment.disableOptions()
             }
             else -> return
         }
@@ -123,34 +114,24 @@ class LessonActivity : AppCompatActivity() {
     private fun updateOptions(){
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
-                this.singleSelectView.updateOptions()
+                singleSelectFragment.updateOptions()
             }
             this.dataList[0].LessonFormat == "MultiSelect" -> {
-                this.buildSentenceView.updateOptions()
+                this.sentenceBuilder.updateOptions()
             }
             this.currentQuestion.LessonFormat == "ImageSelect" -> {
-                this.imgChoiceView.updateOptions()
+                imgChoiceFragment.updateOptions()
             }
             this.currentQuestion.LessonFormat == "WrittenText" -> {
-                this.writtenTextView.updateOptions()
+                this.writtenTextFragment.updateOptions()
             }
             else -> return
         }
     }
 
-    fun viewDisplayManager(givenView: String = "SingleSelect"){
-        this.buildSentenceView.multiSelectLayout.visibility =
-            if(givenView == "MultiSelect") View.VISIBLE else View.GONE
-        this.writtenTextView.writtenTextLayout.visibility =
-            if(givenView == "WrittenText") View.VISIBLE else View.GONE
-        this.imgChoiceView.imgChoiceLayout.visibility =
-            if(givenView == "ImageSelect") View.VISIBLE else View.GONE
-        this.singleSelectView.singleSelectLayout.visibility =
-            if(givenView == "SingleSelect") View.VISIBLE else View.GONE
-    }
-
     private fun setProgressBarStatus(){
-        val percent: Double = (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
+        val percent: Double =
+            (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
         var result = percent.roundToInt()
         result = if(result == 0) 5 else result
         this.lessonStatusProgressBar!!.progress = result
@@ -185,9 +166,9 @@ class LessonActivity : AppCompatActivity() {
     private fun isCorrectAnswer(): Boolean{
         return when {
             this.currentQuestion.LessonFormat == "MultiSelect" -> {
-                buildSentenceView.isCorrectAnswer()
+                sentenceBuilder.isCorrectAnswer()
             }
-            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceView.isCorrectAnswer()
+            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceFragment.isCorrectAnswer()
             this.currentQuestion.LessonFormat in listOf("SingleSelect", "WrittenText") -> {
                 this.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                         this.selectedAnswer.toLowerCase(Locale.getDefault()).trim()

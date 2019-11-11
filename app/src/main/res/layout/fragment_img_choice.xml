@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ImgChoiceFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eceff1"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:fontFamily="@font/bree_serif"
+            android:textSize="18sp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="12dp"
+            android:textColor="#9e9e9e"
+            android:id="@+id/img_choice_question_id"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/img_choice_question_id"
+            android:padding="5dp"
+            android:id="@+id/img_choice_recycler_view_id">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="18sp"
+            style="@style/RoundedCornerButtonTheme"
+            android:layout_marginBottom="10dp"
+            android:text="@string/answer_button_state"
+            android:id="@+id/button_id"/>
+    </RelativeLayout>
+</FrameLayout>

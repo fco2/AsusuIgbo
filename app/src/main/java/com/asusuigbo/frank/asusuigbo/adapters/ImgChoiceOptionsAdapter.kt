@@ -8,19 +8,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.fragments.ImgChoiceFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 
 class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
-                              private val lessonActivity: LessonActivity):
+                              private val fragment: ImgChoiceFragment):
             Adapter<ImgChoiceOptionsAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -52,27 +51,27 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
         holder.imgChoiceImg.setImageResource(resourceId)
         holder.imgChoiceCardView.setOnClickListener {
             //remove color filter for all items
-            for(i in 0 until lessonActivity.imgChoiceView.recyclerView.childCount){
-                val view: View = lessonActivity.imgChoiceView.recyclerView.getChildAt(i)
+            for(i in 0 until fragment.recyclerView.childCount){
+                val view: View = fragment.recyclerView.getChildAt(i)
                 view.background.clearColorFilter()
                 val image = view.findViewById<ImageView>(R.id.img_choice_img)
                 image.clearColorFilter()
             }
             //add color filter for selected item, both RelativeLayout and imageView
-            val overlayColor = ContextCompat.getColor(lessonActivity.applicationContext,
+            val overlayColor = ContextCompat.getColor(fragment.lessonActivity.applicationContext,
                 R.color.selectedImgChoiceOption)
             val filter = PorterDuffColorFilter(overlayColor, PorterDuff.Mode.MULTIPLY)
             holder.imgChoiceCardView.background.colorFilter = filter
             holder.imgChoiceImg.colorFilter = filter
             //enable button click and set buttonState
-            lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
-            lessonActivity.selectedAnswer = optionList[position].Option
+            fragment.lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            fragment.lessonActivity.selectedAnswer = optionList[position].Option
         }
     }
 
     private fun getResourceId(position: Int): Int {
         val imgName = optionList[position].AdditionalInfo
-        val context = lessonActivity.applicationContext
+        val context = fragment.lessonActivity.applicationContext
         return context.resources.getIdentifier(imgName, "mipmap", context.packageName)
     }
 

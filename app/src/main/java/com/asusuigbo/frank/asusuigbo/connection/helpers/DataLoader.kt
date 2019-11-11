@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ImgChoiceOptionsAdapter
+import com.asusuigbo.frank.asusuigbo.fragments.ImgChoiceFragment
+import com.asusuigbo.frank.asusuigbo.fragments.SentenceBuilderFragment
+import com.asusuigbo.frank.asusuigbo.fragments.SingleSelectFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.android.flexbox.FlexboxLayout
@@ -45,28 +48,29 @@ class DataLoader {
                     }
                     lessonActivity.dataListSize = lessonActivity.dataList.size
 
+                    //TODO: will refactor all these
                     when {
                         lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
-                            lessonActivity.viewDisplayManager()
-                            lessonActivity.singleSelectView.singleQuestionTextView.text =
+                            //TODO: refactor
+                            lessonActivity.singleSelectFragment.singleQuestionTextView.text =
                                 lessonActivity.dataList[0].Question
-                            buildRadioGroupContent(lessonActivity)
+                            buildRadioGroupContent(lessonActivity.singleSelectFragment)
                         }
                         lessonActivity.dataList[0].LessonFormat == "MultiSelect" -> {
-                            lessonActivity.viewDisplayManager("MultiSelect")
-                            lessonActivity.buildSentenceView.multiQuestionTextView.text =
+                            //lessonActivity.viewDisplayManager("MultiSelect")
+                            lessonActivity.sentenceBuilder.multiQuestionTextView.text =
                                 lessonActivity.dataList[0].Question
-                            buildFlexBoxContent(lessonActivity)
+                            buildFlexBoxContent(lessonActivity.sentenceBuilder)
                         }
                         lessonActivity.dataList[0].LessonFormat == "ImageSelect" -> {
-                            lessonActivity.viewDisplayManager("ImageSelect")
-                            lessonActivity.imgChoiceView.imgChoiceQuestion.text =
+                            //lessonActivity.viewDisplayManager("ImageSelect")
+                            lessonActivity.imgChoiceFragment.imgChoiceQuestion.text =
                                 lessonActivity.dataList[0].Question
-                            setUpImageChoiceView(lessonActivity)
+                            setUpImageChoiceView(lessonActivity.imgChoiceFragment)
                         }
                         lessonActivity.dataList[0].LessonFormat == "WrittenText" -> {
-                            lessonActivity.viewDisplayManager("WrittenText")
-                            lessonActivity.writtenTextView.writtenTextQuestion.text =
+                            //lessonActivity.viewDisplayManager("WrittenText")
+                            lessonActivity.writtenTextFragment.writtenTextQuestion.text =
                                 lessonActivity.dataList[0].Question
                         }
                         else -> {
@@ -91,21 +95,21 @@ class DataLoader {
             })
         }
 
-        fun buildRadioGroupContent(lessonActivity: LessonActivity){
-            val rg = lessonActivity.activity.findViewById<RadioGroup>(R.id.radio_group_id)
+        fun buildRadioGroupContent(fragment: SingleSelectFragment){
+            val rg = fragment.lessonActivity.findViewById<RadioGroup>(R.id.radio_group_id)
             rg.clearCheck()
-            for((index,item) in lessonActivity.dataList[0].Options.withIndex()){
-                val view = RadioButton(lessonActivity.activity.applicationContext)
+            for((index,item) in fragment.lessonActivity.dataList[0].Options.withIndex()){
+                val view = RadioButton(fragment.lessonActivity.applicationContext)
                 val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)
                 view.layoutParams = params
                 view.text = item.Option
                 view.buttonTintList = ContextCompat.
-                        getColorStateList(lessonActivity.activity.applicationContext, R.color.colorGrey)
+                        getColorStateList(fragment.lessonActivity.applicationContext, R.color.colorGrey)
                 TextViewCompat.setTextAppearance(view, R.style.FontForRadioButton)
                 view.background = ContextCompat.
-                        getDrawable(lessonActivity.activity.applicationContext, R.drawable.option_background)
+                        getDrawable(fragment.lessonActivity.applicationContext, R.drawable.option_background)
                 view.setPadding(25,25,25,25)
                 view.isClickable = true
                 view.tag = index
@@ -113,39 +117,40 @@ class DataLoader {
             }
         }
 
-        fun buildFlexBoxContent(lessonActivity: LessonActivity) {
-            for((index, item: OptionInfo) in lessonActivity.dataList[0].Options.withIndex()){
-                val view = TextView(lessonActivity.activity.applicationContext)
+        fun buildFlexBoxContent(fragment: SentenceBuilderFragment) {
+            for((index, item: OptionInfo) in fragment.lessonActivity.dataList[0].Options.withIndex()){
+                val view = TextView(fragment.lessonActivity.applicationContext)
                 val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(10,10,10,10)
                 view.layoutParams = params
                 view.text = item.Option
                 TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-                view.background = ContextCompat.getDrawable(lessonActivity.activity.applicationContext, R.drawable.word_background)
+                view.background = ContextCompat.getDrawable(fragment.lessonActivity.applicationContext,
+                    R.drawable.word_background)
                 view.setPadding(25,25,25,25)
                 view.isClickable = true
                 view.tag = index
-                view.setOnClickListener(lessonActivity.buildSentenceView.textViewClickListener)
-                val sourceFlexBoxLayout: FlexboxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
+                view.setOnClickListener(fragment.textViewClickListener)
+                val sourceFlexBoxLayout: FlexboxLayout =
+                    fragment.lessonActivity.findViewById(R.id.flexbox_source_id)
                 sourceFlexBoxLayout.addView(view)
             }
         }
 
-        fun setUpImageChoiceView(lessonActivity: LessonActivity){
-            if (lessonActivity.imgChoiceView.recyclerView.layoutManager == null){
-                lessonActivity.imgChoiceView.recyclerView.layoutManager =
-                    GridLayoutManager(lessonActivity.applicationContext, 2)
-                lessonActivity.imgChoiceView.recyclerView.hasFixedSize()
+        fun setUpImageChoiceView(fragment: ImgChoiceFragment){
+            if (fragment.recyclerView.layoutManager == null){
+                fragment.recyclerView.layoutManager =
+                    GridLayoutManager(fragment.lessonActivity, 2)
+                fragment.recyclerView.hasFixedSize()
             }
 
             //set this conditionally to prevent multiplication
-            if(!lessonActivity.imgChoiceView.isItemDecoratorSet){
-                lessonActivity.imgChoiceView.recyclerView.
-                    addItemDecoration(lessonActivity.imgChoiceView.itemOffsetDecoration)
-                lessonActivity.imgChoiceView.isItemDecoratorSet = true
+            if(!fragment.isItemDecoratorSet){
+                fragment.recyclerView.addItemDecoration(fragment.itemOffsetDecoration)
+                fragment.isItemDecoratorSet = true
             }
-            val adapter = ImgChoiceOptionsAdapter(lessonActivity.dataList[0].Options, lessonActivity)
-            lessonActivity.imgChoiceView.recyclerView.adapter = adapter
+            val adapter = ImgChoiceOptionsAdapter(fragment.lessonActivity.dataList[0].Options, fragment)
+            fragment.recyclerView.adapter = adapter
         }
     }
 }
