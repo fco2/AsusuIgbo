@@ -28,30 +28,31 @@ class LessonActivity : AppCompatActivity() {
     var requestedLesson: String = ""
     var activity: Activity = this
     var lessonsLayout: RelativeLayout? = null
-    var button: Button? = null
     private var popUpWindow: PopupWindow? = null
     lateinit var currentQuestion: QuestionGroup
-    private var buttonState: UserButton = UserButton.AnswerNotSelected
+    var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
     private var lessonCount = 0
-    val singleSelectFragment = SingleSelectFragment.getInstance(this)
-    val imgChoiceFragment = ImgChoiceFragment.getInstance(this)
-    val writtenTextFragment = WrittenTextFragment.getInstance(this)
-    val sentenceBuilder = SentenceBuilderFragment(this)
+    lateinit var singleSelectFragment: SingleSelectFragment
+    private lateinit var imgChoiceFragment: ImgChoiceFragment//ImgChoiceFragment.getInstance(this)
+    private lateinit var writtenTextFragment: WrittenTextFragment
+    private lateinit var sentenceBuilder: SentenceBuilderFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson)
 
-        this.button = findViewById(R.id.check_answer_button_id)
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
         this.lessonsLayout = findViewById(R.id.lessons_layout_id)
+        this.imgChoiceFragment = ImgChoiceFragment(this)
+        this.singleSelectFragment = SingleSelectFragment(this)
+        this.writtenTextFragment = WrittenTextFragment(this)
+        this.sentenceBuilder = SentenceBuilderFragment(this)
         this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
         DataLoader.populateList(this)
-        this.button!!.setOnClickListener(buttonClickListener)
     }
 
     private fun setLessonData(){
@@ -59,7 +60,7 @@ class LessonActivity : AppCompatActivity() {
         this.lessonCount = intent.getIntExtra("LESSON_COUNT", 0)
     }
 
-    private val buttonClickListener = View.OnClickListener {
+    fun executeButtonAction() {
         when(this.buttonState){
             UserButton.AnswerSelected -> {
                 answerQuestion()
@@ -71,6 +72,27 @@ class LessonActivity : AppCompatActivity() {
                 finishQuiz()
             }
         }
+    }
+
+    fun navigateToFragment(fragmentName: String){
+        val fragmentManager = supportFragmentManager
+        val ft = fragmentManager.beginTransaction()
+        when(fragmentName){
+            "SingleSelect" -> {
+                ft.replace(R.id.frame_layout_id, singleSelectFragment)
+            }
+            "MultiSelect" -> {
+                ft.replace(R.id.frame_layout_id, sentenceBuilder)
+            }
+            "ImageSelect" -> {
+                ft.replace(R.id.frame_layout_id, imgChoiceFragment)
+            }
+            "WrittenText" -> {
+                ft.replace(R.id.frame_layout_id, writtenTextFragment)
+            }
+            else -> ft.replace(R.id.frame_layout_id, singleSelectFragment)
+        }
+        ft.commit()
     }
 
     private fun answerQuestion(){
@@ -89,10 +111,12 @@ class LessonActivity : AppCompatActivity() {
     private fun nextQuestion(){
         this.popUpWindow!!.dismiss()
         this.updateOptions()
-        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        //TODO: fix here..
+        //this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         setProgressBarStatus()
     }
 
+    //TODO: think of using interface for comon functions...
     private fun disableOptions(){
         when {
             this.currentQuestion.LessonFormat == "SingleSelect" -> {
@@ -164,12 +188,12 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun isCorrectAnswer(): Boolean{
-        return when {
-            this.currentQuestion.LessonFormat == "MultiSelect" -> {
+        return when(this.currentQuestion.LessonFormat) {
+            "MultiSelect" -> {
                 sentenceBuilder.isCorrectAnswer()
             }
-            this.currentQuestion.LessonFormat == "ImageSelect" -> imgChoiceFragment.isCorrectAnswer()
-            this.currentQuestion.LessonFormat in listOf("SingleSelect", "WrittenText") -> {
+            "ImageSelect" -> imgChoiceFragment.isCorrectAnswer()
+            in listOf("SingleSelect", "WrittenText") -> {
                 this.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                         this.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
             }
@@ -177,9 +201,27 @@ class LessonActivity : AppCompatActivity() {
         }
     }
 
-    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
-        this.button!!.isEnabled = buttonState != UserButton.AnswerNotSelected
-        this.button!!.text = getString(buttonText)
-        this.buttonState = buttonState
+    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+        //this is because for the next question, we need to look ahead to next question.
+        val questionFormat = if (buttonState == UserButton.AnswerNotSelected)
+            this.dataList[0].LessonFormat
+        else
+            this.currentQuestion.LessonFormat
+
+        when(questionFormat){
+            "SingleSelect" -> {
+                singleSelectFragment.setUpButtonStateAndText(buttonState, buttonText)
+            }
+            "MultiSelect" -> {
+                this.sentenceBuilder.setUpButtonStateAndText(buttonState, buttonText)
+            }
+            "ImageSelect" -> {
+                imgChoiceFragment.setUpButtonStateAndText(buttonState, buttonText)
+            }
+            "WrittenText" -> {
+                this.writtenTextFragment.setUpButtonStateAndText(buttonState, buttonText)
+            }
+            else -> return
+        }
     }
 }

@@ -88,6 +88,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:textSize="18sp"
+            android:enabled="false"
             style="@style/RoundedCornerButtonTheme"
             android:layout_marginBottom="10dp"
             android:text="@string/answer_button_state"

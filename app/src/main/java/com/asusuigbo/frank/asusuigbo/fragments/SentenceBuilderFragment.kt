@@ -2,40 +2,47 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LessonActivity
-
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
+import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 
 /**
  * A simple [Fragment] subclass.
  */
-class SentenceBuilderFragment(var lessonActivity: LessonActivity) : Fragment() {
+class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Fragment() {
 
     private lateinit var button: Button
     var textViewClickListener = View.OnClickListener{}
-    var multiQuestionTextView: TextView = lessonActivity.activity.findViewById(R.id.multi_question_id)
-    private var sourceFlexBoxLayout: FlexboxLayout? = null
-    private var destFlexBoxLayout: FlexboxLayout? = null
+    lateinit var multiQuestionTextView: TextView
+    private lateinit var sourceFlexBoxLayout: FlexboxLayout
+    private lateinit var destFlexBoxLayout: FlexboxLayout
     private var selectedSentence: ArrayList<Int> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_sentence_builder, container, false)
         button = view.findViewById(R.id.button_id)
+        this.multiQuestionTextView = view.findViewById(R.id.multi_question_id)
+        this.sourceFlexBoxLayout = view.findViewById(R.id.flexbox_source_id)
+        this.destFlexBoxLayout = view.findViewById(R.id.flexbox_destination_id)
+        this.initializeViewClickListener()
         button.setOnClickListener(buttonClickListener)
+
+        this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
+        this.buildFlexBoxContent()
+
         return view
     }
 
@@ -46,38 +53,32 @@ class SentenceBuilderFragment(var lessonActivity: LessonActivity) : Fragment() {
     }
 
     private val buttonClickListener = View.OnClickListener {
-        //testDictActivity.toggleFragment("B")
-    }
-
-    init{
-        this.sourceFlexBoxLayout = lessonActivity.activity.findViewById(R.id.flexbox_source_id)
-        this.destFlexBoxLayout = lessonActivity.activity.findViewById(R.id.flexbox_destination_id)
-        this.initializeViewClickListener()
+        lessonActivity.executeButtonAction()
     }
 
     private fun initializeViewClickListener(){
         this.textViewClickListener = View.OnClickListener { v ->
-            lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
 
-            if(this.destFlexBoxLayout!!.indexOfChild(v) == -1){
-                this.sourceFlexBoxLayout!!.removeView(v)
-                this.destFlexBoxLayout!!.addView(v)
+            if(this.destFlexBoxLayout.indexOfChild(v) == -1){
+                this.sourceFlexBoxLayout.removeView(v)
+                this.destFlexBoxLayout.addView(v)
                 this.selectedSentence.add(v.tag as Int)
             }else{
-                this.destFlexBoxLayout!!.removeView(v)
-                this.sourceFlexBoxLayout!!.addView(v)
+                this.destFlexBoxLayout.removeView(v)
+                this.sourceFlexBoxLayout.addView(v)
                 this.selectedSentence.remove(v.tag as Int)
             }
         }
     }
 
     fun updateOptions(){
-        //lessonActivity.viewDisplayManager("MultiSelect")
+        lessonActivity.navigateToFragment("MultiSelect")
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
-        this.sourceFlexBoxLayout!!.removeAllViews()
-        this.destFlexBoxLayout!!.removeAllViews()
+        this.sourceFlexBoxLayout.removeAllViews()
+        this.destFlexBoxLayout.removeAllViews()
         this.selectedSentence.clear()
-        DataLoader.buildFlexBoxContent(this)
+        this.buildFlexBoxContent()
     }
 
     fun disableOptions(){
@@ -105,4 +106,30 @@ class SentenceBuilderFragment(var lessonActivity: LessonActivity) : Fragment() {
         return sb.toString().trim()
     }
 
+    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+        this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
+        this.button.text = getString(buttonText)
+        lessonActivity.buttonState = buttonState
+    }
+
+    private fun buildFlexBoxContent() {
+        for((index, item: OptionInfo) in this.lessonActivity.dataList[0].Options.withIndex()){
+            val view = TextView(this.lessonActivity.applicationContext)
+            val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+            params.setMargins(10,10,10,10)
+            view.layoutParams = params
+            view.text = item.Option
+            TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
+            view.background = ContextCompat.getDrawable(this.lessonActivity.applicationContext,
+                R.drawable.word_background)
+            view.setPadding(25,25,25,25)
+            view.isClickable = true
+            view.tag = index
+            view.setOnClickListener(this.textViewClickListener)
+            val sourceFlexBoxLayout: FlexboxLayout =
+                this.lessonActivity.findViewById(R.id.flexbox_source_id)
+            sourceFlexBoxLayout.addView(view)
+        }
+    }
 }

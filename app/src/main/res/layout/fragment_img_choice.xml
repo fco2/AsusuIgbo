@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/img_choice_question_id"
+            android:layout_above="@id/button_id"
             android:padding="5dp"
             android:id="@+id/img_choice_recycler_view_id">
         </androidx.recyclerview.widget.RecyclerView>
@@ -37,7 +38,9 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:textSize="18sp"
+            android:enabled="false"
             style="@style/RoundedCornerButtonTheme"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/answer_button_state"
             android:id="@+id/button_id"/>

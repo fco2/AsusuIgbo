@@ -64,7 +64,7 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             holder.imgChoiceCardView.background.colorFilter = filter
             holder.imgChoiceImg.colorFilter = filter
             //enable button click and set buttonState
-            fragment.lessonActivity.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            fragment.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             fragment.lessonActivity.selectedAnswer = optionList[position].Option
         }
     }
