@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/written_text_question_id"
+            android:layout_above="@id/button_id"
             android:layout_margin="15dp"
             android:textColor="#757575"
             android:fontFamily="@font/andika"

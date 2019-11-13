@@ -14,7 +14,9 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.models.UserButton
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -43,6 +45,11 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        setUpView()
+    }
+
     companion object{
         fun getInstance(lessonActivity: LessonActivity): SingleSelectFragment{
             return SingleSelectFragment(lessonActivity)
@@ -50,8 +57,71 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
     }
 
     private val buttonClickListener = View.OnClickListener {
-        lessonActivity.executeButtonAction()
+        this.executeButtonAction()
     }
+
+    //TODO------ experimenting brute force design --------------
+    private fun executeButtonAction() {
+        when(lessonActivity.buttonState){
+            UserButton.AnswerSelected -> {
+                answerQuestion()
+            }
+            UserButton.NextQuestion -> {
+                //TODO: here, call lessonActivity to switch fragments
+                //nextQuestion()
+                lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
+            }
+            else -> {
+                //TODO: here call lesson activity to switch fragments to finish quiz
+                //finishQuiz()
+                lessonActivity.navigateToFragment()
+            }
+        }
+    }
+
+    private fun answerQuestion(){
+        lessonActivity.currentQuestion = lessonActivity.dataList.removeAt(0)
+        disableOptions()
+        lessonActivity.popUpWindow =
+            PopupHelper.displaySelectionInPopUp(lessonActivity, this.isCorrectAnswer())
+
+        if(!this.isCorrectAnswer())
+            lessonActivity.dataList.add(lessonActivity.currentQuestion)
+        if(lessonActivity.dataList.size > 0)
+            this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
+        else
+            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
+    }
+
+    private fun isCorrectAnswer(): Boolean {
+        return lessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                lessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
+    }
+
+    private fun setUpView(){
+        if(lessonActivity.popUpWindow != null)
+            lessonActivity.popUpWindow!!.dismiss()
+        this.updateOptions()
+        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        lessonActivity.setProgressBarStatus()
+    }
+
+    private fun updateOptions(){
+        //lessonActivity.navigateToFragment("SingleSelect")
+        this.singleQuestionTextView!!.text = lessonActivity.dataList[0].Question
+        this.radioGroup.removeAllViews()
+        lessonActivity.selectedAnswer = ""
+        this.buildRadioGroupContent()
+    }
+
+    private fun disableOptions(){
+        for(index in 0 until this.radioGroup.childCount){
+            val v = this.radioGroup.getChildAt(index)
+            v.isEnabled = false
+        }
+    }
+
+    //TODo------- end brute force -------
 
     private fun invokeCheckedButtonListener(){
         radioGroup.setOnCheckedChangeListener{ group, checkedId ->
@@ -63,21 +133,6 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
         }
     }
 
-    fun updateOptions(){
-        lessonActivity.navigateToFragment("SingleSelect")
-        this.singleQuestionTextView!!.text = lessonActivity.dataList[0].Question
-        this.radioGroup.removeAllViews()
-        lessonActivity.selectedAnswer = ""
-        this.buildRadioGroupContent()
-    }
-
-    fun disableOptions(){
-        for(index in 0 until this.radioGroup.childCount){
-            val v = this.radioGroup.getChildAt(index)
-            v.isEnabled = false
-        }
-    }
-
     fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
@@ -85,8 +140,8 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
     }
 
     private fun buildRadioGroupContent(){
-        val rg = this.view!!.findViewById<RadioGroup>(R.id.radio_group_id)
-        rg.clearCheck()
+        //Attempt to invoke virtual method 'void android.widget.RadioGroup.clearCheck()' on a null object reference
+        this.radioGroup.clearCheck() // <--
         for((index,item) in this.lessonActivity.dataList[0].Options.withIndex()){
             val view = RadioButton(this.lessonActivity.applicationContext)
             val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -102,7 +157,7 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
             view.setPadding(25,25,25,25)
             view.isClickable = true
             view.tag = index
-            rg.addView(view)
+            this.radioGroup.addView(view)
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
@@ -46,6 +47,11 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        setUpView()
+    }
+
     companion object{
         fun getInstance(lessonActivity: LessonActivity): SentenceBuilderFragment{
             return SentenceBuilderFragment(lessonActivity)
@@ -53,8 +59,55 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
     }
 
     private val buttonClickListener = View.OnClickListener {
-        lessonActivity.executeButtonAction()
+        this.executeButtonAction()
     }
+
+    //TODO----- experimenting brute force approach -----------
+    private fun executeButtonAction() {
+        when(lessonActivity.buttonState){
+            UserButton.AnswerSelected -> {
+                answerQuestion()
+            }
+            UserButton.NextQuestion -> {
+                //TODO: here, call lessonActivity to switch fragments
+                //nextQuestion()
+                lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
+            }
+            else -> {
+                //TODO: here call lesson activity to switch fragments to finish quiz
+                //finishQuiz()
+                lessonActivity.navigateToFragment()
+            }
+        }
+    }
+
+    private fun answerQuestion(){
+        lessonActivity.currentQuestion = lessonActivity.dataList.removeAt(0)
+        disableOptions()
+        lessonActivity.popUpWindow =
+            PopupHelper.displaySelectionInPopUp(lessonActivity, this.isCorrectAnswer())
+
+        if(!this.isCorrectAnswer())
+            lessonActivity.dataList.add(lessonActivity.currentQuestion)
+        if(lessonActivity.dataList.size > 0)
+            this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
+        else
+            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
+    }
+
+    fun isCorrectAnswer(): Boolean{
+        val sentence = this.buildSentence()
+        return sentence == lessonActivity.currentQuestion.CorrectAnswer
+    }
+
+    private fun setUpView(){
+        lessonActivity.popUpWindow!!.dismiss()
+        this.updateOptions()
+        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        lessonActivity.setProgressBarStatus()
+    }
+
+    //TODO==== end brute force
 
     private fun initializeViewClickListener(){
         this.textViewClickListener = View.OnClickListener { v ->
@@ -91,11 +144,6 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
             val v = flyt.getChildAt(index)
             v.isEnabled = false
         }
-    }
-
-    fun isCorrectAnswer(): Boolean{
-        val sentence = this.buildSentence()
-        return sentence == lessonActivity.currentQuestion.CorrectAnswer
     }
 
     private fun buildSentence(): String{

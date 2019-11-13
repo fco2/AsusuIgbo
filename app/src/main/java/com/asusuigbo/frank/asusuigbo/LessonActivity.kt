@@ -28,7 +28,7 @@ class LessonActivity : AppCompatActivity() {
     var requestedLesson: String = ""
     var activity: Activity = this
     var lessonsLayout: RelativeLayout? = null
-    private var popUpWindow: PopupWindow? = null
+    var popUpWindow: PopupWindow? = null
     lateinit var currentQuestion: QuestionGroup
     var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
@@ -38,6 +38,7 @@ class LessonActivity : AppCompatActivity() {
     private lateinit var imgChoiceFragment: ImgChoiceFragment//ImgChoiceFragment.getInstance(this)
     private lateinit var writtenTextFragment: WrittenTextFragment
     private lateinit var sentenceBuilder: SentenceBuilderFragment
+    var isItemDecoratorSet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,7 @@ class LessonActivity : AppCompatActivity() {
         this.lessonCount = intent.getIntExtra("LESSON_COUNT", 0)
     }
 
-    fun executeButtonAction() {
+    /*fun executeButtonAction() {
         when(this.buttonState){
             UserButton.AnswerSelected -> {
                 answerQuestion()
@@ -72,9 +73,12 @@ class LessonActivity : AppCompatActivity() {
                 finishQuiz()
             }
         }
-    }
+    }*/
 
-    fun navigateToFragment(fragmentName: String){
+
+    fun navigateToFragment(fragmentName: String = ""){
+        if(this.popUpWindow != null)
+            this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
         val ft = fragmentManager.beginTransaction()
         when(fragmentName){
@@ -90,12 +94,15 @@ class LessonActivity : AppCompatActivity() {
             "WrittenText" -> {
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
             }
-            else -> ft.replace(R.id.frame_layout_id, singleSelectFragment)
+            else -> {
+                this.finishQuiz()
+                return
+            }
         }
         ft.commit()
     }
 
-    private fun answerQuestion(){
+   /* private fun answerQuestion(){
         this.currentQuestion = this.dataList.removeAt(0)
         disableOptions()
         this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, this.isCorrectAnswer())
@@ -114,10 +121,10 @@ class LessonActivity : AppCompatActivity() {
         //TODO: fix here..
         //this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         setProgressBarStatus()
-    }
+    }*/
 
     //TODO: think of using interface for comon functions...
-    private fun disableOptions(){
+    /*private fun disableOptions(){
         when {
             this.currentQuestion.LessonFormat == "SingleSelect" -> {
                 singleSelectFragment.disableOptions()
@@ -133,9 +140,9 @@ class LessonActivity : AppCompatActivity() {
             }
             else -> return
         }
-    }
+    }*/
 
-    private fun updateOptions(){
+    /*private fun updateOptions(){
         when {
             this.dataList[0].LessonFormat == "SingleSelect" -> {
                 singleSelectFragment.updateOptions()
@@ -151,9 +158,9 @@ class LessonActivity : AppCompatActivity() {
             }
             else -> return
         }
-    }
+    }*/
 
-    private fun setProgressBarStatus(){
+    fun setProgressBarStatus(){
         val percent: Double =
             (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
         var result = percent.roundToInt()
@@ -201,7 +208,7 @@ class LessonActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    /*fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         //this is because for the next question, we need to look ahead to next question.
         val questionFormat = if (buttonState == UserButton.AnswerNotSelected)
             this.dataList[0].LessonFormat
@@ -223,5 +230,5 @@ class LessonActivity : AppCompatActivity() {
             }
             else -> return
         }
-    }
+    }*/
 }

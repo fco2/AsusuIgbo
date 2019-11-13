@@ -13,12 +13,12 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
             android:fontFamily="@font/bree_serif"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:layout_marginTop="3dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="15dp"
             android:textColor="#9e9e9e"
             android:id="@+id/img_choice_question_id"/>
 

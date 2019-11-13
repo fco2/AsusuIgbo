@@ -1,5 +1,6 @@
 package com.asusuigbo.frank.asusuigbo.adapters
 
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
@@ -18,25 +19,32 @@ import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 
 
+@Suppress("SameParameterValue")
 class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
                               private val fragment: ImgChoiceFragment):
             Adapter<ImgChoiceOptionsAdapter.CustomViewHolder>(){
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.component_img_choice_options, parent, false)
+            .inflate(R.layout.component_img_choice_option, parent, false)
         //measuredHeight returns pixels (px) but units are measured in dp.
         val params = view.layoutParams as GridLayoutManager.LayoutParams
-        params.height = parent.measuredHeight / 2 - 68
+        params.height = parent.measuredHeight / 2 - this.fromDpToPx(56)
         view.layoutParams = params
         return CustomViewHolder(view)
     }
 
-    /*fun convertFromPxToDp(): Int{
-        val y = 68
-        return y.toDp(lessonActivity.applicationContext)
+    //we are using 120px == 56 or 60dp
+    private fun fromDpToPx(value: Int): Int{
+        return value.toPx(fragment.context!!.applicationContext)
     }
-    private fun Int.toDp(context: Context): Int = (this / context.resources.displayMetrics.density).toInt()
-    fun Int.toPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt() */
+
+    private fun Int.toPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
+
+    /*
+    fun Int.toDp(context: Context): Int = (this / context.resources.displayMetrics.density).toInt()
+ */
 
     override fun getItemCount(): Int = optionList.size
 

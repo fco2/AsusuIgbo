@@ -5,13 +5,13 @@
     android:background="@drawable/bgd_image_choice"
     android:elevation="5dp"
     android:id="@+id/img_choice_card_view"
-    android:padding="10dp">
+    android:padding="3dp">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/img_choice_text"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:contentDescription="@string/answer_template"
         android:id="@+id/img_choice_img"/>
     <TextView
@@ -21,6 +21,7 @@
         android:layout_alignParentBottom="true"
         android:fontFamily="@font/bree_serif"
         android:textSize="14sp"
+        android:padding="3dp"
         android:textColor="#9e9e9e"
         android:id="@+id/img_choice_text"/>
 </RelativeLayout>
