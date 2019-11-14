@@ -1,6 +1,7 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
@@ -38,6 +39,7 @@ class LessonActivity : AppCompatActivity() {
     private lateinit var writtenTextFragment: WrittenTextFragment
     private lateinit var sentenceBuilder: SentenceBuilderFragment
     var isItemDecoratorSet = false
+    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,7 @@ class LessonActivity : AppCompatActivity() {
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
         val ft = fragmentManager.beginTransaction()
+        ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
