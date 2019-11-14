@@ -1,7 +1,6 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
@@ -38,8 +37,6 @@ class LessonActivity : AppCompatActivity() {
     private lateinit var imgChoiceFragment: ImgChoiceFragment//ImgChoiceFragment.getInstance(this)
     private lateinit var writtenTextFragment: WrittenTextFragment
     private lateinit var sentenceBuilder: SentenceBuilderFragment
-    var isItemDecoratorSet = false
-    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

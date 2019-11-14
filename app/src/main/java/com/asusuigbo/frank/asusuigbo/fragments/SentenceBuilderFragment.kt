@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -139,7 +140,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
     private fun buildSentence(): String{
         val sb = StringBuilder()
         for(item in this.selectedSentence){
-            sb.append(lessonActivity.currentQuestion.Options.elementAt(item)).append(" ")
+            sb.append(lessonActivity.currentQuestion.Options.elementAt(item).Option).append(" ")
         }
         return sb.toString().trim()
     }
@@ -165,9 +166,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)
-            val sourceFlexBoxLayout: FlexboxLayout =
-                this.lessonActivity.findViewById(R.id.flexbox_source_id)
-            sourceFlexBoxLayout.addView(view)
+            this.sourceFlexBoxLayout.addView(view)
         }
     }
 }
