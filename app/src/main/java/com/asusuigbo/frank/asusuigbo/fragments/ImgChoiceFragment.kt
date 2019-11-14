@@ -2,12 +2,10 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.os.Bundle
-//import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,7 +16,6 @@ import com.asusuigbo.frank.asusuigbo.adapters.ImgChoiceOptionsAdapter
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.models.UserButton
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -26,9 +23,9 @@ import java.util.*
 class ImgChoiceFragment(val lessonActivity: LessonActivity) : Fragment() {
 
     private lateinit var button: Button
-    var imgChoiceQuestion: TextView? = null
+    private var imgChoiceQuestion: TextView? = null
     lateinit var recyclerView: RecyclerView
-    lateinit var itemOffsetDecoration: ItemOffsetDecoration
+    private lateinit var itemOffsetDecoration: ItemOffsetDecoration
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +36,10 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : Fragment() {
         this.recyclerView = view.findViewById(R.id.img_choice_recycler_view_id)
         this.imgChoiceQuestion = view.findViewById(R.id.img_choice_question_id)
         itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
-        setUpView()
-        button.setOnClickListener(buttonClickListener)
-
         //set question and view parameters here
         this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].Question
-        this.setUpImageChoiceView()
+        setUpView()
+        button.setOnClickListener(buttonClickListener)
         return view
     }
 
@@ -65,13 +60,9 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : Fragment() {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                //TODO: here, call lessonActivity to switch fragments
-                //nextQuestion()
                 lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
             }
             else -> {
-                //TODO: here call lesson activity to switch fragments to finish quiz
-                //finishQuiz()
                 lessonActivity.navigateToFragment()
             }
         }
@@ -91,7 +82,7 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : Fragment() {
             this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
     }
 
-    fun isCorrectAnswer(): Boolean{
+    private fun isCorrectAnswer(): Boolean{
         return lessonActivity.selectedAnswer == lessonActivity.currentQuestion.CorrectAnswer
     }
 
@@ -100,17 +91,16 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : Fragment() {
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.setProgressBarStatus()
     }
-
     //TODO==== end brute force
 
-    fun updateOptions(){
+    private fun updateOptions(){
         lessonActivity.navigateToFragment("ImageSelect")
         this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].Question
         this.setUpImageChoiceView()
         lessonActivity.selectedAnswer = ""
     }
 
-    fun disableOptions(){
+    private fun disableOptions(){
         val rvChildCount = this.recyclerView.childCount
         for(i in 0 until rvChildCount){
             val view: View = this.recyclerView.getChildAt(i)

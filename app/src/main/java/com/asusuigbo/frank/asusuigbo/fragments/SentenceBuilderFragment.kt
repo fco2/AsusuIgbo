@@ -23,8 +23,8 @@ import com.google.android.flexbox.FlexboxLayout
 class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Fragment() {
 
     private lateinit var button: Button
-    var textViewClickListener = View.OnClickListener{}
-    lateinit var multiQuestionTextView: TextView
+    private var textViewClickListener = View.OnClickListener{}
+    private lateinit var multiQuestionTextView: TextView
     private lateinit var sourceFlexBoxLayout: FlexboxLayout
     private lateinit var destFlexBoxLayout: FlexboxLayout
     private var selectedSentence: ArrayList<Int> = ArrayList()
@@ -42,14 +42,8 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
         button.setOnClickListener(buttonClickListener)
 
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
-        this.buildFlexBoxContent()
-
+        this.setUpView()
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setUpView()
     }
 
     companion object{
@@ -69,13 +63,9 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                //TODO: here, call lessonActivity to switch fragments
-                //nextQuestion()
                 lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
             }
             else -> {
-                //TODO: here call lesson activity to switch fragments to finish quiz
-                //finishQuiz()
                 lessonActivity.navigateToFragment()
             }
         }
@@ -95,7 +85,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
             this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
     }
 
-    fun isCorrectAnswer(): Boolean{
+    private fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
         return sentence == lessonActivity.currentQuestion.CorrectAnswer
     }
@@ -125,7 +115,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
         }
     }
 
-    fun updateOptions(){
+    private fun updateOptions(){
         lessonActivity.navigateToFragment("MultiSelect")
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
         this.sourceFlexBoxLayout.removeAllViews()
@@ -134,9 +124,9 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
         this.buildFlexBoxContent()
     }
 
-    fun disableOptions(){
-        disableViewsFor(this.sourceFlexBoxLayout!!)
-        disableViewsFor(this.destFlexBoxLayout!!)
+    private fun disableOptions(){
+        disableViewsFor(this.sourceFlexBoxLayout)
+        disableViewsFor(this.destFlexBoxLayout)
     }
 
     private fun disableViewsFor(flyt: FlexboxLayout){
@@ -154,7 +144,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Frag
         return sb.toString().trim()
     }
 
-    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
         lessonActivity.buttonState = buttonState

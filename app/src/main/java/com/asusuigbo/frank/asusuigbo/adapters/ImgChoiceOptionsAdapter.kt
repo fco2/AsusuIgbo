@@ -29,12 +29,12 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             .inflate(R.layout.component_img_choice_option, parent, false)
         //measuredHeight returns pixels (px) but units are measured in dp.
         val params = view.layoutParams as GridLayoutManager.LayoutParams
-        params.height = parent.measuredHeight / 2 - this.fromDpToPx(56)
+        params.height = parent.measuredHeight / 2 - this.fromDpToPx(50)
         view.layoutParams = params
         return CustomViewHolder(view)
     }
 
-    //we are using 120px == 56 or 60dp
+    //we are using 120px == 50dp
     private fun fromDpToPx(value: Int): Int{
         return value.toPx(fragment.context!!.applicationContext)
     }

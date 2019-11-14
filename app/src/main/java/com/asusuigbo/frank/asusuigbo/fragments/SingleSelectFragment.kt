@@ -21,11 +21,11 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
+class SingleSelectFragment(private var lessonActivity: LessonActivity) : Fragment() {
 
     private lateinit var button: Button
     private lateinit var radioGroup: RadioGroup
-    var singleQuestionTextView: TextView? = null
+    private var singleQuestionTextView: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +40,8 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
 
         lessonActivity.singleSelectFragment.singleQuestionTextView!!.text =
             lessonActivity.dataList[0].Question
-        this.buildRadioGroupContent()
-
+        this.setUpView()
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setUpView()
     }
 
     companion object{
@@ -67,13 +61,9 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                //TODO: here, call lessonActivity to switch fragments
-                //nextQuestion()
                 lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
             }
             else -> {
-                //TODO: here call lesson activity to switch fragments to finish quiz
-                //finishQuiz()
                 lessonActivity.navigateToFragment()
             }
         }
@@ -107,7 +97,6 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
     }
 
     private fun updateOptions(){
-        //lessonActivity.navigateToFragment("SingleSelect")
         this.singleQuestionTextView!!.text = lessonActivity.dataList[0].Question
         this.radioGroup.removeAllViews()
         lessonActivity.selectedAnswer = ""
@@ -120,7 +109,6 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
             v.isEnabled = false
         }
     }
-
     //TODo------- end brute force -------
 
     private fun invokeCheckedButtonListener(){
@@ -133,15 +121,14 @@ class SingleSelectFragment(var lessonActivity: LessonActivity) : Fragment() {
         }
     }
 
-    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
         lessonActivity.buttonState = buttonState
     }
 
     private fun buildRadioGroupContent(){
-        //Attempt to invoke virtual method 'void android.widget.RadioGroup.clearCheck()' on a null object reference
-        this.radioGroup.clearCheck() // <--
+        this.radioGroup.clearCheck()
         for((index,item) in this.lessonActivity.dataList[0].Options.withIndex()){
             val view = RadioButton(this.lessonActivity.applicationContext)
             val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

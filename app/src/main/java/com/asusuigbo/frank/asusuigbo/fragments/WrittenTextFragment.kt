@@ -24,23 +24,20 @@ import java.util.*
 class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
 
     private lateinit var button: Button
-    var writtenTextQuestion: TextView? = null
+    private var writtenTextQuestion: TextView? = null
     private lateinit var writtenTextAnswer: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_written_text, container, false)
         button = view.findViewById(R.id.button_id)
         this.writtenTextQuestion = view.findViewById(R.id.written_text_question_id)
         this.writtenTextAnswer = view.findViewById(R.id.written_text_answer_id)
         this.writtenTextChangeListener()
         button.setOnClickListener(buttonClickListener)
-
-        this.writtenTextQuestion!!.text = lessonActivity.dataList[0].Question
-
+        setUpView()
         return view
     }
 
@@ -61,13 +58,9 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                //TODO: here, call lessonActivity to switch fragments
-                //nextQuestion()
                 lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
             }
             else -> {
-                //TODO: here call lesson activity to switch fragments to finish quiz
-                //finishQuiz()
                 lessonActivity.navigateToFragment()
             }
         }
@@ -87,7 +80,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
             this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
     }
 
-    fun isCorrectAnswer(): Boolean{
+    private fun isCorrectAnswer(): Boolean{
         return lessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 lessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
     }
@@ -101,7 +94,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
 
     //TODO==== end brute force
 
-    fun updateOptions(){
+    private fun updateOptions(){
         lessonActivity.navigateToFragment("WrittenText")
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.selectedAnswer = ""
@@ -110,7 +103,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
         this.writtenTextAnswer.isEnabled = true
     }
 
-    fun disableOptions(){
+    private fun disableOptions(){
         this.writtenTextAnswer.isEnabled = false
     }
 
@@ -130,5 +123,4 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
         this.button.text = getString(buttonText)
         lessonActivity.buttonState = buttonState
     }
-
 }
