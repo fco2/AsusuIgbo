@@ -4,24 +4,23 @@ package com.asusuigbo.frank.asusuigbo.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LessonActivity
-
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
+import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
+class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFragment(lessonActivity) {
 
     private lateinit var button: Button
     private var writtenTextQuestion: TextView? = null
@@ -41,60 +40,16 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
         return view
     }
 
-    companion object{
-        fun getInstance(lessonActivity: LessonActivity): WrittenTextFragment{
-            return WrittenTextFragment(lessonActivity)
-        }
-    }
-
     private val buttonClickListener = View.OnClickListener {
         this.executeButtonAction()
     }
 
-    //TODO----- experimenting brute force approach -----------
-    private fun executeButtonAction() {
-        when(lessonActivity.buttonState){
-            UserButton.AnswerSelected -> {
-                answerQuestion()
-            }
-            UserButton.NextQuestion -> {
-                lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
-            }
-            else -> {
-                lessonActivity.navigateToFragment()
-            }
-        }
-    }
-
-    private fun answerQuestion(){
-        lessonActivity.currentQuestion = lessonActivity.dataList.removeAt(0)
-        disableOptions()
-        lessonActivity.popUpWindow =
-            PopupHelper.displaySelectionInPopUp(lessonActivity, this.isCorrectAnswer())
-
-        if(!this.isCorrectAnswer())
-            lessonActivity.dataList.add(lessonActivity.currentQuestion)
-        if(lessonActivity.dataList.size > 0)
-            this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
-        else
-            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
-    }
-
-    private fun isCorrectAnswer(): Boolean{
+    override fun isCorrectAnswer(): Boolean{
         return lessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 lessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
     }
 
-    private fun setUpView(){
-        lessonActivity.popUpWindow!!.dismiss()
-        this.updateOptions()
-        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
-        lessonActivity.setProgressBarStatus()
-    }
-
-    //TODO==== end brute force
-
-    private fun updateOptions(){
+    override fun updateOptions(){
         lessonActivity.navigateToFragment("WrittenText")
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.selectedAnswer = ""
@@ -103,7 +58,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
         this.writtenTextAnswer.isEnabled = true
     }
 
-    private fun disableOptions(){
+    override fun disableOptions(){
         this.writtenTextAnswer.isEnabled = false
     }
 
@@ -118,7 +73,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : Fragment() {
         })
     }
 
-    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
         lessonActivity.buttonState = buttonState
