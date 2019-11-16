@@ -50,7 +50,6 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFrag
     }
 
     override fun updateOptions(){
-        lessonActivity.navigateToFragment("WrittenText")
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.selectedAnswer = ""
         this.writtenTextQuestion!!.text = lessonActivity.dataList[0].Question

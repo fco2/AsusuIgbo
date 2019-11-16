@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +53,6 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
     }
 
     override fun updateOptions(){
-        lessonActivity.navigateToFragment("ImageSelect")
         this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].Question
         this.setUpImageChoiceView()
         lessonActivity.selectedAnswer = ""

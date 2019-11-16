@@ -84,7 +84,6 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
     }
 
     private fun buildRadioGroupContent(){
-        this.radioGroup.clearCheck()
         for((index,item) in this.lessonActivity.dataList[0].Options.withIndex()){
             val view = RadioButton(this.lessonActivity.applicationContext)
             val params = RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

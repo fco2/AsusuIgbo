@@ -72,7 +72,6 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     }
 
     override fun updateOptions(){
-        lessonActivity.navigateToFragment("MultiSelect")
         this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
         this.sourceFlexBoxLayout.removeAllViews()
         this.destFlexBoxLayout.removeAllViews()

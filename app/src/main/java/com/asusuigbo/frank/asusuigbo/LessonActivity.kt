@@ -34,7 +34,7 @@ class LessonActivity : AppCompatActivity() {
     var selectedAnswer = ""
     private var lessonCount = 0
     lateinit var singleSelectFragment: SingleSelectFragment
-    private lateinit var imgChoiceFragment: ImgChoiceFragment//ImgChoiceFragment.getInstance(this)
+    private lateinit var imgChoiceFragment: ImgChoiceFragment
     private lateinit var writtenTextFragment: WrittenTextFragment
     private lateinit var sentenceBuilder: SentenceBuilderFragment
 
@@ -45,10 +45,6 @@ class LessonActivity : AppCompatActivity() {
         this.progressBar = findViewById(R.id.progress_bar_lesson_id)
         this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
         this.lessonsLayout = findViewById(R.id.lessons_layout_id)
-        this.imgChoiceFragment = ImgChoiceFragment(this)
-        this.singleSelectFragment = SingleSelectFragment(this)
-        this.writtenTextFragment = WrittenTextFragment(this)
-        this.sentenceBuilder = SentenceBuilderFragment(this)
         this.progressBar!!.visibility = View.VISIBLE
         this.setLessonData()
         DataLoader.populateList(this)
@@ -67,15 +63,19 @@ class LessonActivity : AppCompatActivity() {
         ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
+                this.singleSelectFragment = SingleSelectFragment(this)
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
             }
             "MultiSelect" -> {
+                this.sentenceBuilder = SentenceBuilderFragment(this)
                 ft.replace(R.id.frame_layout_id, sentenceBuilder)
             }
             "ImageSelect" -> {
+                this.imgChoiceFragment = ImgChoiceFragment(this)
                 ft.replace(R.id.frame_layout_id, imgChoiceFragment)
             }
             "WrittenText" -> {
+                this.writtenTextFragment = WrittenTextFragment(this)
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
             }
             else -> {

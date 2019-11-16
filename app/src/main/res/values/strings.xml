@@ -16,7 +16,6 @@
     <string name="answer_button_state">Check Answer</string>
     <string name="finished_button_state">Finished</string>
     <string name="you_are_correct_text">You are Correct!</string>
-    <string name="sorry_wrong_answer_text">Sorry, Wrong Answer!</string>
     <string name="answer_template">Correct Answer: </string>
     <string name="imageDummyText">image</string>
     <string name="please_wait">Please wait..</string>
