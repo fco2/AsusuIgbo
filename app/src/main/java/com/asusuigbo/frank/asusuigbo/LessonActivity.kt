@@ -19,8 +19,8 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 class LessonActivity : AppCompatActivity() {
-     var lastUpdatedWL: Int = 0
-     var lastUpdatedLC: Int = 0
+     var wordsLearned: Int = 0
+     var lessonsCompleted: Int = 0
      var dataListSize: Int = 0
     var dataList: ArrayList<QuestionGroup> = ArrayList()
     var progressBar: ProgressBar? = null
@@ -108,10 +108,10 @@ class LessonActivity : AppCompatActivity() {
         val auth = FirebaseAuth.getInstance()
         val dbReference: DatabaseReference  = FirebaseDatabase.getInstance().reference
 
-        val wordsLearned = max((lessonCount * 8), lastUpdatedWL)
+        val wordsLearned = max((lessonCount * 8), wordsLearned)
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
-        val lessonsCompleted = max(lessonCount, lastUpdatedLC)
+        val lessonsCompleted = max(lessonCount, lessonsCompleted)
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("LessonsCompleted").setValue(lessonsCompleted.toString())
         launchCompletedLessonScreen()

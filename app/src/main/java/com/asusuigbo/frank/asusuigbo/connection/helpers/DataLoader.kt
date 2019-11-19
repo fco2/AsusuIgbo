@@ -51,10 +51,10 @@ class DataLoader {
                         override fun onDataChange(p0: DataSnapshot) {
                             var temp = p0.child("Users").child(auth.currentUser!!.uid)
                                     .child("WordsLearned").value.toString()
-                            lessonActivity.lastUpdatedWL = Integer.parseInt(temp)
+                            lessonActivity.wordsLearned = Integer.parseInt(temp)
                             temp = p0.child("Users").child(auth.currentUser!!.uid)
                                     .child("LessonsCompleted").value.toString()
-                            lessonActivity.lastUpdatedLC = Integer.parseInt(temp)
+                            lessonActivity.lessonsCompleted = Integer.parseInt(temp)
                             lessonActivity.progressBar!!.visibility = View.GONE
                         }
                         override fun onCancelled(p0: DatabaseError) { }
