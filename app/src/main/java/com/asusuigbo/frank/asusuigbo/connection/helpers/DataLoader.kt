@@ -34,21 +34,14 @@ class DataLoader {
                         lessonActivity.dataList.add(temp)
                     }
                     lessonActivity.dataListSize = lessonActivity.dataList.size
+                    lessonActivity.dataList.shuffle()
 
-                    when {
-                        lessonActivity.dataList[0].LessonFormat == "SingleSelect" -> {
-                            lessonActivity.navigateToFragment("SingleSelect")
-                        }
-                        lessonActivity.dataList[0].LessonFormat == "MultiSelect" -> {
-                            lessonActivity.navigateToFragment("MultiSelect")
-                        }
-                        lessonActivity.dataList[0].LessonFormat == "ImageSelect" -> {
-                            lessonActivity.navigateToFragment("ImageSelect")
-                        }
-                        lessonActivity.dataList[0].LessonFormat == "WrittenText" -> {
-                            lessonActivity.navigateToFragment("WrittenText")
-
-                        }
+                    when(lessonActivity.dataList[0].LessonFormat ) {
+                        "SingleSelect" -> lessonActivity.navigateToFragment("SingleSelect")
+                        "MultiSelect" -> lessonActivity.navigateToFragment("MultiSelect")
+                        "ImageSelect" -> lessonActivity.navigateToFragment("ImageSelect")
+                        "WrittenText" -> lessonActivity.navigateToFragment("WrittenText")
+                        "WordPair" -> lessonActivity.navigateToFragment("WordPair")
                         else -> {
                             return
                         }

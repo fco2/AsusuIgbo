@@ -115,8 +115,9 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
             view.background = ContextCompat.getDrawable(this.lessonActivity.applicationContext,
-                R.drawable.word_background)
-            view.setPadding(25,25,25,25)
+                R.drawable.bgd_sentence_builder_word)
+            view.setPadding(30,30,30,30)
+            view.setTextColor(ContextCompat.getColor(lessonActivity, R.color.colorWhite))
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)

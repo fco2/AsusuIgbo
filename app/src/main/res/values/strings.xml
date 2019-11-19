@@ -47,4 +47,5 @@
     <string name="write_translation">Write translation..</string>
     <string name="type_translation">Translate the sentence below</string>
     <string name="correct_answer_text">Correct Answer:</string>
+    <string name="pair_words">Pair words with correct translation</string>
 </resources>

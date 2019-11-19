@@ -37,6 +37,7 @@ class LessonActivity : AppCompatActivity() {
     private lateinit var imgChoiceFragment: ImgChoiceFragment
     private lateinit var writtenTextFragment: WrittenTextFragment
     private lateinit var sentenceBuilder: SentenceBuilderFragment
+    private lateinit var wordPairFragment: WordPairFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +78,10 @@ class LessonActivity : AppCompatActivity() {
             "WrittenText" -> {
                 this.writtenTextFragment = WrittenTextFragment(this)
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
+            }
+            "WordPair" -> {
+                this.wordPairFragment = WordPairFragment(this)
+                ft.replace(R.id.frame_layout_id, wordPairFragment)
             }
             else -> {
                 this.finishQuiz()

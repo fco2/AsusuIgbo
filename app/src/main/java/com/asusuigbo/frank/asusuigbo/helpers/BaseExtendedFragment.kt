@@ -21,7 +21,7 @@ abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) 
         }
     }
 
-    private fun answerQuestion(){
+    fun answerQuestion(){
         lessonActivity.currentQuestion = lessonActivity.dataList.removeAt(0)
         disableOptions()
         lessonActivity.popUpWindow =
