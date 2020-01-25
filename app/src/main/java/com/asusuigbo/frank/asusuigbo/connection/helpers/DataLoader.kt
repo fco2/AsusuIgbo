@@ -10,7 +10,6 @@ import com.google.firebase.database.*
 class DataLoader {
     companion object {
         fun populateList(lessonActivity: LessonActivity){
-            //TODO: make a reference for dictionary here
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val dbReference: DatabaseReference = database
                 .getReference("Lessons/${lessonActivity.requestedLesson}")
@@ -18,7 +17,6 @@ class DataLoader {
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val auth = FirebaseAuth.getInstance()
-                    //TODO: Load dictionary here 
                     for (d in dataSnapshot.children){
                         val optionsList = ArrayList<OptionInfo>()
                         val correctAnswer = d.child("CorrectAnswer").value.toString()
