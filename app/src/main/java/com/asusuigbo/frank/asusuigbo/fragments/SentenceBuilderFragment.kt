@@ -41,7 +41,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
         this.initializeViewClickListener()
         button.setOnClickListener(buttonClickListener)
 
-        this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
+        this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpView()
         return view
     }
@@ -72,7 +72,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     }
 
     override fun updateOptions(){
-        this.multiQuestionTextView.text = lessonActivity.dataList[0].Question
+        this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.sourceFlexBoxLayout.removeAllViews()
         this.destFlexBoxLayout.removeAllViews()
         this.selectedSentence.clear()

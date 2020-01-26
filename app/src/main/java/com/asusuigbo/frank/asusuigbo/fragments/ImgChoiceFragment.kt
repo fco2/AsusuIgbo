@@ -2,7 +2,6 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
         this.imgChoiceQuestion = view.findViewById(R.id.img_choice_question_id)
         itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
         //set question and view parameters here
-        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].Question
+        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
         setUpView()
         button.setOnClickListener(buttonClickListener)
         return view
@@ -53,7 +52,7 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
     }
 
     override fun updateOptions(){
-        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].Question
+        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpImageChoiceView()
         lessonActivity.selectedAnswer = ""
     }

@@ -52,7 +52,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFrag
     override fun updateOptions(){
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.selectedAnswer = ""
-        this.writtenTextQuestion!!.text = lessonActivity.dataList[0].Question
+        this.writtenTextQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.writtenTextAnswer.text.clear()
         this.writtenTextAnswer.isEnabled = true
     }

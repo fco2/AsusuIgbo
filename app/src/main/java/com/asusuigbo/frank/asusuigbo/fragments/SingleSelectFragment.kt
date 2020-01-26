@@ -39,7 +39,7 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
         button.setOnClickListener(buttonClickListener)
 
         lessonActivity.singleSelectFragment.singleQuestionTextView!!.text =
-            lessonActivity.dataList[0].Question
+            lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpView()
         return view
     }
@@ -54,7 +54,7 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
     }
 
     override fun updateOptions(){
-        this.singleQuestionTextView!!.text = lessonActivity.dataList[0].Question
+        this.singleQuestionTextView!!.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.radioGroup.removeAllViews()
         lessonActivity.selectedAnswer = ""
         this.buildRadioGroupContent()
