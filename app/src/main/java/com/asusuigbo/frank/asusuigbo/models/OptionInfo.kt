@@ -1,3 +1,9 @@
 package com.asusuigbo.frank.asusuigbo.models
 
-data class OptionInfo(var Option: String, var AdditionalInfo: String = "NA")
+import java.io.Serializable
+
+class OptionInfo(var Option: String,
+                      var Audio: String,
+                      var AdditionalInfo: String = "NA") : Serializable{
+    constructor(): this("", "", "")
+}

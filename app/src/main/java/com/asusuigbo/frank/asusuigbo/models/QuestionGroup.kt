@@ -1,4 +1,13 @@
 package com.asusuigbo.frank.asusuigbo.models
 
-data class QuestionGroup(var Question: String, var Options: MutableList<OptionInfo>,
-                         var CorrectAnswer: String, var LessonFormat: String = "SingleSelect")
+import java.io.Serializable
+
+class QuestionGroup(var Question: QuestionInfo,
+                         var Options: MutableList<OptionInfo>,
+                         var CorrectAnswer: String,
+                         var LessonFormat: String = "SingleSelect") : Serializable{
+    constructor(): this(QuestionInfo("",""),
+                        mutableListOf<OptionInfo>(),
+            "",
+            "SingleSelect")
+}
