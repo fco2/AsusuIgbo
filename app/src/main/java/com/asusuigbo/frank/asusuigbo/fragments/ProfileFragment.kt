@@ -16,6 +16,7 @@ import com.asusuigbo.frank.asusuigbo.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -118,6 +119,13 @@ class ProfileFragment : Fragment() {
                 progressBar.visibility = View.GONE
             }
         })
+        val fs = FirebaseStorage.getInstance()
+        val fsRef = fs.reference
+        /*fsRef.putFile("bla/x.mp4")
+            .addOnSuccessListener {it ->
+                val x = it.uploadSessionUri
+            }*/
+
     }
 
    /* override fun onStop(){
