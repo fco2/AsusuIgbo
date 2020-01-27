@@ -168,6 +168,28 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/app_logo"
+        android:src="@mipmap/img_record_audio"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/record_audio_button_id"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/record_audio_button_id"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/andika"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:id="@+id/record_notification_id"/>
+
     <Button
         android:layout_width="280dp"
         android:layout_height="wrap_content"

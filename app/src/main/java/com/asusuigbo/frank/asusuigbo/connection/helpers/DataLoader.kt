@@ -13,6 +13,7 @@ class DataLoader {
             val dbReference: DatabaseReference = database
                 .getReference("Lessons/${lessonActivity.requestedLesson}")
 
+            // change to just reference, so as to also get audio.
             dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val auth = FirebaseAuth.getInstance()
