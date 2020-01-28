@@ -50,4 +50,5 @@
     <string name="pair_words">Pair words with correct translation</string>
     <string name="started_recording">Started recording...</string>
     <string name="stopped_recording">Stopped recording...</string>
+    <string name="add_question">Add Question</string>
 </resources>

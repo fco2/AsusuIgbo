@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
@@ -38,6 +39,8 @@ class ProfileFragment : Fragment() {
     private lateinit var recordNotificationText: TextView
     private var counter = 0
 
+    private lateinit var playButton: Button
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -50,17 +53,30 @@ class ProfileFragment : Fragment() {
         progressBar = view.findViewById(R.id.progress_bar_profile_id)
         recordButton = view.findViewById(R.id.record_audio_button_id)
         recordNotificationText = view.findViewById(R.id.record_notification_id)
+        playButton = view.findViewById(R.id.play_button)
         progressBar.visibility = View.VISIBLE
 
         auth = FirebaseAuth.getInstance()
         setUserName()
         signOutBtn.setOnClickListener(signOutClickListener)
         recordButton.setOnTouchListener(recordButtonTouchListener)
+        playButton.setOnClickListener(playOnClickListener)
         return view
     }
 
-    private var recordButtonTouchListener = View.OnTouchListener{v: View, motionEvent: MotionEvent ->
-        Log.d("MY_TAG", "recordButtonTouchListener called")
+    private val playOnClickListener = View.OnClickListener{
+        val storageRef = FirebaseStorage.getInstance().reference
+        storageRef.child("Audio/test_audio.3gp").downloadUrl.addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(it.toString())
+            mediaPlayer.setOnPreparedListener{player ->
+                player.start()
+            }
+            mediaPlayer.prepareAsync()
+        }
+    }
+
+    private var recordButtonTouchListener = View.OnTouchListener{ _: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN)
             startRecording()
         else
@@ -71,7 +87,6 @@ class ProfileFragment : Fragment() {
 
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
-        Log.d("MY_TAG", "initializing mediaRecorder.")
         recordNotificationText.text = getString(R.string.started_recording)
         filePath = Environment.getExternalStorageDirectory().absolutePath
         filePath += "/test_audio_$counter.3gp"
@@ -83,7 +98,6 @@ class ProfileFragment : Fragment() {
         try {
             mediaRecorder.prepare()
             mediaRecorder.start()
-            Log.d("MY_TAG", "prepare and start called")
         }catch(e: IllegalStateException){
             e.printStackTrace()
         }catch(e: IOException){
@@ -93,19 +107,18 @@ class ProfileFragment : Fragment() {
     }
 
     private fun stopRecording(){
-        Log.d("MY_TAG", "stopRecording called")
         mediaRecorder.stop()
         mediaRecorder.release()
         recordNotificationText.text = getString(R.string.stopped_recording)
-
         saveRecordingToFireBase()
     }
 
     private val signOutClickListener = View.OnClickListener {
-        if(auth.currentUser != null){
+
+       /* if(auth.currentUser != null){
             auth.signOut()
             startActivity(Intent(activity!!.applicationContext, LoginActivity::class.java))
-        }
+        }*/
     }
 
     private fun setUserName(){
@@ -131,7 +144,14 @@ class ProfileFragment : Fragment() {
         val uri = Uri.fromFile(File(filePath))
         storageRef.putFile(uri).addOnSuccessListener {
             //val x = it.uploadSessionUri
+            Log.d("MY_TAG", "filepath: $filePath")
             Log.d("MY_TAG", "II: ${it.uploadSessionUri.toString()}")
         }
     }
+
+    private fun playMedia(){
+
+    }
 }// Required empty public constructor
+
+// D/MY_TAG: II: https://firebasestorage.googleapis.com/v0/b/asusu-igbo.appspot.com/o?name=Audio%2Ftest_audio.3gp&uploadType=resumable&upload_id=AEnB2Uqhn8HSPeNI80rloFE6VnU1PodZFBH9rj3MnjBhgPBUJta-5UWEDhTJ7EjgOIhYyU2mrPwlxdbICPqnE0ARa2uMoHcTLg&upload_protocol=resumable

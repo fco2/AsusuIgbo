@@ -4,8 +4,9 @@
     package="com.asusuigbo.frank.asusuigbo">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/custom_launcher_round"
@@ -14,12 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".TestDictActivity"/>
+        <activity android:name=".AddQuestionActivity"></activity>
+        <activity android:name=".TestDictActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-           > <!--  android:theme="@style/AppTheme.Launcher" > -->
+        <activity android:name=".SplashScreenActivity"> <!-- android:theme="@style/AppTheme.Launcher" > -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,4 +33,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>
