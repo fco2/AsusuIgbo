@@ -3,6 +3,7 @@ package com.asusuigbo.frank.asusuigbo.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -17,6 +18,7 @@ import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -95,6 +97,8 @@ class ProfileFragment : Fragment() {
         mediaRecorder.stop()
         mediaRecorder.release()
         recordNotificationText.text = getString(R.string.stopped_recording)
+
+        saveRecordingToFireBase()
     }
 
     private val signOutClickListener = View.OnClickListener {
@@ -119,18 +123,15 @@ class ProfileFragment : Fragment() {
                 progressBar.visibility = View.GONE
             }
         })
-        val fs = FirebaseStorage.getInstance()
-        val fsRef = fs.reference
-        /*fsRef.putFile("bla/x.mp4")
-            .addOnSuccessListener {it ->
-                val x = it.uploadSessionUri
-            }*/
-
     }
 
-   /* override fun onStop(){
-        super.onStop()
-        mediaRecorder!!.release()
-        mediaRecorder = null
-    }*/
+    private fun saveRecordingToFireBase() {
+        var storageRef = FirebaseStorage.getInstance().reference
+        storageRef = storageRef.child("Audio/test_audio.3gp")
+        val uri = Uri.fromFile(File(filePath))
+        storageRef.putFile(uri).addOnSuccessListener {
+            //val x = it.uploadSessionUri
+            Log.d("MY_TAG", "II: ${it.uploadSessionUri.toString()}")
+        }
+    }
 }// Required empty public constructor
