@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             R.id.home_icon_id -> initializeFragment(LessonsFragment(), "Lessons")
             R.id.newest_icon_id -> initializeFragment(NewestFragment(), "New Words")
             R.id.profile_icon_id -> initializeFragment(ProfileFragment(), "Profile")
-            else -> initializeFragment(NewestFragment(), "Lessons")
+            else -> initializeFragment(LessonsFragment(), "Lessons")
         }
     }
 

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
@@ -40,6 +41,7 @@ class ProfileFragment : Fragment() {
     private var counter = 0
 
     private lateinit var playButton: Button
+    private lateinit var addQuestionButton: Button
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +56,7 @@ class ProfileFragment : Fragment() {
         recordButton = view.findViewById(R.id.record_audio_button_id)
         recordNotificationText = view.findViewById(R.id.record_notification_id)
         playButton = view.findViewById(R.id.play_button)
+        addQuestionButton = view.findViewById(R.id.add_question_id)
         progressBar.visibility = View.VISIBLE
 
         auth = FirebaseAuth.getInstance()
@@ -61,7 +64,12 @@ class ProfileFragment : Fragment() {
         signOutBtn.setOnClickListener(signOutClickListener)
         recordButton.setOnTouchListener(recordButtonTouchListener)
         playButton.setOnClickListener(playOnClickListener)
+        addQuestionButton.setOnClickListener(addQuestionClickListener)
         return view
+    }
+
+    private val addQuestionClickListener = View.OnClickListener{
+        startActivity(Intent(activity!!.applicationContext, AddQuestionActivity::class.java))
     }
 
     private val playOnClickListener = View.OnClickListener{
@@ -147,10 +155,6 @@ class ProfileFragment : Fragment() {
             Log.d("MY_TAG", "filepath: $filePath")
             Log.d("MY_TAG", "II: ${it.uploadSessionUri.toString()}")
         }
-    }
-
-    private fun playMedia(){
-
     }
 }// Required empty public constructor
 

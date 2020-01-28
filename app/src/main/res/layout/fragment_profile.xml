@@ -214,7 +214,8 @@
         android:textSize="18sp"
         android:textColor="@color/colorWhite"
         android:background="@drawable/bgd_add_question_btn"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:id="@+id/add_question_id"/>
 
 
     <Button
