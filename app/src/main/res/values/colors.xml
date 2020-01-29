@@ -20,4 +20,5 @@
     <color name="greenLightShade">#43a047</color>
     <color name="greenDarkShade">#1b5e20</color>
     <color name="selectedImgChoiceOption">#e3f2fd</color>
+    <color name="lightGreyTextColor">#607d8b</color>
 </resources>

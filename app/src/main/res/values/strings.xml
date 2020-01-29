@@ -48,7 +48,20 @@
     <string name="type_translation">Translate the sentence below</string>
     <string name="correct_answer_text">Correct Answer:</string>
     <string name="pair_words">Pair words with correct translation</string>
-    <string name="started_recording">Started recording...</string>
-    <string name="stopped_recording">Stopped recording...</string>
+    <string name="started_recording">Started recording…</string>
+    <string name="stopped_recording">Stopped recording…</string>
     <string name="add_question">Add Question</string>
+    <string name="record_audio">Record Audio</string>
+    <string name="lesson_name">Lesson Name</string>
+    <string name="add_option">Add Option</string>
+    <string name="additional_info">Additional Info</string>
+    <string name="option">Option</string>
+
+    <!-- Question type list -->
+    <string-array name="question_type">
+        <item>ImageSelect</item>
+        <item>MultiSelect</item>
+        <item>SingleSelect</item>
+        <item>WordPair</item>
+    </string-array>
 </resources>
