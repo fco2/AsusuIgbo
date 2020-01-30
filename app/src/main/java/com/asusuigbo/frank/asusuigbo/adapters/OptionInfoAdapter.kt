@@ -1,16 +1,29 @@
 package com.asusuigbo.frank.asusuigbo.adapters
 
+import android.annotation.SuppressLint
+import android.media.MediaRecorder
+import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
+import java.io.IOException
 
-class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>)
+class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, addQuestionsActivity: AddQuestionActivity)
     : RecyclerView.Adapter<OptionInfoAdapter.CustomViewHolder>() {
+
+    private lateinit var mediaRecorder: MediaRecorder
+    private var fileName = ""
 
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var option: TextView? = null
@@ -22,7 +35,6 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>)
             audio = itemView.findViewById(R.id.option_record_audio_button_id)
             additionalInfo = itemView.findViewById(R.id.option_additional_info_id)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -32,14 +44,92 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>)
 
     override fun getItemCount(): Int = this.dataList.size
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.option!!.text = this.dataList[position].Option
         //holder.audio!!.text = this
         holder.additionalInfo!!.text = this.dataList[position].AdditionalInfo
+        //set tag to hold position of view
+        holder.audio!!.tag = position.toString()
+
+        //set option textChangeListener
+        addOptionTextChangeListener(holder.option!!, position)
+        addOptionTextChangeListener(holder.additionalInfo!!, position, false)
+        holder.audio!!.setOnTouchListener(recordButtonTouchListener)
+    }
+
+    private fun addOptionTextChangeListener(
+        textView: TextView,
+        position: Int,
+        isSetOption: Boolean = true
+    ) {
+        textView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(isSetOption)
+                    dataList[position].Option = s.toString()
+                else
+                    dataList[position].AdditionalInfo = s.toString()
+
+                Log.d("MY_TAG", "Option-> ${dataList[position].Option} | $position")
+                Log.d("MY_TAG", "AdditionalInfo-> ${dataList[position].AdditionalInfo} | $position")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+    }
+
+    private var recordButtonTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
+        if(motionEvent.action == MotionEvent.ACTION_DOWN) {
+            setFileName(view)
+            startRecording()
+            Toast.makeText(addQuestionsActivity.applicationContext,
+                "Started recording..", Toast.LENGTH_SHORT).show()
+        }
+        else
+        if(motionEvent.action == MotionEvent.ACTION_UP) {
+            stopRecording()
+            Toast.makeText(addQuestionsActivity.applicationContext,
+                "Finished recording!", Toast.LENGTH_SHORT).show()
+        }
+        true
+    }
+
+    private fun setFileName(view: View) {
+        val position = view.tag.toString().toInt()
+        fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
+    }
+
+    private fun startRecording(){
+        mediaRecorder = MediaRecorder()
+        var filePath = Environment.getExternalStorageDirectory().absolutePath
+        filePath += "/$fileName.3gp"
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+        mediaRecorder.setOutputFile(filePath)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+
+        try {
+            mediaRecorder.prepare()
+            mediaRecorder.start()
+        }catch(e: IllegalStateException){
+            e.printStackTrace()
+        }catch(e: IOException){
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording(){
+        mediaRecorder.stop()
+        mediaRecorder.release()
     }
 
     fun addOption(option: OptionInfo){
         dataList.add(option)
         notifyDataSetChanged()
+    }
+
+    private fun replaceSpaceWithUnderscore(s: String): String{
+        return s.trim().replace(" ", "_")
     }
 }

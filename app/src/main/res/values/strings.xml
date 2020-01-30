@@ -56,6 +56,7 @@
     <string name="add_option">Add Option</string>
     <string name="additional_info">Additional Info</string>
     <string name="option">Option</string>
+    <string name="save">Save</string>
 
     <!-- Question type list -->
     <string-array name="question_type">
