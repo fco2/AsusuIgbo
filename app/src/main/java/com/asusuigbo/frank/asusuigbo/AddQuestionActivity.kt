@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -15,8 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.adapters.OptionInfoAdapter
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
+import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
+import com.asusuigbo.frank.asusuigbo.models.QuestionInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -30,12 +36,13 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private lateinit var fab: FloatingActionButton
     private lateinit var optionAdapter: OptionInfoAdapter
     private lateinit var questionEditText: TextInputEditText
-    private lateinit var lessonNameEditText: TextInputEditText
+    lateinit var lessonNameEditText: TextInputEditText
     private lateinit var correctAnswerEditText: TextInputEditText
     private lateinit var mediaRecorder: MediaRecorder
     private var filePath = ""
     private var fileName = ""
     private lateinit var saveBtn: Button
+    private lateinit var questionGroup: QuestionGroup
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +68,59 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
         fab.setOnClickListener(addOptionBtnClickListener)
         recordAudioBtn.setOnTouchListener(recordAudioOnTouchListener)
+        saveBtn.setOnClickListener(saveQuestionClickListener)
+    }
+
+    private val saveQuestionClickListener = View.OnClickListener{
+        populateQuestionGroup()
+        Log.d("MY_TAG", "question info:" +
+                " ${questionGroup.QuestionInfo.Question} | ${questionGroup.QuestionInfo.Audio} ")
+        Log.d("MY_TAG", "correctAnswer: ${correctAnswerEditText.text}")
+        Log.d("MY_TAG", "lessonFormat: $questionTypeText")
+        optionList.forEach{
+            Log.d("MY_TAG", "option: ${it.Option} | ${it.Audio} | ${it.AdditionalInfo}")
+        }
+        saveQuestionGroupToFireBase()
+    }
+
+    private fun populateQuestionGroup(){
+        val file = File(filePath)
+        val audio = if(file.exists())
+            "Audio/${lessonNameEditText.text}/$fileName"
+        else
+            ""
+        val qi = QuestionInfo(questionEditText.text.toString(), audio)
+        this.questionGroup = QuestionGroup(qi,
+            optionList, correctAnswerEditText.text.toString(), questionTypeText)
+    }
+
+    private fun saveQuestionGroupToFireBase(){
+        val dbRef = FirebaseDatabase.getInstance().reference
+        //we will first get size of lesson then increment it by 1 and save.
+        dbRef.child("Lessons/${lessonNameEditText.text}")
+            .child("4").setValue(questionGroup) //TODO: make more dynamic
+        //save audio for question
+        if(File(filePath).exists())
+            saveRecordingToFireBase(filePath, questionGroup.QuestionInfo.Audio)
+        //save audio for options
+        optionList.forEach {
+            if(it.Audio != "") {
+                var file = Environment.getExternalStorageDirectory().absolutePath
+                file += "/${replaceSpaceWithUnderscore(it.Option)}"
+                file += ".3gp"
+                saveRecordingToFireBase(file, it.Audio)
+            }
+        }
+    }
+
+    private fun saveRecordingToFireBase(fileToSave: String, fireBaseIdentifier: String) {
+        var storageRef = FirebaseStorage.getInstance().reference
+        storageRef = storageRef.child(fireBaseIdentifier) // Audio/test_audio.3gp
+        val uri = Uri.fromFile(File(fileToSave)) //filePath
+        storageRef.putFile(uri).addOnSuccessListener {
+            Log.d("MY_TAG", "fileToSave: $fileToSave")
+            Log.d("MY_TAG", "fireBaseIdentifier: $fireBaseIdentifier}")
+        }
     }
 
     private val recordAudioOnTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
@@ -79,7 +139,8 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         mediaRecorder = MediaRecorder()
         filePath = Environment.getExternalStorageDirectory().absolutePath
         fileName = replaceSpaceWithUnderscore(questionEditText.text.toString())
-        filePath += "/$fileName.3gp"
+        fileName += ".3gp"
+        filePath += "/$fileName"
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         mediaRecorder.setOutputFile(filePath)
@@ -102,8 +163,6 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private  val addOptionBtnClickListener = View.OnClickListener {
         optionAdapter.addOption(OptionInfo("", ""))
-
-        //Log.d("MY_TAG", "-> ${questionEditText.text}")
     }
 
     private fun initializeSpinner(){

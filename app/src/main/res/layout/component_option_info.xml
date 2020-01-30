@@ -45,9 +45,9 @@
                 android:layout_alignParentEnd="true">
                 <!-- Record audio - will be beside question -->
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:padding="3dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/app_logo"
                     android:src="@mipmap/img_record_audio"

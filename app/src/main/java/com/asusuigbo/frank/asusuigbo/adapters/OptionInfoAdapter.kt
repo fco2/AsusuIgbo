@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
+import java.io.File
 import java.io.IOException
 
-class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, addQuestionsActivity: AddQuestionActivity)
+class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
+                        private var addQuestionsActivity: AddQuestionActivity)
     : RecyclerView.Adapter<OptionInfoAdapter.CustomViewHolder>() {
 
     private lateinit var mediaRecorder: MediaRecorder
+    private var filePath = ""
     private var fileName = ""
 
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -69,11 +72,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, addQuesti
                     dataList[position].Option = s.toString()
                 else
                     dataList[position].AdditionalInfo = s.toString()
-
-                Log.d("MY_TAG", "Option-> ${dataList[position].Option} | $position")
-                Log.d("MY_TAG", "AdditionalInfo-> ${dataList[position].AdditionalInfo} | $position")
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -81,7 +80,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, addQuesti
 
     private var recordButtonTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN) {
-            setFileName(view)
+            setFileNameAndAudio(view)
             startRecording()
             Toast.makeText(addQuestionsActivity.applicationContext,
                 "Started recording..", Toast.LENGTH_SHORT).show()
@@ -95,15 +94,23 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, addQuesti
         true
     }
 
-    private fun setFileName(view: View) {
+    private fun setFileNameAndAudio(view: View) {
         val position = view.tag.toString().toInt()
+        Log.d("MY_TAG", "pos: $position audio was set")
+        val file = File(filePath)
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
+        fileName += ".3gp"
+        this.dataList[position].Audio = if(file.exists())
+            "Audio/${addQuestionsActivity.lessonNameEditText.text}/$fileName"
+        else
+            ""
+        //notifyItemChanged(position)
     }
 
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
-        var filePath = Environment.getExternalStorageDirectory().absolutePath
-        filePath += "/$fileName.3gp"
+        filePath = Environment.getExternalStorageDirectory().absolutePath
+        filePath += "/$fileName"
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         mediaRecorder.setOutputFile(filePath)

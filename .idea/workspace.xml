@@ -24,22 +24,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adbc2428-860b-488d-a02c-d78f29865074" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/OptionInfoAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/OptionInfoAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_question.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_question.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/component_option_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/component_option_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,23 +62,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/OptionInfoAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="85" column="82" selection-start-line="85" selection-start-column="82" selection-end-line="85" selection-end-column="82" />
+            <state relative-caret-position="196">
+              <caret line="106" column="10" selection-start-line="106" selection-start-column="10" selection-end-line="106" selection-end-column="10" />
               <folding>
-                <element signature="e#48#591#0" expanded="true" />
+                <element signature="e#48#672#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="108" column="67" selection-start-line="108" selection-start-column="67" selection-end-line="108" selection-end-column="67" />
+              <folding>
+                <element signature="e#39#849#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="82" />
+            <state relative-caret-position="84">
+              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="613">
+              <caret line="157" column="5" selection-start-line="148" selection-start-column="4" selection-end-line="157" selection-end-column="5" />
+              <folding>
+                <element signature="e#49#838#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -135,6 +146,7 @@
       <find>canV</find>
       <find>lateinit</find>
       <find>lastUpdatedLC</find>
+      <find>questionType</find>
     </findStrings>
     <replaceStrings>
       <replace>ImgIndex</replace>
@@ -211,16 +223,16 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_question.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/component_option_info.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/OptionInfoAdapter.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="170" />
-    <option name="y" value="96" />
-    <option name="width" value="1026" />
-    <option name="height" value="576" />
+    <option name="x" value="1526" />
+    <option name="y" value="93" />
+    <option name="width" value="1024" />
+    <option name="height" value="579" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -414,9 +426,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -544,27 +556,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1374" height="772" extended-state="6" />
+    <frame x="1362" y="0" width="1288" height="1028" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.26666668" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.28525123" />
       <window_info id="Structure" order="3" side_tool="true" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="Build Variants" order="5" side_tool="true" />
       <window_info id="Image Layers" order="6" />
       <window_info id="Designer" order="7" />
       <window_info id="Resources Explorer" order="8" />
-      <window_info anchor="bottom" id="Logcat" order="0" sideWeight="0.49920127" weight="0.43453723" />
+      <window_info anchor="bottom" id="Logcat" order="0" sideWeight="0.49920127" weight="0.4153499" />
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.34603176" />
-      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.34311512" />
+      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49848714" weight="0.34285715" />
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.50486225" side_tool="true" weight="0.3837472" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.3261851" />
-      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.49594814" weight="0.22222222" />
+      <window_info anchor="bottom" id="Build" order="6" sideWeight="0.49594814" weight="0.15801354" />
       <window_info anchor="bottom" id="Android Profiler" order="7" />
-      <window_info anchor="bottom" id="Run" order="8" weight="0.12698413" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.54401803" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.32659933" />
       <window_info anchor="bottom" id="Messages" order="10" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
@@ -606,13 +618,6 @@
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/bgd_word_pair_word_inactive.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/bgd_word_pair_word_paired.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -871,20 +876,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
           <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -955,48 +953,62 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="118" column="31" lean-forward="true" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
-          <folding>
-            <element signature="e#49#838#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/component_option_info.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="90" column="46" lean-forward="true" selection-start-line="90" selection-start-column="46" selection-end-line="90" selection-end-column="46" />
-          <folding>
-            <element signature="e#4617#4642#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="168">
+          <caret line="58" column="25" lean-forward="true" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_question.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3747">
-          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        <state relative-caret-position="248">
+          <caret line="84" column="32" lean-forward="true" selection-start-line="84" selection-start-column="32" selection-end-line="85" selection-end-column="53" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/fragments/ProfileFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="82" />
+        <state relative-caret-position="613">
+          <caret line="157" column="5" selection-start-line="148" selection-start-column="4" selection-end-line="157" selection-end-column="5" />
+          <folding>
+            <element signature="e#49#838#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49506">
+          <caret line="3050" selection-start-line="3050" selection-end-line="3050" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/models/QuestionGroup.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/adapters/OptionInfoAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="85" column="82" selection-start-line="85" selection-start-column="82" selection-end-line="85" selection-end-column="82" />
+        <state relative-caret-position="196">
+          <caret line="106" column="10" selection-start-line="106" selection-start-column="10" selection-end-line="106" selection-end-column="10" />
           <folding>
-            <element signature="e#48#591#0" expanded="true" />
+            <element signature="e#48#672#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/asusuigbo/frank/asusuigbo/AddQuestionActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="108" column="67" selection-start-line="108" selection-start-column="67" selection-end-line="108" selection-end-column="67" />
+          <folding>
+            <element signature="e#39#849#0" expanded="true" />
           </folding>
         </state>
       </provider>
