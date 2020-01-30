@@ -20,7 +20,10 @@ import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.QuestionInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.io.IOException
@@ -97,8 +100,20 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun saveQuestionGroupToFireBase(){
         val dbRef = FirebaseDatabase.getInstance().reference
         //we will first get size of lesson then increment it by 1 and save.
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                val questionCount=
+                    p0.child("Lessons/${lessonNameEditText.text}").childrenCount.toInt()
+                saveLessonData(questionCount)
+            }
+        })
+    }
+
+    private fun saveLessonData(indexToUpdate: Int){
+        val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.child("Lessons/${lessonNameEditText.text}")
-            .child("4").setValue(questionGroup) //TODO: make more dynamic
+            .child("$indexToUpdate").setValue(questionGroup) //TODO: make more dynamic
         //save audio for question
         if(File(filePath).exists())
             saveRecordingToFireBase(filePath, questionGroup.QuestionInfo.Audio)

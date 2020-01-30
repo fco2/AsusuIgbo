@@ -97,9 +97,11 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
     private fun setFileNameAndAudio(view: View) {
         val position = view.tag.toString().toInt()
         Log.d("MY_TAG", "pos: $position audio was set")
-        val file = File(filePath)
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
         fileName += ".3gp"
+        filePath = Environment.getExternalStorageDirectory().absolutePath
+        filePath += "/$fileName"
+        val file = File(filePath)
         this.dataList[position].Audio = if(file.exists())
             "Audio/${addQuestionsActivity.lessonNameEditText.text}/$fileName"
         else
@@ -109,8 +111,6 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
 
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
-        filePath = Environment.getExternalStorageDirectory().absolutePath
-        filePath += "/$fileName"
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         mediaRecorder.setOutputFile(filePath)
