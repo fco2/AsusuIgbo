@@ -43,6 +43,10 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
             lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpView()
         playAudioBtn.setOnClickListener(playAudioClickListener)
+
+        //set visibility of play button
+        if(lessonActivity.dataList[0].QuestionInfo.Audio != "")
+            playAudioBtn.visibility = View.VISIBLE
         return view
     }
 

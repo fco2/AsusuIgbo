@@ -3,14 +3,13 @@ package com.asusuigbo.frank.asusuigbo
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
-import androidx.appcompat.widget.TooltipCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +26,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.io.IOException
-import java.lang.IllegalStateException
 
 class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -44,6 +42,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private lateinit var mediaRecorder: MediaRecorder
     private var filePath = ""
     private var fileName = ""
+    private var optionFilePath = ""
     private lateinit var saveBtn: Button
     private lateinit var questionGroup: QuestionGroup
 
@@ -75,13 +74,6 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private val saveQuestionClickListener = View.OnClickListener{
         populateQuestionGroup()
-        /*Log.d("MY_TAG", "question info:" +
-                " ${questionGroup.QuestionInfo.Question} | ${questionGroup.QuestionInfo.Audio} ")
-        Log.d("MY_TAG", "correctAnswer: ${correctAnswerEditText.text}")
-        Log.d("MY_TAG", "lessonFormat: $questionTypeText")
-        optionList.forEach{
-            Log.d("MY_TAG", "option: ${it.Option} | ${it.Audio} | ${it.AdditionalInfo}")
-        }*/
         saveQuestionGroupToFireBase()
     }
 
@@ -109,8 +101,22 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         })
     }
 
+    //TODO: found my bug here.. fix at lunch.
     private fun saveLessonData(indexToUpdate: Int){
         val dbRef = FirebaseDatabase.getInstance().reference
+        //set option audio value
+        optionList.forEach {
+            var optionFileName = replaceSpaceWithUnderscore(it.Option)
+            optionFileName += ".3gp"
+            optionFilePath = Environment.getExternalStorageDirectory().absolutePath
+            optionFilePath += "/$optionFileName"
+            val file = File(optionFilePath)
+            it.Audio = if(file.exists())
+                "Audio/${lessonNameEditText.text}/$optionFileName"
+            else
+                ""
+            Log.d("MY_TAG", "filepath: $optionFilePath")
+        }
         dbRef.child("Lessons/${lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
@@ -119,10 +125,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         //save audio for options
         optionList.forEach {
             if(it.Audio != "") {
-                var file = Environment.getExternalStorageDirectory().absolutePath
-                file += "/${replaceSpaceWithUnderscore(it.Option)}"
-                file += ".3gp"
-                saveRecordingToFireBase(file, it.Audio)
+                saveRecordingToFireBase(optionFilePath, it.Audio)
             }
         }
         Toast.makeText(this, "Saved data successfully!", Toast.LENGTH_SHORT).show()

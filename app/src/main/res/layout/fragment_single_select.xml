@@ -48,6 +48,7 @@
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:src="@mipmap/img_play_audio"
                     android:contentDescription="@string/record_audio"
                     card_view:layout_constrainedWidth="true"

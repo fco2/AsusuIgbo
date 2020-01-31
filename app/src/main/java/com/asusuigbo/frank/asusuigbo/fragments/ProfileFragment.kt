@@ -33,14 +33,6 @@ class ProfileFragment : Fragment() {
     private lateinit var lessonsCompleted: TextView
     private lateinit var wordsLearned: TextView
     private lateinit var progressBar: ProgressBar
-
-    private lateinit var recordButton: ImageView
-    private lateinit var mediaRecorder: MediaRecorder
-    private var filePath = ""
-    private lateinit var recordNotificationText: TextView
-    private var counter = 0
-
-    private lateinit var playButton: Button
     private lateinit var addQuestionButton: Button
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,80 +45,27 @@ class ProfileFragment : Fragment() {
         lessonsCompleted = view.findViewById(R.id.lessons_completed_value)
         wordsLearned = view.findViewById(R.id.words_learned_value)
         progressBar = view.findViewById(R.id.progress_bar_profile_id)
-        recordButton = view.findViewById(R.id.record_audio_button_id)
-        recordNotificationText = view.findViewById(R.id.record_notification_id)
-        playButton = view.findViewById(R.id.play_button)
         addQuestionButton = view.findViewById(R.id.add_question_id)
         progressBar.visibility = View.VISIBLE
 
         auth = FirebaseAuth.getInstance()
+
         setUserName()
         signOutBtn.setOnClickListener(signOutClickListener)
-        recordButton.setOnTouchListener(recordButtonTouchListener)
-        playButton.setOnClickListener(playOnClickListener)
         addQuestionButton.setOnClickListener(addQuestionClickListener)
         return view
     }
+
 
     private val addQuestionClickListener = View.OnClickListener{
         startActivity(Intent(activity!!.applicationContext, AddQuestionActivity::class.java))
     }
 
-    private val playOnClickListener = View.OnClickListener{
-        val storageRef = FirebaseStorage.getInstance().reference
-        storageRef.child("Audio/test_audio.3gp").downloadUrl.addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource(it.toString())
-            mediaPlayer.setOnPreparedListener{player ->
-                player.start()
-            }
-            mediaPlayer.prepareAsync()
-        }
-    }
-
-    private var recordButtonTouchListener = View.OnTouchListener{ _: View, motionEvent: MotionEvent ->
-        if(motionEvent.action == MotionEvent.ACTION_DOWN)
-            startRecording()
-        else
-        if(motionEvent.action == MotionEvent.ACTION_UP)
-            stopRecording()
-        true
-    }
-
-    private fun startRecording(){
-        mediaRecorder = MediaRecorder()
-        recordNotificationText.text = getString(R.string.started_recording)
-        filePath = Environment.getExternalStorageDirectory().absolutePath
-        filePath += "/test_audio_$counter.3gp"
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-        mediaRecorder.setOutputFile(filePath)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-
-        try {
-            mediaRecorder.prepare()
-            mediaRecorder.start()
-        }catch(e: IllegalStateException){
-            e.printStackTrace()
-        }catch(e: IOException){
-            e.printStackTrace()
-        }
-        counter += 1
-    }
-
-    private fun stopRecording(){
-        mediaRecorder.stop()
-        mediaRecorder.release()
-        recordNotificationText.text = getString(R.string.stopped_recording)
-        saveRecordingToFireBase()
-    }
-
     private val signOutClickListener = View.OnClickListener {
-
-       /* if(auth.currentUser != null){
+       if(auth.currentUser != null){
             auth.signOut()
             startActivity(Intent(activity!!.applicationContext, LoginActivity::class.java))
-        }*/
+        }
     }
 
     private fun setUserName(){
@@ -142,19 +81,11 @@ class ProfileFragment : Fragment() {
                         .child("LessonsCompleted").value.toString()
 
                 progressBar.visibility = View.GONE
+
+                if(username.text == "chuka")
+                    addQuestionButton.visibility = View.VISIBLE
             }
         })
-    }
-
-    private fun saveRecordingToFireBase() {
-        var storageRef = FirebaseStorage.getInstance().reference
-        storageRef = storageRef.child("Audio/test_audio.3gp")
-        val uri = Uri.fromFile(File(filePath))
-        storageRef.putFile(uri).addOnSuccessListener {
-            //val x = it.uploadSessionUri
-            Log.d("MY_TAG", "filepath: $filePath")
-            Log.d("MY_TAG", "II: ${it.uploadSessionUri.toString()}")
-        }
     }
 }// Required empty public constructor
 
