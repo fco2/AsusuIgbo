@@ -52,7 +52,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/andika"
-                                android:textSize="14sp"
+                                android:textSize="16sp"
                                 android:hint="@string/add_question"
                                 android:id="@+id/add_question_id"/>
                         </com.google.android.material.textfield.TextInputLayout>
@@ -159,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/andika"
                                 android:hint="@string/correct_answer_text"
-                                android:textSize="14sp" />
+                                android:textSize="16sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -222,6 +222,6 @@
         app:layout_anchorGravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@mipmap/icon_add_white"
-        android:background="@color/greenLightShade"
+        android:background="@color/lighterBlue"
         android:id="@+id/add_option_btn_id"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

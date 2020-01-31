@@ -60,8 +60,6 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         saveBtn = findViewById(R.id.save_question)
         initializeSpinner()
         questionTypeSpinner.onItemSelectedListener = this
-        //TODO: line below not working
-        TooltipCompat.setTooltipText(recordAudioBtn, "Record Audio")
         val manager = LinearLayoutManager(this)
         optionAdapter = OptionInfoAdapter(optionList, this)
         optionRecyclerView = findViewById<RecyclerView>(R.id.option_recycler_view_id).apply{
@@ -72,6 +70,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         fab.setOnClickListener(addOptionBtnClickListener)
         recordAudioBtn.setOnTouchListener(recordAudioOnTouchListener)
         saveBtn.setOnClickListener(saveQuestionClickListener)
+        setUpSwipeToDelete()
     }
 
     private val saveQuestionClickListener = View.OnClickListener{
@@ -113,7 +112,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun saveLessonData(indexToUpdate: Int){
         val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.child("Lessons/${lessonNameEditText.text}")
-            .child("$indexToUpdate").setValue(questionGroup) //TODO: make more dynamic
+            .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
         if(File(filePath).exists())
             saveRecordingToFireBase(filePath, questionGroup.QuestionInfo.Audio)
@@ -126,6 +125,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 saveRecordingToFireBase(file, it.Audio)
             }
         }
+        Toast.makeText(this, "Saved data successfully!", Toast.LENGTH_SHORT).show()
     }
 
     private fun saveRecordingToFireBase(fileToSave: String, fireBaseIdentifier: String) {
@@ -199,5 +199,27 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun replaceSpaceWithUnderscore(s: String): String{
         return s.trim().replace(" ", "_")
+    }
+
+    private fun setUpSwipeToDelete(){
+        val itemTouchHelperCallback =
+            object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    optionList.remove(optionList[viewHolder.adapterPosition])
+                    Log.d("MY_TAG", "deleted index: ${viewHolder.adapterPosition}")
+                    optionAdapter.notifyDataSetChanged()
+                    Toast.makeText(applicationContext, "Deleted Item!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(optionRecyclerView)
     }
 }

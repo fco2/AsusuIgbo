@@ -47,6 +47,11 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
 
     override fun getItemCount(): Int = this.dataList.size
 
+    override fun getItemId(position: Int): Long {
+        super.getItemId(position)
+        return position.toLong()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.option!!.text = this.dataList[position].Option
@@ -96,7 +101,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
 
     private fun setFileNameAndAudio(view: View) {
         val position = view.tag.toString().toInt()
-        Log.d("MY_TAG", "pos: $position audio was set")
+        //Log.d("MY_TAG", "pos: $position audio was set")
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
         fileName += ".3gp"
         filePath = Environment.getExternalStorageDirectory().absolutePath

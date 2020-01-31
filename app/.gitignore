@@ -2,3 +2,6 @@
 .gradle*
 .idea*
 *.iml
+.gradle/*
+.idea/*
+AsusuIgbo.iml
