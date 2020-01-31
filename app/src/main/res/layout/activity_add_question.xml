@@ -63,7 +63,7 @@
                             android:layout_height="match_parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintWidth_default="wrap"
+                            app:layout_constrainedWidth="true"
                             android:id="@+id/record_audio_parent"
                             android:layout_alignParentEnd="true">
                             <!-- Record audio - will be beside question -->
@@ -108,7 +108,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginStart="10dp"
-                            app:layout_constraintWidth_default="wrap"
+                            app:layout_constrainedWidth="true"
                             android:id="@+id/question_type_container_id">
 
                             <androidx.appcompat.widget.AppCompatSpinner

@@ -75,13 +75,13 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private val saveQuestionClickListener = View.OnClickListener{
         populateQuestionGroup()
-        Log.d("MY_TAG", "question info:" +
+        /*Log.d("MY_TAG", "question info:" +
                 " ${questionGroup.QuestionInfo.Question} | ${questionGroup.QuestionInfo.Audio} ")
         Log.d("MY_TAG", "correctAnswer: ${correctAnswerEditText.text}")
         Log.d("MY_TAG", "lessonFormat: $questionTypeText")
         optionList.forEach{
             Log.d("MY_TAG", "option: ${it.Option} | ${it.Audio} | ${it.AdditionalInfo}")
-        }
+        }*/
         saveQuestionGroupToFireBase()
     }
 
@@ -133,8 +133,8 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         storageRef = storageRef.child(fireBaseIdentifier) // Audio/test_audio.3gp
         val uri = Uri.fromFile(File(fileToSave)) //filePath
         storageRef.putFile(uri).addOnSuccessListener {
-            Log.d("MY_TAG", "fileToSave: $fileToSave")
-            Log.d("MY_TAG", "fireBaseIdentifier: $fireBaseIdentifier}")
+          /*  Log.d("MY_TAG", "fileToSave: $fileToSave")
+            Log.d("MY_TAG", "fireBaseIdentifier: $fireBaseIdentifier}")*/
         }
     }
 
@@ -173,6 +173,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun stopRecording(){
         mediaRecorder.stop()
+        mediaRecorder.reset()
         mediaRecorder.release()
     }
 
@@ -214,7 +215,6 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     optionList.remove(optionList[viewHolder.adapterPosition])
-                    Log.d("MY_TAG", "deleted index: ${viewHolder.adapterPosition}")
                     optionAdapter.notifyDataSetChanged()
                     Toast.makeText(applicationContext, "Deleted Item!", Toast.LENGTH_SHORT).show()
                 }

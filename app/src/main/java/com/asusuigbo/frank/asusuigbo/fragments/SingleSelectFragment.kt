@@ -1,14 +1,12 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
@@ -16,6 +14,7 @@ import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
+import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 /**
@@ -26,6 +25,7 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
     private lateinit var button: Button
     private lateinit var radioGroup: RadioGroup
     private var singleQuestionTextView: TextView? = null
+    private lateinit var playAudioBtn: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +36,27 @@ class SingleSelectFragment(private var lessonActivity: LessonActivity) : BaseExt
         radioGroup = view.findViewById(R.id.radio_group_id)
         this.invokeCheckedButtonListener()
         singleQuestionTextView = view.findViewById(R.id.single_question_id)
+        playAudioBtn = view.findViewById(R.id.play_audio_id)
         button.setOnClickListener(buttonClickListener)
 
         lessonActivity.singleSelectFragment.singleQuestionTextView!!.text =
             lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpView()
+        playAudioBtn.setOnClickListener(playAudioClickListener)
         return view
+    }
+
+    private val playAudioClickListener  = View.OnClickListener {
+        val storageRef = FirebaseStorage.getInstance().reference
+        storageRef.child(lessonActivity.dataList[0].QuestionInfo.Audio).
+            downloadUrl.addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(it.toString())
+            mediaPlayer.setOnPreparedListener{player ->
+                player.start()
+            }
+            mediaPlayer.prepareAsync()
+        }
     }
 
     private val buttonClickListener = View.OnClickListener {

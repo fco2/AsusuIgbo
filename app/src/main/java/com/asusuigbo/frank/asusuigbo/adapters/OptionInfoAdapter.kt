@@ -52,6 +52,11 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
         return position.toLong()
     }
 
+    override fun getItemViewType(position: Int): Int {
+        super.getItemViewType(position)
+        return position
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.option!!.text = this.dataList[position].Option
@@ -101,7 +106,6 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
 
     private fun setFileNameAndAudio(view: View) {
         val position = view.tag.toString().toInt()
-        //Log.d("MY_TAG", "pos: $position audio was set")
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
         fileName += ".3gp"
         filePath = Environment.getExternalStorageDirectory().absolutePath
@@ -111,7 +115,9 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
             "Audio/${addQuestionsActivity.lessonNameEditText.text}/$fileName"
         else
             ""
-        //notifyItemChanged(position)
+        Log.d("MY_TAG", "lesson name: ${addQuestionsActivity.lessonNameEditText.text}")
+        Log.d("MY_TAG", "from adapter: ${this.dataList[position].Audio}")
+        Log.d("MY_TAG", "******")
     }
 
     private fun startRecording(){
@@ -133,6 +139,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
 
     private fun stopRecording(){
         mediaRecorder.stop()
+        //mediaRecorder.reset()
         mediaRecorder.release()
     }
 

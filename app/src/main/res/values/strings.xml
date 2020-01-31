@@ -60,9 +60,9 @@
 
     <!-- Question type list -->
     <string-array name="question_type">
-        <item>ImageSelect</item>
-        <item>MultiSelect</item>
         <item>SingleSelect</item>
+        <item>MultiSelect</item>
+        <item>ImageSelect</item>
         <item>WordPair</item>
     </string-array>
 </resources>

@@ -5,15 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SingleSelectFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/bree_serif"
             android:textSize="22sp"
@@ -25,59 +28,82 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/instruction_single_id"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/instruction_single_id"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             card_view:cardCornerRadius="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="5dp">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    android:src="@mipmap/img_play_audio"
+                    android:contentDescription="@string/record_audio"
+                    card_view:layout_constrainedWidth="true"
+                    android:id="@+id/play_audio_id"/>
+
                 <TextView
-                    android:id="@+id/single_question_id"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="6dp"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toStartOf="@id/play_audio_id"
+                    card_view:layout_constraintWidth_default="spread"
+                    android:padding="2dp"
                     android:fontFamily="@font/andika"
                     android:gravity="center_vertical|start"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:id="@+id/single_question_id"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_margin="2dp"
-                    android:layout_below="@id/single_question_id"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/single_question_id"
                     android:background="#e2e1cc"
                     android:id="@+id/view_divider_id"/>
 
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view_divider_id"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/view_divider_id"
                     android:layout_marginTop="10dp"
                     android:id="@+id/radio_group_id">
                 </RadioGroup>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
         <Button
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
             android:padding="18dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
             android:textSize="18sp"
             android:enabled="false"
             style="@style/RoundedCornerButtonTheme"
             android:layout_marginBottom="10dp"
             android:text="@string/answer_button_state"
             android:id="@+id/button_id"/>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
