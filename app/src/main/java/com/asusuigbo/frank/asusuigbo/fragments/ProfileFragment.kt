@@ -2,27 +2,19 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.media.MediaPlayer
-import android.media.MediaRecorder
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
-import java.io.File
-import java.io.IOException
-import java.lang.IllegalStateException
 
 
 class ProfileFragment : Fragment() {
@@ -88,5 +80,3 @@ class ProfileFragment : Fragment() {
         })
     }
 }// Required empty public constructor
-
-// D/MY_TAG: II: https://firebasestorage.googleapis.com/v0/b/asusu-igbo.appspot.com/o?name=Audio%2Ftest_audio.3gp&uploadType=resumable&upload_id=AEnB2Uqhn8HSPeNI80rloFE6VnU1PodZFBH9rj3MnjBhgPBUJta-5UWEDhTJ7EjgOIhYyU2mrPwlxdbICPqnE0ARa2uMoHcTLg&upload_protocol=resumable

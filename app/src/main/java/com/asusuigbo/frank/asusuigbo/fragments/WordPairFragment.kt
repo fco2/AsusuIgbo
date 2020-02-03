@@ -2,6 +2,7 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.graphics.drawable.TransitionDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
+import com.google.firebase.storage.FirebaseStorage
 
 /**
  * A simple [Fragment] subclass.
@@ -74,7 +76,25 @@ class WordPairFragment(private var lessonActivity: LessonActivity) : BaseExtende
         val translatedWord: TextView = this.flexBoxLayout.getChildAt(chosenWordIndex) as TextView
         animatePairedWords(textView, R.drawable.animate_correct_word_pair)
         animatePairedWords(translatedWord, R.drawable.animate_correct_word_pair)
+        //play audio
+        //get data list item with audio, and play it
+        val audioUrl = if(dataList[textView.tag.toString().toInt()].Audio != "")
+            dataList[textView.tag.toString().toInt()].Audio
+        else
+            dataList[translatedWord.tag.toString().toInt()].Audio
+
+        //TODO: this logic should be extracted to abstract class.
+        val storageRef = FirebaseStorage.getInstance().reference
+        storageRef.child(audioUrl).downloadUrl.addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(it.toString())
+            mediaPlayer.setOnPreparedListener{player ->
+                player.start()
+            }
+            mediaPlayer.prepareAsync()
+        }
     }
+
 
     private fun animatePairedWords(translatedWord: TextView, drawable: Int,
                                    isWrongPair: Boolean = false) {

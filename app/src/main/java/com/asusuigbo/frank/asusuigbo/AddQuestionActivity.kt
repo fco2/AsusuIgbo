@@ -43,6 +43,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private var filePath = ""
     private var fileName = ""
     private var optionFilePath = ""
+    private var optionFileName = ""
     private lateinit var saveBtn: Button
     private lateinit var questionGroup: QuestionGroup
 
@@ -101,21 +102,17 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         })
     }
 
-    //TODO: found my bug here.. fix at lunch.
     private fun saveLessonData(indexToUpdate: Int){
         val dbRef = FirebaseDatabase.getInstance().reference
         //set option audio value
         optionList.forEach {
-            var optionFileName = replaceSpaceWithUnderscore(it.Option)
-            optionFileName += ".3gp"
-            optionFilePath = Environment.getExternalStorageDirectory().absolutePath
-            optionFilePath += "/$optionFileName"
+            optionFilePath = getOptionFilePath(it)
+
             val file = File(optionFilePath)
             it.Audio = if(file.exists())
                 "Audio/${lessonNameEditText.text}/$optionFileName"
             else
                 ""
-            Log.d("MY_TAG", "filepath: $optionFilePath")
         }
         dbRef.child("Lessons/${lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
@@ -124,11 +121,20 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             saveRecordingToFireBase(filePath, questionGroup.QuestionInfo.Audio)
         //save audio for options
         optionList.forEach {
-            if(it.Audio != "") {
+            if(it.Audio.trim() != "") {
+                optionFilePath = getOptionFilePath(it)
                 saveRecordingToFireBase(optionFilePath, it.Audio)
             }
         }
         Toast.makeText(this, "Saved data successfully!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getOptionFilePath(it: OptionInfo): String {
+        optionFileName = replaceSpaceWithUnderscore(it.Option)
+        optionFileName += ".3gp"
+        optionFilePath = Environment.getExternalStorageDirectory().absolutePath
+        optionFilePath += "/$optionFileName"
+        return optionFilePath
     }
 
     private fun saveRecordingToFireBase(fileToSave: String, fireBaseIdentifier: String) {
@@ -136,12 +142,11 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         storageRef = storageRef.child(fireBaseIdentifier) // Audio/test_audio.3gp
         val uri = Uri.fromFile(File(fileToSave)) //filePath
         storageRef.putFile(uri).addOnSuccessListener {
-          /*  Log.d("MY_TAG", "fileToSave: $fileToSave")
-            Log.d("MY_TAG", "fireBaseIdentifier: $fireBaseIdentifier}")*/
+            File(fileToSave).delete()
         }
     }
 
-    private val recordAudioOnTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
+    private val recordAudioOnTouchListener = View.OnTouchListener{ _: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN){
             Toast.makeText(this, "Started recording..", Toast.LENGTH_SHORT).show()
             startRecording()
