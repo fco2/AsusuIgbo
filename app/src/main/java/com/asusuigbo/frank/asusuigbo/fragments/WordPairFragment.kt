@@ -74,27 +74,19 @@ class WordPairFragment(private var lessonActivity: LessonActivity) : BaseExtende
 
     private fun setBgdPairedWords(textView: TextView){
         val translatedWord: TextView = this.flexBoxLayout.getChildAt(chosenWordIndex) as TextView
-        animatePairedWords(textView, R.drawable.animate_correct_word_pair)
-        animatePairedWords(translatedWord, R.drawable.animate_correct_word_pair)
         //play audio
         //get data list item with audio, and play it
         val audioUrl = if(dataList[textView.tag.toString().toInt()].Audio != "")
             dataList[textView.tag.toString().toInt()].Audio
         else
             dataList[translatedWord.tag.toString().toInt()].Audio
-
-        //TODO: this logic should be extracted to abstract class.
-        val storageRef = FirebaseStorage.getInstance().reference
-        storageRef.child(audioUrl).downloadUrl.addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource(it.toString())
-            mediaPlayer.setOnPreparedListener{player ->
-                player.start()
-            }
-            mediaPlayer.prepareAsync()
+        if(audioUrl != ""){
+            playAudio(audioUrl)
         }
+        //animate word pair
+        animatePairedWords(textView, R.drawable.animate_correct_word_pair)
+        animatePairedWords(translatedWord, R.drawable.animate_correct_word_pair)
     }
-
 
     private fun animatePairedWords(translatedWord: TextView, drawable: Int,
                                    isWrongPair: Boolean = false) {

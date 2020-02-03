@@ -58,6 +58,9 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
         val resourceId: Int = getResourceId(position)
         holder.imgChoiceImg.setImageResource(resourceId)
         holder.imgChoiceCardView.setOnClickListener {
+            //play audio here
+            if(optionList[position].Audio != "")
+                fragment.playAudio(optionList[position].Audio)
             //remove color filter for all items
             for(i in 0 until fragment.recyclerView.childCount){
                 val view: View = fragment.recyclerView.getChildAt(i)

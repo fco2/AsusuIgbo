@@ -1,9 +1,11 @@
 package com.asusuigbo.frank.asusuigbo.helpers
 
+import android.media.MediaPlayer
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.UserButton
+import com.google.firebase.storage.FirebaseStorage
 
 abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) : Fragment() {
 
@@ -39,6 +41,19 @@ abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) 
         this.updateOptions()
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         lessonActivity.setProgressBarStatus()
+    }
+
+    fun playAudio(audioUrl: String){
+        val storageRef = FirebaseStorage.getInstance().reference
+        storageRef.child(audioUrl).
+            downloadUrl.addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(it.toString())
+            mediaPlayer.setOnPreparedListener{player ->
+                player.start()
+            }
+            mediaPlayer.prepareAsync()
+        }
     }
 
     abstract fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int)
