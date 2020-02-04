@@ -1,7 +1,6 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.asusuigbo.frank.asusuigbo.LessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
-import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 /**

@@ -5,22 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SentenceBuilderFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:layout_margin="10dp"
-            android:layout_above="@id/button_id"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            tools:ignore="UselessParent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:animateLayoutChanges="true"
+        android:layout_margin="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textAlignment="textStart"
                 android:text="@string/select_answer_header"
                 android:fontFamily="@font/bree_serif"
@@ -32,6 +28,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                app:layout_constraintTop_toBottomOf="@id/instruction_multi_id"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="2dp"
@@ -40,10 +38,26 @@
                 android:background="#e2e1cc"
                 android:id="@+id/view_divider_multi_id"/>
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider_multi_id"
+            android:padding="8dp"
+            android:clickable="false"
+            android:src="@mipmap/img_play_audio"
+            android:contentDescription="@string/play_audio"
+            app:layout_constrainedWidth="true"
+            android:id="@+id/play_audio_id"/>
+
             <TextView
                 android:id="@+id/multi_question_id"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_divider_multi_id"
+                app:layout_constraintEnd_toStartOf="@id/play_audio_id"
+                app:layout_constrainedWidth="true"
                 android:layout_below="@id/view_divider_multi_id"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
@@ -55,6 +69,9 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/multi_question_id"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 app:flexDirection="row"
@@ -69,6 +86,9 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/button_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_alignParentBottom="true"
@@ -79,11 +99,12 @@
                 android:id="@+id/flexbox_source_id">
             </com.google.android.flexbox.FlexboxLayout>
 
-    </RelativeLayout>
-
         <Button
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:padding="18dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
@@ -93,6 +114,5 @@
             android:layout_marginBottom="10dp"
             android:text="@string/answer_button_state"
             android:id="@+id/button_id"/>
-    </RelativeLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

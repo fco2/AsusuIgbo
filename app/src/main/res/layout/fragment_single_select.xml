@@ -50,7 +50,7 @@
                     android:padding="8dp"
                     android:visibility="gone"
                     android:src="@mipmap/img_play_audio"
-                    android:contentDescription="@string/record_audio"
+                    android:contentDescription="@string/play_audio"
                     card_view:layout_constrainedWidth="true"
                     android:id="@+id/play_audio_id"/>
 

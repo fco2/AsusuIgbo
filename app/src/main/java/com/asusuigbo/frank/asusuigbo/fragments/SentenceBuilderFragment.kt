@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
@@ -28,6 +29,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     private lateinit var sourceFlexBoxLayout: FlexboxLayout
     private lateinit var destFlexBoxLayout: FlexboxLayout
     private var selectedSentence: ArrayList<Int> = ArrayList()
+    private lateinit var playAudioBtn: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +40,19 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
         this.multiQuestionTextView = view.findViewById(R.id.multi_question_id)
         this.sourceFlexBoxLayout = view.findViewById(R.id.flexbox_source_id)
         this.destFlexBoxLayout = view.findViewById(R.id.flexbox_destination_id)
+        playAudioBtn = view.findViewById(R.id.play_audio_id)
         this.initializeViewClickListener()
         button.setOnClickListener(buttonClickListener)
 
         this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
         this.setUpView()
+
+        playAudioBtn.setOnClickListener(playAudioClickListener)
         return view
+    }
+
+    private val playAudioClickListener  = View.OnClickListener {
+        playAudio(lessonActivity.dataList[0].QuestionInfo.Audio)
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -52,6 +61,10 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
 
     override fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
+        if(sentence == lessonActivity.currentQuestion.CorrectAnswer){
+            playAudio(lessonActivity.dataList[0].QuestionInfo.Audio)
+            playAudioBtn.isEnabled = true
+        }
         return sentence == lessonActivity.currentQuestion.CorrectAnswer
     }
 

@@ -57,6 +57,7 @@
     <string name="additional_info">Additional Info</string>
     <string name="option">Option</string>
     <string name="save">Save</string>
+    <string name="play_audio">Play Audio</string>
 
     <!-- Question type list -->
     <string-array name="question_type">
