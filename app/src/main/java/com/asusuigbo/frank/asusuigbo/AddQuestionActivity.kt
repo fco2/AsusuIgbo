@@ -91,6 +91,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun saveQuestionGroupToFireBase(){
         val dbRef = FirebaseDatabase.getInstance().reference
+
         //we will first get size of lesson then increment it by 1 and save.
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}

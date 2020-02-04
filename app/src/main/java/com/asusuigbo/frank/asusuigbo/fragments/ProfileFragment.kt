@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.LoginActivity
@@ -48,7 +49,6 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-
     private val addQuestionClickListener = View.OnClickListener{
         startActivity(Intent(activity!!.applicationContext, AddQuestionActivity::class.java))
     }
@@ -58,6 +58,9 @@ class ProfileFragment : Fragment() {
             auth.signOut()
             startActivity(Intent(activity!!.applicationContext, LoginActivity::class.java))
         }
+        /*val dbRef = FirebaseDatabase.getInstance().reference
+        dbRef.child("Lessons/Intro/0").removeValue()
+        Toast.makeText(context!!.applicationContext, "Deleted!", Toast.LENGTH_SHORT).show()*/
     }
 
     private fun setUserName(){
