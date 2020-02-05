@@ -209,6 +209,8 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun replaceSpaceWithUnderscore(s: String): String{
         return s.trim().replace(" ", "_")
+            .replace("'", "_")
+            .replace("?", "")
     }
 
     private fun setUpSwipeToDelete(){

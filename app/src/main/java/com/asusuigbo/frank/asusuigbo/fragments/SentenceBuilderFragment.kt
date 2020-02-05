@@ -30,6 +30,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     private lateinit var destFlexBoxLayout: FlexboxLayout
     private var selectedSentence: ArrayList<Int> = ArrayList()
     private lateinit var playAudioBtn: ImageView
+    private var audioUrl = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +46,17 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
         button.setOnClickListener(buttonClickListener)
 
         this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
+        audioUrl = lessonActivity.dataList[0].QuestionInfo.Audio
         this.setUpView()
-
         playAudioBtn.setOnClickListener(playAudioClickListener)
+
+        if(lessonActivity.dataList[0].QuestionInfo.Audio != "")
+            playAudioBtn.visibility = View.VISIBLE
         return view
     }
 
     private val playAudioClickListener  = View.OnClickListener {
-        playAudio(lessonActivity.dataList[0].QuestionInfo.Audio)
+        playAudio(audioUrl)
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -61,10 +65,6 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
 
     override fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
-        if(sentence == lessonActivity.currentQuestion.CorrectAnswer){
-            playAudio(lessonActivity.dataList[0].QuestionInfo.Audio)
-            playAudioBtn.isEnabled = true
-        }
         return sentence == lessonActivity.currentQuestion.CorrectAnswer
     }
 

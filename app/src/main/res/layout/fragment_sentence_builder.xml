@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_divider_multi_id"
             android:padding="8dp"
-            android:clickable="false"
+            android:visibility="gone"
             android:src="@mipmap/img_play_audio"
             android:contentDescription="@string/play_audio"
             app:layout_constrainedWidth="true"
