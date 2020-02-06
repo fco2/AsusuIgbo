@@ -96,9 +96,9 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val questionCount=
-                    p0.child("Lessons/${lessonNameEditText.text}").childrenCount.toInt()
-                saveLessonData(questionCount)
+                val lastQuestionIndex=
+                    p0.child("Lessons/${lessonNameEditText.text}").children.last().key!!.toInt() + 1
+                saveLessonData(lastQuestionIndex)
             }
         })
     }
