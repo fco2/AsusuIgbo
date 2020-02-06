@@ -97,6 +97,9 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
                 val lastQuestionIndex=
+                if(p0.child("Lessons/${lessonNameEditText.text}").children.count() == 0)
+                    0
+                else
                     p0.child("Lessons/${lessonNameEditText.text}").children.last().key!!.toInt() + 1
                 saveLessonData(lastQuestionIndex)
             }
