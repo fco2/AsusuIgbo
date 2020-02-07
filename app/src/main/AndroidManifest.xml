@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".AddQuestionActivity"/>
-        <activity android:name=".TestDictActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashScreenActivity"> <!-- android:theme="@style/AppTheme.Launcher" > -->

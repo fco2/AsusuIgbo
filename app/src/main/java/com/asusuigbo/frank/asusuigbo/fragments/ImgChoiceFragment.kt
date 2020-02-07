@@ -75,6 +75,7 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
         this.recyclerView.layoutManager = GridLayoutManager(this.lessonActivity, 2)
         this.recyclerView.hasFixedSize()
         this.recyclerView.addItemDecoration(this.itemOffsetDecoration)
+        this.lessonActivity.dataList[0].Options.shuffle()
         val adapter = ImgChoiceOptionsAdapter(this.lessonActivity.dataList[0].Options, this)
         this.recyclerView.adapter = null
         this.recyclerView.adapter = adapter

@@ -15,7 +15,7 @@ abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) 
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                lessonActivity.navigateToFragment(lessonActivity.dataList[0].LessonFormat)
+                lessonActivity.navigateToFragment(lessonActivity.dataList[0].QuestionFormat)
             }
             else -> {
                 lessonActivity.navigateToFragment()

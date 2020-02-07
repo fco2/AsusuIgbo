@@ -24,7 +24,7 @@ class DataLoader {
                     lessonActivity.dataListSize = lessonActivity.dataList.size
                     lessonActivity.dataList.shuffle()
 
-                    when(lessonActivity.dataList[0].LessonFormat ) {
+                    when(lessonActivity.dataList[0].QuestionFormat ) {
                         "SingleSelect" -> lessonActivity.navigateToFragment("SingleSelect")
                         "MultiSelect" -> lessonActivity.navigateToFragment("MultiSelect")
                         "ImageSelect" -> lessonActivity.navigateToFragment("ImageSelect")
