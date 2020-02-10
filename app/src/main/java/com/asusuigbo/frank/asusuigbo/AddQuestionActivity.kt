@@ -3,8 +3,7 @@ package com.asusuigbo.frank.asusuigbo
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -46,6 +45,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private var optionFileName = ""
     private lateinit var saveBtn: Button
     private lateinit var questionGroup: QuestionGroup
+    private lateinit var vibrator: Vibrator
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +71,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         recordAudioBtn.setOnTouchListener(recordAudioOnTouchListener)
         saveBtn.setOnClickListener(saveQuestionClickListener)
         setUpSwipeToDelete()
+        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
     }
 
     private val saveQuestionClickListener = View.OnClickListener{
@@ -150,16 +151,25 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
     }
 
-    private val recordAudioOnTouchListener = View.OnTouchListener{ _: View, motionEvent: MotionEvent ->
+    private val recordAudioOnTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN){
             Toast.makeText(this, "Started recording..", Toast.LENGTH_SHORT).show()
             startRecording()
+            vibrateForAudio()
         }else
         if(motionEvent.action == MotionEvent.ACTION_UP){
             stopRecording()
+            vibrateForAudio()
             Toast.makeText(this, "Finished recording!", Toast.LENGTH_SHORT).show()
         }
         true
+    }
+
+    private fun vibrateForAudio() {
+        if (Build.VERSION.SDK_INT >= 26)
+            vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+        else
+            vibrator.vibrate(150)
     }
 
     private fun startRecording(){
