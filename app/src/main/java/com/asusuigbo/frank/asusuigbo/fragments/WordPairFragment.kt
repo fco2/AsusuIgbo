@@ -54,7 +54,7 @@ class WordPairFragment(private var lessonActivity: LessonActivity) : BaseExtende
                 setBgdCurrentChosenWord(v as TextView)
                 chosenWordIndex = index
             }
-            dataList[chosenWordIndex].AdditionalInfo == dataList[index].AdditionalInfo -> {
+            dataList[chosenWordIndex].AdditionalInfo == dataList[index].AdditionalInfo && chosenWordIndex != index -> {
                 setBgdPairedWords(v as TextView)
                 chosenWordIndex = -1  //reset chosen word index.
             }
