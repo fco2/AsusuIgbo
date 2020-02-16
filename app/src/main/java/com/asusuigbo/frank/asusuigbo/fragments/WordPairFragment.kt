@@ -2,7 +2,6 @@ package com.asusuigbo.frank.asusuigbo.fragments
 
 
 import android.graphics.drawable.TransitionDrawable
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
-import com.google.firebase.storage.FirebaseStorage
 
 /**
  * A simple [Fragment] subclass.
@@ -54,6 +52,7 @@ class WordPairFragment(private var lessonActivity: LessonActivity) : BaseExtende
                 setBgdCurrentChosenWord(v as TextView)
                 chosenWordIndex = index
             }
+            chosenWordIndex == index -> { }
             dataList[chosenWordIndex].AdditionalInfo == dataList[index].AdditionalInfo && chosenWordIndex != index -> {
                 setBgdPairedWords(v as TextView)
                 chosenWordIndex = -1  //reset chosen word index.
