@@ -93,12 +93,14 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
             startRecording()
             Toast.makeText(addQuestionsActivity.applicationContext,
                 "Started recording..", Toast.LENGTH_SHORT).show()
+            addQuestionsActivity.vibrateForAudio()
         }
         else
         if(motionEvent.action == MotionEvent.ACTION_UP) {
             stopRecording()
             Toast.makeText(addQuestionsActivity.applicationContext,
                 "Finished recording!", Toast.LENGTH_SHORT).show()
+            addQuestionsActivity.vibrateForAudio()
         }
         true
     }

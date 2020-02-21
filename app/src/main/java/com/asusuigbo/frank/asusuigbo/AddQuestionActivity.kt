@@ -165,7 +165,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         true
     }
 
-    private fun vibrateForAudio() {
+    fun vibrateForAudio() {
         if (Build.VERSION.SDK_INT >= 26)
             vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
         else
