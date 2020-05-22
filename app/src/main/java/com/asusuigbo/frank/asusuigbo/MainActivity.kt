@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.asusuigbo.frank.asusuigbo.fragments.LessonsFragment
+import com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsFragment
 import com.asusuigbo.frank.asusuigbo.fragments.NewestFragment
 import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
 

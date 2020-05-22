@@ -137,7 +137,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun getOptionFilePath(it: OptionInfo): String {
         optionFileName = replaceSpaceWithUnderscore(it.Option)
         optionFileName += ".3gp"
-        optionFilePath = Environment.getExternalStorageDirectory().absolutePath
+        optionFilePath = applicationContext.getExternalFilesDir(null)!!.absolutePath
         optionFilePath += "/$optionFileName"
         return optionFilePath
     }
@@ -174,7 +174,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
-        filePath = Environment.getExternalStorageDirectory().absolutePath
+        filePath = applicationContext.getExternalFilesDir(null)!!.absolutePath
         fileName = replaceSpaceWithUnderscore(questionEditText.text.toString())
         fileName += ".3gp"
         filePath += "/$fileName"

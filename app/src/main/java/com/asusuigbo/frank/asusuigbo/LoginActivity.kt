@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.getInstance
+import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -55,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                             progressBar.visibility = View.GONE
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
-                            Log.d("DEBUG", auth.currentUser!!.uid)
+                            Timber.i(auth.currentUser!!.uid)
                         }else{
                             Toast.makeText(this, "Please enter a registered email and password.",
                                     Toast.LENGTH_LONG).show()

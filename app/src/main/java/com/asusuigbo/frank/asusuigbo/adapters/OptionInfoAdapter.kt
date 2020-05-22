@@ -109,7 +109,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
         val position = view.tag.toString().toInt()
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
         fileName += ".3gp"
-        filePath = Environment.getExternalStorageDirectory().absolutePath
+        filePath = addQuestionsActivity.getExternalFilesDir(null)!!.absolutePath
         filePath += "/$fileName"
     }
 
