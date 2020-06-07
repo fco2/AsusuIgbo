@@ -55,7 +55,7 @@
             android:textColor="#757575"
             android:fontFamily="@font/andika"
             android:textSize="20sp"
-            android:textCursorDrawable="@drawable/text_cursor_color"
+            android:textCursorDrawable="@drawable/bgd_written_text_cursor"
             android:padding="10dp"
             android:background="@drawable/textarea_bgd"
             android:ems="20"

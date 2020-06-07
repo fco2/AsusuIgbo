@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.asusuigbo.frank.asusuigbo.models.UserLesson
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +23,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var progressBar: ProgressBar
+    private var userLessonList: ArrayList<UserLesson> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class SignUpActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.loading_sign_up_id)
         auth = FirebaseAuth.getInstance()
 
+        populateUserLessons()
         signUpBtn.setOnClickListener(signUpClickListener)
         loginBtn.setOnClickListener(loginClickListener)
     }
@@ -76,6 +79,48 @@ class SignUpActivity : AppCompatActivity() {
         val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
         dbReference.child("Users").child(auth.currentUser!!.uid).child("Username").setValue(username)
         dbReference.child("Users").child(auth.currentUser!!.uid).child("WordsLearned").setValue("0")
-        dbReference.child("Users").child(auth.currentUser!!.uid).child("LessonsCompleted").setValue("0")
+        this.setUpUserLessonInfo(dbReference)
+    }
+
+    private fun setUpUserLessonInfo(dbReference: DatabaseReference){
+        for((index, item) in this.userLessonList.withIndex()){
+            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/LessonName").setValue(item.LessonName)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/LessonImage").setValue(item.LessonImage)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/Unlocked").setValue(item.Unlocked)
+        }
+
+    }
+
+    private fun populateUserLessons() {
+        userLessonList.add(UserLesson("Intro", "lesson_intro", "True"))
+        userLessonList.add(UserLesson("Intro2", "lesson_intro_2"))
+        userLessonList.add(UserLesson("Phrases", "lesson_phrases"))
+        userLessonList.add(UserLesson("Greetings", "lesson_greetings"))
+        userLessonList.add(UserLesson("Home", "lesson_home"))
+        userLessonList.add(UserLesson("Family", "lesson_family"))
+        userLessonList.add(UserLesson("Family 2", "lesson_family_2"))
+        userLessonList.add(UserLesson("Things", "lesson_things"))
+        userLessonList.add(UserLesson("Things 2", "lesson_things_2"))
+        userLessonList.add(UserLesson("Things 3", "lesson_things_3"))
+        userLessonList.add(UserLesson("Places", "lesson_places"))
+        userLessonList.add(UserLesson("Actions", "lesson_action"))
+        userLessonList.add(UserLesson("Actions 2", "lesson_action_2"))
+        userLessonList.add(UserLesson("Actions 3", "lesson_action_3"))
+        userLessonList.add(UserLesson("School", "lesson_school"))
+        userLessonList.add(UserLesson("Profession", "lesson_profession"))
+        userLessonList.add(UserLesson("Work", "lesson_work"))
+        userLessonList.add(UserLesson("Sports", "lesson_sports"))
+        userLessonList.add(UserLesson("Food", "lesson_food"))
+        userLessonList.add(UserLesson("Market", "lesson_market"))
+        userLessonList.add(UserLesson("Activities", "lesson_activities"))
+        userLessonList.add(UserLesson("Weather", "lesson_weather"))
+        userLessonList.add(UserLesson("Questions", "lesson_question"))
+        userLessonList.add(UserLesson("Questions 2", "lesson_question_2"))
+        userLessonList.add(UserLesson("Directions", "lesson_directions"))
+        userLessonList.add(UserLesson("Travel", "lesson_travel"))
+        userLessonList.add(UserLesson("Vacation", "lesson_vacation"))
+        userLessonList.add(UserLesson("Animals", "lesson_animals"))
+        userLessonList.add(UserLesson("Sentences", "lesson_sentences"))
+        userLessonList.add(UserLesson("Group Chat", "lesson_group_chat"))
     }
 }
