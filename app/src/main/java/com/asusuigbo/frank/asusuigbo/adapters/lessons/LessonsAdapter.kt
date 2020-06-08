@@ -1,11 +1,17 @@
 package com.asusuigbo.frank.asusuigbo.adapters.lessons
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.LessonItemBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 
@@ -19,6 +25,24 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
             binding.userLesson = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
+
+            if(item.Unlocked == "False"){
+                val color: Int = ContextCompat.getColor(binding.root.context, R.color.inactiveCardColor)
+                binding.cardViewId.setCardBackgroundColor(ColorStateList.valueOf(color))
+                binding.cardViewId.elevation = 0.0f
+
+                //set color filter to make image appear inactive
+                val matrix = ColorMatrix()
+                matrix.setSaturation(0.0f) //default is 1.0f
+                val filter = ColorMatrixColorFilter(matrix)
+                binding.lessonImage.colorFilter = filter
+
+                val shakeAnimation = AnimationUtils.loadAnimation(binding.root.context, R.anim.shake_animation)
+                //this replaces default onclick for cardView
+                binding.cardViewId.setOnClickListener{v ->
+                    v.startAnimation(shakeAnimation)
+                }
+            }
         }
         companion object{
             fun from(parent: ViewGroup): ViewHolder{
@@ -46,25 +70,6 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, clickListener)
-
-        //
-       /* if(position > this.viewableLessons ){
-            val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
-            holder.cardView?.setCardBackgroundColor(ColorStateList.valueOf(color))
-            holder.cardView?.elevation = 0.0f
-
-            //set color filter to make image appear inactive
-            val matrix = ColorMatrix()
-            matrix.setSaturation(0.0f) //default is 1.0f
-            val filter = ColorMatrixColorFilter(matrix)
-            holder.imageIndexView?.colorFilter = filter
-
-            val shakeAnimation = AnimationUtils.loadAnimation(context, R.anim.shake_animation)
-            //this replaces default onclick for cardView
-            holder.cardView?.setOnClickListener{v ->
-                v.startAnimation(shakeAnimation)
-            }
-        }*/
     }
 }
 
