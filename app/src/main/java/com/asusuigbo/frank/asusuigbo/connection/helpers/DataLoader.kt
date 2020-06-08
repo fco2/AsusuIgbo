@@ -10,6 +10,7 @@ class DataLoader {
     companion object {
         fun populateList(lessonActivity: LessonActivity){
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+            //TODO: change this to get index
             val dbReference: DatabaseReference = database
                 .getReference("Lessons/${lessonActivity.requestedLesson}")
 

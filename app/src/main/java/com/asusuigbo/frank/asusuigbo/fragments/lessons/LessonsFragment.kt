@@ -51,13 +51,13 @@ class LessonsFragment : Fragment() {
     }
 
     private fun populateRecyclerView(it: List<UserLesson>) {
-        val adapter = LessonsAdapter(LessonsClickListener { lessonName ->
+        val adapter = LessonsAdapter(LessonsClickListener { lessonName, index ->
             val intent = Intent(context!!.applicationContext, LessonActivity::class.java)
             intent.putExtra("LESSON_NAME", lessonName)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             //TODO: Test before uncomment ....
-            Snackbar.make(binding.root, "lessonName: $lessonName", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "lessonName: $lessonName, index: $index", Snackbar.LENGTH_LONG).show()
             //context!!.applicationContext.startActivity(intent)
         })
         binding.recyclerView.adapter = adapter

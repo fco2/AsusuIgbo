@@ -32,7 +32,7 @@ class LessonActivity : AppCompatActivity() {
     var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonStatusProgressBar: ProgressBar? = null
     var selectedAnswer = ""
-    private var lessonCount = 0
+    //private var lessonCount = 0
     lateinit var singleSelectFragment: SingleSelectFragment
     private lateinit var imgChoiceFragment: ImgChoiceFragment
     private lateinit var writtenTextFragment: WrittenTextFragment
@@ -52,8 +52,7 @@ class LessonActivity : AppCompatActivity() {
     }
 
     private fun setLessonData(){
-        this.requestedLesson = intent.getStringExtra("LESSON_NAME")
-        this.lessonCount = intent.getIntExtra("LESSON_COUNT", 0)
+        this.requestedLesson = intent.getStringExtra("LESSON_NAME")!!
     }
 
     fun navigateToFragment(fragmentName: String = ""){
@@ -108,12 +107,12 @@ class LessonActivity : AppCompatActivity() {
         val auth = FirebaseAuth.getInstance()
         val dbReference: DatabaseReference  = FirebaseDatabase.getInstance().reference
 
-        val wordsLearned = max((lessonCount * 8), wordsLearned)
+        //TODO: change how this is saved..might need to get data before save.
+        val wordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
-        val lessonsCompleted = max(lessonCount, lessonsCompleted)
-        dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("LessonsCompleted").setValue(lessonsCompleted.toString())
+        //TODO: get the correct index..for now, use 0
+        dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/0/Unlocked").setValue("True")
         launchCompletedLessonScreen()
     }
 

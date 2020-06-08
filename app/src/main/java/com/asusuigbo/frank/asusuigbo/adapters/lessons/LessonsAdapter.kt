@@ -30,13 +30,11 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
                 val color: Int = ContextCompat.getColor(binding.root.context, R.color.inactiveCardColor)
                 binding.cardViewId.setCardBackgroundColor(ColorStateList.valueOf(color))
                 binding.cardViewId.elevation = 0.0f
-
                 //set color filter to make image appear inactive
                 val matrix = ColorMatrix()
                 matrix.setSaturation(0.0f) //default is 1.0f
                 val filter = ColorMatrixColorFilter(matrix)
                 binding.lessonImage.colorFilter = filter
-
                 val shakeAnimation = AnimationUtils.loadAnimation(binding.root.context, R.anim.shake_animation)
                 //this replaces default onclick for cardView
                 binding.cardViewId.setOnClickListener{v ->
@@ -85,6 +83,7 @@ class LessonsDiffUtil: DiffUtil.ItemCallback<UserLesson>(){
 }
 
 //clickListener
-class LessonsClickListener(val clickListener: (lessonName: String) -> Unit){
-    fun onClick(userLesson: UserLesson) = clickListener(userLesson.LessonName)
+class LessonsClickListener(val clickListener: (lessonName: String, lessonKey: Int) -> Unit){
+    fun onClick(userLesson: UserLesson) = clickListener(userLesson.LessonName, userLesson.Index)
+    //too many arguments for public abstract operator fun invoke.
 }
