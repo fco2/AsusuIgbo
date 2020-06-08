@@ -16,27 +16,19 @@ import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentLessonsBinding
+import com.asusuigbo.frank.asusuigbo.models.UserLesson
+import com.google.android.material.snackbar.Snackbar
 
 class LessonsFragment : Fragment() {
     private lateinit var binding: FragmentLessonsBinding
     private lateinit var viewModel: LessonsViewModel
-    private lateinit var factory: LessonsViewModelFactory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_lessons, container, false)
-        factory = LessonsViewModelFactory(context!!.applicationContext)
-        viewModel = ViewModelProvider(this, factory).get(LessonsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LessonsViewModel::class.java)
         binding.lessonsViewModel = viewModel
-        binding.lifecycleOwner = this
-
-        binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, Observer{
-            populateRecyclerView()
-        })
-        return binding.root
-    }
-
-    private fun populateRecyclerView() {
         val glm = GridLayoutManager(context!!.applicationContext, 2)
         //this block below makes the recyclerView staggered
         glm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -49,17 +41,26 @@ class LessonsFragment : Fragment() {
         }
         binding.recyclerView.layoutManager = glm
         binding.recyclerView.hasFixedSize()
-        binding.recyclerView.adapter =
-            LessonsAdapter(LessonsClickListener {
-                //what to do when clicked
-                val intent = Intent(context!!.applicationContext, LessonActivity::class.java)
-                //Make these part of a view model
-                intent.putExtra("LESSON_NAME", this.lessonList[position].lessonKey)
-                intent.putExtra("LESSON_COUNT", (position + 1))
-                // You need this if starting activity outside an activity context
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context!!.applicationContext.startActivity(intent)
-            })
-        binding.progressBar.visibility = View.GONE
+
+        binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, Observer{
+            populateRecyclerView(it)
+            binding.progressBar.visibility = View.GONE
+        })
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    private fun populateRecyclerView(it: List<UserLesson>) {
+        val adapter = LessonsAdapter(LessonsClickListener { lessonName ->
+            val intent = Intent(context!!.applicationContext, LessonActivity::class.java)
+            intent.putExtra("LESSON_NAME", lessonName)
+            // You need this if starting activity outside an activity context
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //TODO: Test before uncomment ....
+            Snackbar.make(binding.root, "lessonName: $lessonName", Snackbar.LENGTH_LONG).show()
+            //context!!.applicationContext.startActivity(intent)
+        })
+        binding.recyclerView.adapter = adapter
+        adapter.submitList(it)
     }
 }

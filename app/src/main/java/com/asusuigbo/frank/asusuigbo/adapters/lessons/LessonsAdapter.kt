@@ -1,34 +1,22 @@
 package com.asusuigbo.frank.asusuigbo.adapters.lessons
 
-import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.asusuigbo.frank.asusuigbo.LessonActivity
-import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.LessonItemBinding
-import com.asusuigbo.frank.asusuigbo.models.LessonInfo
+import com.asusuigbo.frank.asusuigbo.models.UserLesson
 
 /**
  * Created by Frank on 3/27/2018.
  */
-class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdapter<LessonInfo, LessonsAdapter.ViewHolder>(LessonsDiffUtil()){
+class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdapter<UserLesson, LessonsAdapter.ViewHolder>(LessonsDiffUtil()){
 
     class ViewHolder(private val binding: LessonItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: LessonInfo, clickListener: LessonsClickListener) {
-            binding.lessonInfo = item
+        fun bind(item: UserLesson, clickListener: LessonsClickListener) {
+            binding.userLesson = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -45,7 +33,7 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
         return ViewHolder.from(parent)
     }
 
-   /* override fun getItemId(position: Int): Long {
+    override fun getItemId(position: Int): Long {
          super.getItemId(position)
          return position.toLong()
     }
@@ -53,25 +41,14 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
     override fun getItemViewType(position: Int): Int {
         super.getItemViewType(position)
         return position
-    }*/
-
-    //override fun getItemCount(): Int = this.lessonList.size
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, clickListener)
 
-
-        //holder.imageIndexView!!.setImageResource(this.lessonList[position].imageDrawableIndex)
-        //holder.titleTextView!!.text = this.lessonList[position].lessonKey
-
-        //TODO: up next
-        holder.cardView?.setOnClickListener { v ->
-           //------
-        }
-
         //
-        if(position > this.viewableLessons ){
+       /* if(position > this.viewableLessons ){
             val color: Int = ContextCompat.getColor(context, R.color.inactiveCardColor)
             holder.cardView?.setCardBackgroundColor(ColorStateList.valueOf(color))
             holder.cardView?.elevation = 0.0f
@@ -87,21 +64,22 @@ class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdap
             holder.cardView?.setOnClickListener{v ->
                 v.startAnimation(shakeAnimation)
             }
-        }
+        }*/
     }
 }
 
-class LessonsDiffUtil: DiffUtil.ItemCallback<LessonInfo>(){
-    override fun areItemsTheSame(oldItem: LessonInfo, newItem: LessonInfo): Boolean {
-        return oldItem.lessonKey == newItem.lessonKey
+class LessonsDiffUtil: DiffUtil.ItemCallback<UserLesson>(){
+    override fun areItemsTheSame(oldItem: UserLesson, newItem: UserLesson): Boolean {
+        return oldItem.LessonName == newItem.LessonName
     }
 
-    override fun areContentsTheSame(oldItem: LessonInfo, newItem: LessonInfo): Boolean {
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: UserLesson, newItem: UserLesson): Boolean {
         return oldItem == newItem
     }
 }
 
 //clickListener
-class LessonsClickListener(val clickListener: (lessonKey: String) -> Unit){
-    fun onClick(lessonInfo: LessonInfo) = clickListener(lessonInfo.lessonKey)
+class LessonsClickListener(val clickListener: (lessonName: String) -> Unit){
+    fun onClick(userLesson: UserLesson) = clickListener(userLesson.LessonName)
 }

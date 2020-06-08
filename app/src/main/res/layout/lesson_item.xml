@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="lessonInfo"
-            type="com.asusuigbo.frank.asusuigbo.models.LessonInfo" />
+            name="userLesson"
+            type="com.asusuigbo.frank.asusuigbo.models.UserLesson" />
         <variable
             name="clickListener"
             type="com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener" />
@@ -26,6 +26,7 @@
             card_view:cardCornerRadius="24dp"
             card_view:cardElevation="12dp"
             android:clickable="true"
+            android:onClick="@{ () -> clickListener.onClick(userLesson)}"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:id="@+id/card_view_id">
@@ -36,6 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:padding="12dp"
+                app:LessonImage="@{userLesson}"
                 android:contentDescription="@string/imageDummyText" />
         </androidx.cardview.widget.CardView>
 
@@ -49,6 +51,7 @@
             android:textSize="15sp"
             android:paddingTop="5dp"
             android:textColor="@color/colorPrimary"
+            app:LessonName="@{userLesson}"
             android:layout_gravity="center_vertical|center_horizontal" />
 
     </RelativeLayout>
