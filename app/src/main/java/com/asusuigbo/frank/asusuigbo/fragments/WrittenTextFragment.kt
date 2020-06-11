@@ -11,7 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
@@ -20,7 +20,7 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFragment(lessonActivity) {
+class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
     private lateinit var button: Button
     private var writtenTextQuestion: TextView? = null
@@ -45,14 +45,14 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFrag
     }
 
     override fun isCorrectAnswer(): Boolean{
-        return lessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
-                lessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
+        return currentLessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                currentLessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
     }
 
     override fun updateOptions(){
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
-        lessonActivity.selectedAnswer = ""
-        this.writtenTextQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
+        currentLessonActivity.selectedAnswer = ""
+        this.writtenTextQuestion!!.text = currentLessonActivity.dataList[0].QuestionInfo.Question
         this.writtenTextAnswer.text.clear()
         this.writtenTextAnswer.isEnabled = true
     }
@@ -64,7 +64,7 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFrag
     private fun writtenTextChangeListener(){
         this.writtenTextAnswer.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                lessonActivity.selectedAnswer = p0.toString()
+                currentLessonActivity.selectedAnswer = p0.toString()
                 setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -75,6 +75,6 @@ class WrittenTextFragment(var lessonActivity: LessonActivity) : BaseExtendedFrag
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
-        lessonActivity.buttonState = buttonState
+        currentLessonActivity.buttonState = buttonState
     }
 }

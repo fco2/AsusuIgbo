@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     android:padding="20dp"
     tools:ignore="Autofill"
-    tools:context=".LoginActivity">
+    tools:context=".auth.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"

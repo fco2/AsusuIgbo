@@ -11,13 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentLessonsBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
-import com.google.android.material.snackbar.Snackbar
 
 class LessonsFragment : Fragment() {
     private lateinit var binding: FragmentLessonsBinding
@@ -52,13 +51,12 @@ class LessonsFragment : Fragment() {
 
     private fun populateRecyclerView(it: List<UserLesson>) {
         val adapter = LessonsAdapter(LessonsClickListener { lessonName, index ->
-            val intent = Intent(context!!.applicationContext, LessonActivity::class.java)
+            val intent = Intent(context!!.applicationContext, CurrentLessonActivity::class.java)
             intent.putExtra("LESSON_NAME", lessonName)
+            intent.putExtra("LESSON_INDEX", index)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            //TODO: Test before uncomment ....
-            Snackbar.make(binding.root, "lessonName: $lessonName, index: $index", Snackbar.LENGTH_LONG).show()
-            //context!!.applicationContext.startActivity(intent)
+            context!!.applicationContext.startActivity(intent)
         })
         binding.recyclerView.adapter = adapter
         adapter.submitList(it)

@@ -1,6 +1,5 @@
-package com.asusuigbo.frank.asusuigbo
+package com.asusuigbo.frank.asusuigbo.currentlesson
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
@@ -8,51 +7,63 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import com.asusuigbo.frank.asusuigbo.connection.helpers.DataLoader
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
 import com.asusuigbo.frank.asusuigbo.fragments.*
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlin.math.max
 import kotlin.math.roundToInt
 
-class LessonActivity : AppCompatActivity() {
+class CurrentLessonActivity : AppCompatActivity() {
      var wordsLearned: Int = 0
-     var lessonsCompleted: Int = 0
-     var dataListSize: Int = 0
-    var dataList: ArrayList<QuestionGroup> = ArrayList()
-    var progressBar: ProgressBar? = null
-    var requestedLesson: String = ""
-    var activity: Activity = this
-    var lessonsLayout: RelativeLayout? = null
+     var dataListSize: Int = 0   //vm (ViewModel)
+    //TODO: remove completely
+    var dataList: ArrayList<QuestionGroup> = ArrayList()  //vm (ViewModel)
+    private var requestedLesson: String = ""   //vm (ViewModel)
+
     var popUpWindow: PopupWindow? = null
-    lateinit var currentQuestion: QuestionGroup
+    lateinit var currentQuestion: QuestionGroup   //TODO: might not need
     var buttonState: UserButton = UserButton.AnswerNotSelected
-    private var lessonStatusProgressBar: ProgressBar? = null
-    var selectedAnswer = ""
-    //private var lessonCount = 0
-    lateinit var singleSelectFragment: SingleSelectFragment
-    private lateinit var imgChoiceFragment: ImgChoiceFragment
-    private lateinit var writtenTextFragment: WrittenTextFragment
-    private lateinit var sentenceBuilder: SentenceBuilderFragment
-    private lateinit var wordPairFragment: WordPairFragment
+    var selectedAnswer = ""    //vm (ViewModel)
+    private var lessonIndex = 0
+
+    lateinit var currentLessonViewModel: CurrentLessonViewModel
+    private lateinit var factory: CurrentLessonViewModelFactory
+    lateinit var binding: ActivityCurrentLessonBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lesson)
-
-        this.progressBar = findViewById(R.id.progress_bar_lesson_id)
-        this.lessonStatusProgressBar = findViewById(R.id.lesson_progress_id)
-        this.lessonsLayout = findViewById(R.id.lessons_layout_id)
-        this.progressBar!!.visibility = View.VISIBLE
+        binding = ActivityCurrentLessonBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
-        DataLoader.populateList(this)
+        factory = CurrentLessonViewModelFactory(this.requestedLesson)
+        currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
+
+        currentLessonViewModel.listReady.observe(this, Observer { ready ->
+            if(ready){
+                when(currentLessonViewModel.questionList.value?.get(0)?.QuestionFormat) {
+                    "SingleSelect" -> navigateToFragment("SingleSelect")
+                    /*"MultiSelect" -> navigateToFragment("MultiSelect")
+                    "ImageSelect" -> navigateToFragment("ImageSelect")
+                    "WrittenText" -> navigateToFragment("WrittenText")
+                    "WordPair" -> navigateToFragment("WordPair")*/
+                    else -> navigateToFragment("SingleSelect")
+                }
+                binding.spinnerProgressBar.visibility = View.GONE
+            }
+        })
     }
 
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")!!
+        this.lessonIndex = intent.getIntExtra("LESSON_INDEX", 0)
     }
 
     fun navigateToFragment(fragmentName: String = ""){
@@ -63,23 +74,23 @@ class LessonActivity : AppCompatActivity() {
         ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
-                this.singleSelectFragment = SingleSelectFragment(this)
+                val singleSelectFragment = SingleSelectFragment(this)
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
             }
             "MultiSelect" -> {
-                this.sentenceBuilder = SentenceBuilderFragment(this)
+                val sentenceBuilder = SentenceBuilderFragment(this)
                 ft.replace(R.id.frame_layout_id, sentenceBuilder)
             }
             "ImageSelect" -> {
-                this.imgChoiceFragment = ImgChoiceFragment(this)
+                val imgChoiceFragment = ImgChoiceFragment(this)
                 ft.replace(R.id.frame_layout_id, imgChoiceFragment)
             }
             "WrittenText" -> {
-                this.writtenTextFragment = WrittenTextFragment(this)
+                val writtenTextFragment = WrittenTextFragment(this)
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
             }
             "WordPair" -> {
-                this.wordPairFragment = WordPairFragment(this)
+                val wordPairFragment = WordPairFragment(this)
                 ft.replace(R.id.frame_layout_id, wordPairFragment)
             }
             else -> {
@@ -91,11 +102,10 @@ class LessonActivity : AppCompatActivity() {
     }
 
     fun setProgressBarStatus(){
-        val percent: Double =
-            (this.dataListSize - this.dataList.size).toDouble() / this.dataListSize.toDouble() * 100
+        val percent: Double = (this.dataListSize - currentLessonViewModel.questionList.value!!.size).toDouble() / this.dataListSize.toDouble() * 100
         var result = percent.roundToInt()
         result = if(result == 0) 5 else result
-        this.lessonStatusProgressBar!!.progress = result
+        binding.lessonProgressBar.progress = result
     }
 
     private fun finishQuiz(){
@@ -111,8 +121,8 @@ class LessonActivity : AppCompatActivity() {
         val wordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
-        //TODO: get the correct index..for now, use 0
-        dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/0/Unlocked").setValue("True")
+        //TODO: check for out of bounds index
+        dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/${lessonIndex + 1}/Unlocked").setValue("True")
         launchCompletedLessonScreen()
     }
 

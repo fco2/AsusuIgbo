@@ -69,20 +69,20 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
                 image.clearColorFilter()
             }
             //add color filter for selected item, both RelativeLayout and imageView
-            val overlayColor = ContextCompat.getColor(fragment.lessonActivity.applicationContext,
+            val overlayColor = ContextCompat.getColor(fragment.currentLessonActivity.applicationContext,
                 R.color.selectedImgChoiceOption)
             val filter = PorterDuffColorFilter(overlayColor, PorterDuff.Mode.MULTIPLY)
             holder.imgChoiceCardView.background.colorFilter = filter
             holder.imgChoiceImg.colorFilter = filter
             //enable button click and set buttonState
             fragment.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
-            fragment.lessonActivity.selectedAnswer = optionList[position].Option
+            fragment.currentLessonActivity.selectedAnswer = optionList[position].Option
         }
     }
 
     private fun getResourceId(position: Int): Int {
         val imgName = optionList[position].AdditionalInfo
-        val context = fragment.lessonActivity.applicationContext
+        val context = fragment.currentLessonActivity.applicationContext
         return context.resources.getIdentifier(imgName, "mipmap", context.packageName)
     }
 

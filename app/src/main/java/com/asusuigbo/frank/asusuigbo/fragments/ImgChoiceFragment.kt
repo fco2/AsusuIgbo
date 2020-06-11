@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ImgChoiceOptionsAdapter
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
@@ -20,7 +20,7 @@ import com.asusuigbo.frank.asusuigbo.models.UserButton
 /**
  * A simple [Fragment] subclass.
  */
-class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragment(lessonActivity) {
+class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
     private lateinit var button: Button
     private var imgChoiceQuestion: TextView? = null
@@ -37,7 +37,7 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
         this.imgChoiceQuestion = view.findViewById(R.id.img_choice_question_id)
         itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
         //set question and view parameters here
-        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
+        this.imgChoiceQuestion!!.text = currentLessonActivity.dataList[0].QuestionInfo.Question
         setUpView()
         button.setOnClickListener(buttonClickListener)
         return view
@@ -48,13 +48,13 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
     }
 
     override fun isCorrectAnswer(): Boolean{
-        return lessonActivity.selectedAnswer == lessonActivity.currentQuestion.CorrectAnswer
+        return currentLessonActivity.selectedAnswer == currentLessonActivity.currentQuestion.CorrectAnswer
     }
 
     override fun updateOptions(){
-        this.imgChoiceQuestion!!.text = lessonActivity.dataList[0].QuestionInfo.Question
+        this.imgChoiceQuestion!!.text = currentLessonActivity.dataList[0].QuestionInfo.Question
         this.setUpImageChoiceView()
-        lessonActivity.selectedAnswer = ""
+        currentLessonActivity.selectedAnswer = ""
     }
 
     override fun disableOptions(){
@@ -68,15 +68,15 @@ class ImgChoiceFragment(val lessonActivity: LessonActivity) : BaseExtendedFragme
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
-        lessonActivity.buttonState = buttonState
+        currentLessonActivity.buttonState = buttonState
     }
 
     private fun setUpImageChoiceView(){
-        this.recyclerView.layoutManager = GridLayoutManager(this.lessonActivity, 2)
+        this.recyclerView.layoutManager = GridLayoutManager(this.currentLessonActivity, 2)
         this.recyclerView.hasFixedSize()
         this.recyclerView.addItemDecoration(this.itemOffsetDecoration)
-        this.lessonActivity.dataList[0].Options.shuffle()
-        val adapter = ImgChoiceOptionsAdapter(this.lessonActivity.dataList[0].Options, this)
+        this.currentLessonActivity.dataList[0].Options.shuffle()
+        val adapter = ImgChoiceOptionsAdapter(this.currentLessonActivity.dataList[0].Options, this)
         this.recyclerView.adapter = null
         this.recyclerView.adapter = adapter
         this.recyclerView.adapter!!.notifyDataSetChanged()

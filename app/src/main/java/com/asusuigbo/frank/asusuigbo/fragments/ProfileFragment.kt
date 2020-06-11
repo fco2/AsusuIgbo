@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
-import com.asusuigbo.frank.asusuigbo.LoginActivity
+import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

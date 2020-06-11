@@ -18,7 +18,8 @@ import com.asusuigbo.frank.asusuigbo.models.UserLesson
 /**
  * Created by Frank on 3/27/2018.
  */
-class LessonsAdapter(private var clickListener: LessonsClickListener) : ListAdapter<UserLesson, LessonsAdapter.ViewHolder>(LessonsDiffUtil()){
+class LessonsAdapter(private var clickListener: LessonsClickListener)
+    : ListAdapter<UserLesson, LessonsAdapter.ViewHolder>(LessonsDiffUtil()){
 
     class ViewHolder(private val binding: LessonItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UserLesson, clickListener: LessonsClickListener) {
@@ -83,7 +84,7 @@ class LessonsDiffUtil: DiffUtil.ItemCallback<UserLesson>(){
 }
 
 //clickListener
-class LessonsClickListener(val clickListener: (lessonName: String, lessonKey: Int) -> Unit){
+class LessonsClickListener(val clickListener: (lessonName: String, lessonIndex: Int) -> Unit){
     fun onClick(userLesson: UserLesson) = clickListener(userLesson.LessonName, userLesson.Index)
     //too many arguments for public abstract operator fun invoke.
 }

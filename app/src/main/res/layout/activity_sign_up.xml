@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     android:padding="20dp"
     tools:ignore="Autofill"
-    tools:context=".SignUpActivity">
+    tools:context=".auth.SignUpActivity">
 
     <ImageView
         android:layout_width="match_parent"

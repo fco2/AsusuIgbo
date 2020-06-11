@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
-import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
@@ -21,7 +21,7 @@ import com.google.android.flexbox.FlexboxLayout
 /**
  * A simple [Fragment] subclass.
  */
-class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : BaseExtendedFragment(lessonActivity) {
+class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
     private lateinit var button: Button
     private var textViewClickListener = View.OnClickListener{}
@@ -45,12 +45,12 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
         this.initializeViewClickListener()
         button.setOnClickListener(buttonClickListener)
 
-        this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
-        audioUrl = lessonActivity.dataList[0].QuestionInfo.Audio
+        this.multiQuestionTextView.text = currentLessonActivity.dataList[0].QuestionInfo.Question
+        audioUrl = currentLessonActivity.dataList[0].QuestionInfo.Audio
         this.setUpView()
         playAudioBtn.setOnClickListener(playAudioClickListener)
 
-        if(lessonActivity.dataList[0].QuestionInfo.Audio != "")
+        if(currentLessonActivity.dataList[0].QuestionInfo.Audio != "")
             playAudioBtn.visibility = View.VISIBLE
         return view
     }
@@ -65,7 +65,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
 
     override fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
-        return sentence == lessonActivity.currentQuestion.CorrectAnswer
+        return sentence == currentLessonActivity.currentQuestion.CorrectAnswer
     }
 
     private fun initializeViewClickListener(){
@@ -85,7 +85,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     }
 
     override fun updateOptions(){
-        this.multiQuestionTextView.text = lessonActivity.dataList[0].QuestionInfo.Question
+        this.multiQuestionTextView.text = currentLessonActivity.dataList[0].QuestionInfo.Question
         this.sourceFlexBoxLayout.removeAllViews()
         this.destFlexBoxLayout.removeAllViews()
         this.selectedSentence.clear()
@@ -107,7 +107,7 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     private fun buildSentence(): String{
         val sb = StringBuilder()
         for(item in this.selectedSentence){
-            sb.append(lessonActivity.currentQuestion.Options.elementAt(item).Option).append(" ")
+            sb.append(currentLessonActivity.currentQuestion.Options.elementAt(item).Option).append(" ")
         }
         return sb.toString().trim()
     }
@@ -115,22 +115,22 @@ class SentenceBuilderFragment(private var lessonActivity: LessonActivity) : Base
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         this.button.text = getString(buttonText)
-        lessonActivity.buttonState = buttonState
+        currentLessonActivity.buttonState = buttonState
     }
 
     private fun buildFlexBoxContent() {
-        for((index, item: OptionInfo) in this.lessonActivity.dataList[0].Options.withIndex()){
-            val view = TextView(this.lessonActivity.applicationContext)
+        for((index, item: OptionInfo) in this.currentLessonActivity.dataList[0].Options.withIndex()){
+            val view = TextView(this.currentLessonActivity.applicationContext)
             val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
             params.setMargins(10,10,10,10)
             view.layoutParams = params
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-            view.background = ContextCompat.getDrawable(this.lessonActivity.applicationContext,
+            view.background = ContextCompat.getDrawable(this.currentLessonActivity.applicationContext,
                 R.drawable.bgd_word_pair_word)
             view.setPadding(30,30,30,30)
-            view.setTextColor(ContextCompat.getColor(lessonActivity, R.color.colorPrimaryDark))
+            view.setTextColor(ContextCompat.getColor(currentLessonActivity, R.color.colorPrimaryDark))
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)

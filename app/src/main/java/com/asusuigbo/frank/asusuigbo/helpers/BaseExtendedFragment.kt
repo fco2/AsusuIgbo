@@ -2,36 +2,37 @@ package com.asusuigbo.frank.asusuigbo.helpers
 
 import android.media.MediaPlayer
 import androidx.fragment.app.Fragment
-import com.asusuigbo.frank.asusuigbo.LessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.storage.FirebaseStorage
 
-abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) : Fragment() {
+abstract class BaseExtendedFragment(private val currentLessonActivity: CurrentLessonActivity) : Fragment() {
 
     fun executeButtonAction() {
-        when(lessonActivity.buttonState){
+        when(currentLessonActivity.buttonState){
             UserButton.AnswerSelected -> {
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                lessonActivity.navigateToFragment(lessonActivity.dataList[0].QuestionFormat)
+                currentLessonActivity.navigateToFragment(currentLessonActivity.currentLessonViewModel.questionList.value!![0].QuestionFormat)
             }
             else -> {
-                lessonActivity.navigateToFragment()
+                currentLessonActivity.navigateToFragment()
             }
         }
     }
 
     fun answerQuestion(){
-        lessonActivity.currentQuestion = lessonActivity.dataList.removeAt(0)
+        //TODO: view model should handle this logic
+        currentLessonActivity.currentQuestion = currentLessonActivity.currentLessonViewModel.questionList.value!!.removeAt(0)
         disableOptions()
-        lessonActivity.popUpWindow =
-            PopupHelper.displaySelectionInPopUp(lessonActivity, this.isCorrectAnswer())
+        //TODO: uncomment after fix
+        currentLessonActivity.popUpWindow = PopupHelper.displaySelectionInPopUp(currentLessonActivity, this.isCorrectAnswer())
 
         if(!this.isCorrectAnswer())
-            lessonActivity.dataList.add(lessonActivity.currentQuestion)
-        if(lessonActivity.dataList.size > 0)
+            currentLessonActivity.currentLessonViewModel.questionList.value!!.add(currentLessonActivity.currentQuestion)
+        if(currentLessonActivity.currentLessonViewModel.questionList.value!!.size > 0)
             this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
         else
             this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
@@ -40,7 +41,7 @@ abstract class BaseExtendedFragment(private val lessonActivity: LessonActivity) 
     fun setUpView(){
         this.updateOptions()
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
-        lessonActivity.setProgressBarStatus()
+        currentLessonActivity.setProgressBarStatus()
     }
 
     fun playAudio(audioUrl: String){
