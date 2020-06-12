@@ -15,7 +15,8 @@ abstract class BaseExtendedFragment(private val currentLessonActivity: CurrentLe
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                currentLessonActivity.navigateToFragment(currentLessonActivity.currentLessonViewModel.questionList.value!![0].QuestionFormat)
+                currentLessonActivity.currentLessonViewModel.setCurrentQuestion()
+                currentLessonActivity.navigateToFragment(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
             }
             else -> {
                 currentLessonActivity.navigateToFragment()
@@ -25,9 +26,8 @@ abstract class BaseExtendedFragment(private val currentLessonActivity: CurrentLe
 
     fun answerQuestion(){
         //TODO: view model should handle this logic
-        currentLessonActivity.currentQuestion = currentLessonActivity.currentLessonViewModel.questionList.value!!.removeAt(0)
+        //currentLessonActivity.currentQuestion = currentLessonActivity.currentLessonViewModel.questionList.value!!.removeAt(0)
         disableOptions()
-        //TODO: uncomment after fix
         currentLessonActivity.popUpWindow = PopupHelper.displaySelectionInPopUp(currentLessonActivity, this.isCorrectAnswer())
 
         if(!this.isCorrectAnswer())

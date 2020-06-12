@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentSentenceBuilderBinding
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
@@ -23,35 +23,27 @@ import com.google.android.flexbox.FlexboxLayout
  */
 class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
-    private lateinit var button: Button
     private var textViewClickListener = View.OnClickListener{}
-    private lateinit var multiQuestionTextView: TextView
-    private lateinit var sourceFlexBoxLayout: FlexboxLayout
-    private lateinit var destFlexBoxLayout: FlexboxLayout
     private var selectedSentence: ArrayList<Int> = ArrayList()
-    private lateinit var playAudioBtn: ImageView
     private var audioUrl = ""
+
+    private lateinit var binding: FragmentSentenceBuilderBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sentence_builder, container, false)
-        button = view.findViewById(R.id.button_id)
-        this.multiQuestionTextView = view.findViewById(R.id.multi_question_id)
-        this.sourceFlexBoxLayout = view.findViewById(R.id.flexbox_source_id)
-        this.destFlexBoxLayout = view.findViewById(R.id.flexbox_destination_id)
-        playAudioBtn = view.findViewById(R.id.play_audio_id)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sentence_builder, container, false)
         this.initializeViewClickListener()
-        button.setOnClickListener(buttonClickListener)
+        binding.buttonId.setOnClickListener(buttonClickListener)
 
-        this.multiQuestionTextView.text = currentLessonActivity.dataList[0].QuestionInfo.Question
-        audioUrl = currentLessonActivity.dataList[0].QuestionInfo.Audio
+        binding.multiQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+        audioUrl = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio
         this.setUpView()
-        playAudioBtn.setOnClickListener(playAudioClickListener)
+        binding.playAudioId.setOnClickListener(playAudioClickListener)
 
-        if(currentLessonActivity.dataList[0].QuestionInfo.Audio != "")
-            playAudioBtn.visibility = View.VISIBLE
+        if(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
+            binding.playAudioId.visibility = View.VISIBLE
         return view
     }
 
@@ -72,34 +64,34 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
         this.textViewClickListener = View.OnClickListener { v ->
             this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
 
-            if(this.destFlexBoxLayout.indexOfChild(v) == -1){
-                this.sourceFlexBoxLayout.removeView(v)
-                this.destFlexBoxLayout.addView(v)
+            if(binding.flexboxDestinationId.indexOfChild(v) == -1){
+                binding.flexboxSourceId.removeView(v)
+                binding.flexboxDestinationId.addView(v)
                 this.selectedSentence.add(v.tag as Int)
             }else{
-                this.destFlexBoxLayout.removeView(v)
-                this.sourceFlexBoxLayout.addView(v)
+                binding.flexboxDestinationId.removeView(v)
+                binding.flexboxSourceId.addView(v)
                 this.selectedSentence.remove(v.tag as Int)
             }
         }
     }
 
     override fun updateOptions(){
-        this.multiQuestionTextView.text = currentLessonActivity.dataList[0].QuestionInfo.Question
-        this.sourceFlexBoxLayout.removeAllViews()
-        this.destFlexBoxLayout.removeAllViews()
+        binding.multiQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+        binding.flexboxSourceId.removeAllViews()
+        binding.flexboxDestinationId.removeAllViews()
         this.selectedSentence.clear()
         this.buildFlexBoxContent()
     }
 
     override fun disableOptions(){
-        disableViewsFor(this.sourceFlexBoxLayout)
-        disableViewsFor(this.destFlexBoxLayout)
+        disableViewsFor(binding.flexboxSourceId)
+        disableViewsFor(binding.flexboxDestinationId)
     }
 
-    private fun disableViewsFor(flyt: FlexboxLayout){
-        for(index in 0 until flyt.childCount){
-            val v = flyt.getChildAt(index)
+    private fun disableViewsFor(layout: FlexboxLayout){
+        for(index in 0 until layout.childCount){
+            val v = layout.getChildAt(index)
             v.isEnabled = false
         }
     }
@@ -113,13 +105,13 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
     }
 
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
-        this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
-        this.button.text = getString(buttonText)
+        binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
+        binding.buttonId.text = getString(buttonText)
         currentLessonActivity.buttonState = buttonState
     }
 
     private fun buildFlexBoxContent() {
-        for((index, item: OptionInfo) in this.currentLessonActivity.dataList[0].Options.withIndex()){
+        for((index, item: OptionInfo) in this.currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
             val view = TextView(this.currentLessonActivity.applicationContext)
             val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -134,7 +126,7 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)
-            this.sourceFlexBoxLayout.addView(view)
+            binding.flexboxSourceId.addView(view)
         }
     }
 }

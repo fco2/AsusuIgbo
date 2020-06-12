@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentWrittenTextBinding
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
@@ -21,21 +23,15 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
-
-    private lateinit var button: Button
-    private var writtenTextQuestion: TextView? = null
-    private lateinit var writtenTextAnswer: EditText
+    private lateinit var binding: FragmentWrittenTextBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_written_text, container, false)
-        button = view.findViewById(R.id.button_id)
-        this.writtenTextQuestion = view.findViewById(R.id.written_text_question_id)
-        this.writtenTextAnswer = view.findViewById(R.id.written_text_answer_id)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_written_text, container, false)
         this.writtenTextChangeListener()
-        button.setOnClickListener(buttonClickListener)
+        binding.buttonId.setOnClickListener(buttonClickListener)
         setUpView()
         return view
     }
@@ -45,26 +41,26 @@ class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : Ba
     }
 
     override fun isCorrectAnswer(): Boolean{
-        return currentLessonActivity.currentQuestion.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
-                currentLessonActivity.selectedAnswer.toLowerCase(Locale.getDefault()).trim()
+        return currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                currentLessonActivity.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
     }
 
     override fun updateOptions(){
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
-        currentLessonActivity.selectedAnswer = ""
-        this.writtenTextQuestion!!.text = currentLessonActivity.dataList[0].QuestionInfo.Question
-        this.writtenTextAnswer.text.clear()
-        this.writtenTextAnswer.isEnabled = true
+        currentLessonActivity.currentLessonViewModel.setSelectedAnswer("")
+        binding.writtenTextQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+        binding.writtenTextAnswerId.text.clear()
+        binding.writtenTextAnswerId.isEnabled = true
     }
 
     override fun disableOptions(){
-        this.writtenTextAnswer.isEnabled = false
+        binding.writtenTextAnswerId.isEnabled = false
     }
 
     private fun writtenTextChangeListener(){
-        this.writtenTextAnswer.addTextChangedListener(object: TextWatcher {
+        binding.writtenTextAnswerId.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                currentLessonActivity.selectedAnswer = p0.toString()
+                currentLessonActivity.currentLessonViewModel.setSelectedAnswer(p0.toString())
                 setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -73,8 +69,8 @@ class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : Ba
     }
 
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
-        this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
-        this.button.text = getString(buttonText)
+        binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
+        binding.buttonId.text = getString(buttonText)
         currentLessonActivity.buttonState = buttonState
     }
 }

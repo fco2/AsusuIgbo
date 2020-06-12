@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.SentenceBuilderFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:animateLayoutChanges="true"
-        android:layout_margin="10dp">
+        tools:context=".fragments.SentenceBuilderFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:animateLayoutChanges="true"
+            android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -38,17 +39,17 @@
                 android:background="#e2e1cc"
                 android:id="@+id/view_divider_multi_id"/>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_divider_multi_id"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:src="@mipmap/img_play_audio"
-            android:contentDescription="@string/play_audio"
-            app:layout_constrainedWidth="true"
-            android:id="@+id/play_audio_id"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_divider_multi_id"
+                android:padding="8dp"
+                android:visibility="gone"
+                android:src="@mipmap/img_play_audio"
+                android:contentDescription="@string/play_audio"
+                app:layout_constrainedWidth="true"
+                android:id="@+id/play_audio_id"/>
 
             <TextView
                 android:id="@+id/multi_question_id"
@@ -99,20 +100,21 @@
                 android:id="@+id/flexbox_source_id">
             </com.google.android.flexbox.FlexboxLayout>
 
-        <Button
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="18dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:textSize="18sp"
-            android:enabled="false"
-            style="@style/RoundedCornerButtonTheme"
-            android:layout_marginBottom="10dp"
-            android:text="@string/answer_button_state"
-            android:id="@+id/button_id"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+            <Button
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="18dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:textSize="18sp"
+                android:enabled="false"
+                style="@style/RoundedCornerButtonTheme"
+                android:layout_marginBottom="10dp"
+                android:text="@string/answer_button_state"
+                android:id="@+id/button_id"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

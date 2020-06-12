@@ -29,7 +29,10 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
     private val _currentQuestion = MutableLiveData<QuestionGroup>()
     val currentQuestion : LiveData<QuestionGroup>
         get() = _currentQuestion
-    private lateinit var selectedAnswer : String
+    private val _selectedAnswer = MutableLiveData<String>()
+    val selectedAnswer : LiveData<String>
+        get() = _selectedAnswer
+
     var dataListSize: Int = 0
 
     init{
@@ -70,6 +73,14 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun setCurrentQuestion(){
+        this._currentQuestion.value = this._questionList.value!!.removeAt(0)
+    }
+
+    fun setSelectedAnswer(s: String){
+        this._selectedAnswer.value = s
     }
 
     override fun onCleared() {

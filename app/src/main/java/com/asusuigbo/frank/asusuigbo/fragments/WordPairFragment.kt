@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentWordPairBinding
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
@@ -23,22 +24,22 @@ import com.google.android.flexbox.FlexboxLayout
  */
 class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
-    private var dataList: MutableList<OptionInfo> = mutableListOf()
+    //TODO: refactor view to only handle view logic -- it should have its own view model that observes the currentLessonViewModel
+    private lateinit var binding: FragmentWordPairBinding
+
+    private var options: MutableList<OptionInfo> = mutableListOf()
     private var totalProcessedWords = 0
-    private lateinit var flexBoxLayout: FlexboxLayout
     private var chosenWordIndex = -1
-    private lateinit var button: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_word_pair, container, false)
-        button = view.findViewById(R.id.button_id)
-        this.flexBoxLayout = view.findViewById(R.id.flex_box_words_id)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_word_pair, container, false)
+        
         this.setUpView()
-        button.setOnClickListener(buttonClickListener)
-        return view
+        binding.buttonId.setOnClickListener(buttonClickListener)
+        return binding.root
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -53,14 +54,14 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
                 chosenWordIndex = index
             }
             chosenWordIndex == index -> { }
-            dataList[chosenWordIndex].AdditionalInfo == dataList[index].AdditionalInfo && chosenWordIndex != index -> {
+            options[chosenWordIndex].AdditionalInfo == options[index].AdditionalInfo && chosenWordIndex != index -> {
                 setBgdPairedWords(v as TextView)
                 chosenWordIndex = -1  //reset chosen word index.
             }
             else -> animatePairedWords(v as TextView, R.drawable.animate_wrong_word_pair, true)
         }
 
-        if (totalProcessedWords == dataList.size)
+        if (totalProcessedWords == options.size)
             answerQuestion()
     }
 
@@ -72,13 +73,13 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
     }
 
     private fun setBgdPairedWords(textView: TextView){
-        val translatedWord: TextView = this.flexBoxLayout.getChildAt(chosenWordIndex) as TextView
+        val translatedWord: TextView = binding.flexBoxWordsId.getChildAt(chosenWordIndex) as TextView
         //play audio
         //get data list item with audio, and play it
-        val audioUrl = if(dataList[textView.tag.toString().toInt()].Audio != "")
-            dataList[textView.tag.toString().toInt()].Audio
+        val audioUrl = if(options[textView.tag.toString().toInt()].Audio != "")
+            options[textView.tag.toString().toInt()].Audio
         else
-            dataList[translatedWord.tag.toString().toInt()].Audio
+            options[translatedWord.tag.toString().toInt()].Audio
         if(audioUrl != ""){
             playAudio(audioUrl)
         }
@@ -103,8 +104,8 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
     }
 
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int) {
-        this.button.isEnabled = buttonState != UserButton.AnswerNotSelected
-        this.button.text = getString(buttonText)
+        binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
+        binding.buttonId.text = getString(buttonText)
         currentLessonActivity.buttonState = buttonState
     }
 
@@ -117,9 +118,9 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
     override fun disableOptions() { return }
 
     private fun buildFlexBoxContent() {
-        this.dataList = this.currentLessonActivity.dataList[0].Options
-        this.dataList.shuffle()
-        for((index, item: OptionInfo) in this.dataList.withIndex()){
+        this.options = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options
+        this.options.shuffle()
+        for((index, item: OptionInfo) in this.options.withIndex()){
             val view = TextView(currentLessonActivity.applicationContext)
             val params = FlexboxLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -134,7 +135,7 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)
-            this.flexBoxLayout.addView(view)
+            binding.flexBoxWordsId.addView(view)
         }
     }
 }

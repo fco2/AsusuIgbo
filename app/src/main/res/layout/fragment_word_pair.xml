@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#eceff1"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.WordPairFragment">
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eceff1"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".fragments.WordPairFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,5 +50,5 @@
             android:text="@string/answer_button_state"
             android:id="@+id/button_id"/>
     </RelativeLayout>
-
-</FrameLayout>
+    </FrameLayout>
+</layout>

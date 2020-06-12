@@ -17,19 +17,18 @@ import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CurrentLessonActivity : AppCompatActivity() {
      var wordsLearned: Int = 0
      var dataListSize: Int = 0   //vm (ViewModel)
-    //TODO: remove completely
-    var dataList: ArrayList<QuestionGroup> = ArrayList()  //vm (ViewModel)
     private var requestedLesson: String = ""   //vm (ViewModel)
 
     var popUpWindow: PopupWindow? = null
     lateinit var currentQuestion: QuestionGroup   //TODO: might not need
     var buttonState: UserButton = UserButton.AnswerNotSelected
-    var selectedAnswer = ""    //vm (ViewModel)
+    //var selectedAnswer = ""    //vm (ViewModel)
     private var lessonIndex = 0
 
     lateinit var currentLessonViewModel: CurrentLessonViewModel
@@ -48,12 +47,13 @@ class CurrentLessonActivity : AppCompatActivity() {
 
         currentLessonViewModel.listReady.observe(this, Observer { ready ->
             if(ready){
-                when(currentLessonViewModel.questionList.value?.get(0)?.QuestionFormat) {
+                this.setCurrentQuestion()
+                when(currentLessonViewModel.currentQuestion.value!!.QuestionFormat) {
                     "SingleSelect" -> navigateToFragment("SingleSelect")
-                    /*"MultiSelect" -> navigateToFragment("MultiSelect")
+                    "MultiSelect" -> navigateToFragment("MultiSelect")
                     "ImageSelect" -> navigateToFragment("ImageSelect")
                     "WrittenText" -> navigateToFragment("WrittenText")
-                    "WordPair" -> navigateToFragment("WordPair")*/
+                    "WordPair" -> navigateToFragment("WordPair")
                     else -> navigateToFragment("SingleSelect")
                 }
                 binding.spinnerProgressBar.visibility = View.GONE
@@ -67,6 +67,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     fun navigateToFragment(fragmentName: String = ""){
+        Timber.d("CHUKA - fragmentName: $fragmentName")
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
@@ -99,6 +100,10 @@ class CurrentLessonActivity : AppCompatActivity() {
             }
         }
         ft.commit()
+    }
+
+    fun setCurrentQuestion(){
+        this.currentLessonViewModel.setCurrentQuestion()
     }
 
     fun setProgressBarStatus(){

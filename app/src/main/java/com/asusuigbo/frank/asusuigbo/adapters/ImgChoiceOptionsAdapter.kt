@@ -29,18 +29,15 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             .inflate(R.layout.component_img_choice_option, parent, false)
         //measuredHeight returns pixels (px) but units are measured in dp.
         val params = view.layoutParams as GridLayoutManager.LayoutParams
-        params.height = parent.measuredHeight / 2 - this.fromDpToPx(50)
+        //params.height = parent.measuredHeight / 2 - this.fromDpToPx(50)
         view.layoutParams = params
         return CustomViewHolder(view)
     }
 
     //we are using 120px == 50dp
-    private fun fromDpToPx(value: Int): Int{
-        return value.toPx(fragment.context!!.applicationContext)
-    }
-
-    private fun Int.toPx(context: Context): Int =
-        (this * context.resources.displayMetrics.density).toInt()
+    //TODO: commented out
+    //private fun fromDpToPx(value: Int) = value.toPx(fragment.context!!.applicationContext)
+    //private fun Int.toPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     /*
     fun Int.toDp(context: Context): Int = (this / context.resources.displayMetrics.density).toInt()
@@ -62,8 +59,8 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             if(optionList[position].Audio != "")
                 fragment.playAudio(optionList[position].Audio)
             //remove color filter for all items
-            for(i in 0 until fragment.recyclerView.childCount){
-                val view: View = fragment.recyclerView.getChildAt(i)
+            for(i in 0 until fragment.binding.imgChoiceRecyclerViewId.childCount){
+                val view: View = fragment.binding.imgChoiceRecyclerViewId.getChildAt(i)
                 view.background.clearColorFilter()
                 val image = view.findViewById<ImageView>(R.id.img_choice_img)
                 image.clearColorFilter()
@@ -76,7 +73,7 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             holder.imgChoiceImg.colorFilter = filter
             //enable button click and set buttonState
             fragment.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
-            fragment.currentLessonActivity.selectedAnswer = optionList[position].Option
+            fragment.currentLessonActivity.currentLessonViewModel.setSelectedAnswer(optionList[position].Option)
         }
     }
 
