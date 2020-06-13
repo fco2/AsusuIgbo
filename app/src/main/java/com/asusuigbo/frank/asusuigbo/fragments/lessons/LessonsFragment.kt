@@ -54,6 +54,7 @@ class LessonsFragment : Fragment() {
             val intent = Intent(context!!.applicationContext, CurrentLessonActivity::class.java)
             intent.putExtra("LESSON_NAME", lessonName)
             intent.putExtra("LESSON_INDEX", index)
+            intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context!!.applicationContext.startActivity(intent)

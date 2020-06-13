@@ -24,6 +24,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     var wordsLearned: Int = 0
     private var dataListSize: Int = 0
     private var requestedLesson: String = ""
+    private var totalLessons: Int = 0
 
     var popUpWindow: PopupWindow? = null
     var buttonState: UserButton = UserButton.AnswerNotSelected
@@ -63,6 +64,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")!!
         this.lessonIndex = intent.getIntExtra("LESSON_INDEX", 0)
+        this.totalLessons = intent.getIntExtra("NUM_OF_LESSONS", 0)
     }
 
     fun navigateToFragment(fragmentName: String = ""){
@@ -125,8 +127,8 @@ class CurrentLessonActivity : AppCompatActivity() {
         val wordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
-        //TODO: check for out of bounds index ie last lesson
-        dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/${lessonIndex + 1}/Unlocked").setValue("True")
+        if(lessonIndex < totalLessons)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/${lessonIndex + 1}/Unlocked").setValue("True")
         launchCompletedLessonScreen()
     }
 
