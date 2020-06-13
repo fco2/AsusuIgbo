@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions
 
 import android.content.Context
 import android.graphics.PorterDuff
@@ -29,15 +29,15 @@ class ImgChoiceOptionsAdapter(private val optionList: MutableList<OptionInfo>,
             .inflate(R.layout.component_img_choice_option, parent, false)
         //measuredHeight returns pixels (px) but units are measured in dp.
         val params = view.layoutParams as GridLayoutManager.LayoutParams
-        //params.height = parent.measuredHeight / 2 - this.fromDpToPx(50)
+        params.height = parent.measuredHeight / 2 - this.fromDpToPx(50)
         view.layoutParams = params
         return CustomViewHolder(view)
     }
 
     //we are using 120px == 50dp
     //TODO: commented out
-    //private fun fromDpToPx(value: Int) = value.toPx(fragment.context!!.applicationContext)
-    //private fun Int.toPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+    private fun fromDpToPx(value: Int) = value.toPx(fragment.context!!.applicationContext)
+    private fun Int.toPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     /*
     fun Int.toDp(context: Context): Int = (this / context.resources.displayMetrics.density).toInt()

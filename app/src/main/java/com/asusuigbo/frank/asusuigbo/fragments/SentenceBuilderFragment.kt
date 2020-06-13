@@ -44,7 +44,7 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
 
         if(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
             binding.playAudioId.visibility = View.VISIBLE
-        return view
+        return binding.root
     }
 
     private val playAudioClickListener  = View.OnClickListener {
@@ -57,7 +57,7 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
 
     override fun isCorrectAnswer(): Boolean{
         val sentence = this.buildSentence()
-        return sentence == currentLessonActivity.currentQuestion.CorrectAnswer
+        return sentence == currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer
     }
 
     private fun initializeViewClickListener(){
@@ -98,8 +98,8 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
 
     private fun buildSentence(): String{
         val sb = StringBuilder()
-        for(item in this.selectedSentence){
-            sb.append(currentLessonActivity.currentQuestion.Options.elementAt(item).Option).append(" ")
+        this.selectedSentence.forEach{item ->
+            sb.append(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.elementAt(item).Option).append(" ")
         }
         return sb.toString().trim()
     }

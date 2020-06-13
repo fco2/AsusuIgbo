@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,7 +27,6 @@ class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : B
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_single_select, container, false)
-        this.invokeCheckedButtonListener()
         binding.buttonId.setOnClickListener(buttonClickListener)
         binding.questionText.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
         this.setUpView()
@@ -66,17 +64,6 @@ class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : B
         }
     }
 
-    private fun invokeCheckedButtonListener(){
-        binding.choicesRadioGroup.setOnCheckedChangeListener{ group, checkedId ->
-            if(group.checkedRadioButtonId != -1){ //if it is a valid checked radio button
-                //TODO: check if minus one should be here
-                val checkedRadioBtn: RadioButton = binding.choicesRadioGroup[checkedId - 1] as RadioButton
-                currentLesson.currentLessonViewModel.setSelectedAnswer(checkedRadioBtn.text.toString())
-                this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
-            }
-        }
-    }
-
     override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
         binding.buttonId.text = getString(buttonText)
@@ -97,9 +84,15 @@ class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : B
             view.background = ContextCompat.
                 getDrawable(this.currentLesson.applicationContext, R.drawable.option_background)
             view.setPadding(25,25,25,25)
+            view.setOnClickListener { setSelectedAnswer(view.text.toString())}
             view.isClickable = true
             view.tag = index
             binding.choicesRadioGroup.addView(view)
         }
+    }
+
+    private fun setSelectedAnswer(s: String){
+        currentLesson.currentLessonViewModel.setSelectedAnswer(s)
+        this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
     }
 }

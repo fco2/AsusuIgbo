@@ -15,7 +15,7 @@ abstract class BaseExtendedFragment(private val currentLessonActivity: CurrentLe
                 answerQuestion()
             }
             UserButton.NextQuestion -> {
-                currentLessonActivity.currentLessonViewModel.setCurrentQuestion()
+                currentLessonActivity.setCurrentQuestion()
                 currentLessonActivity.navigateToFragment(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
             }
             else -> {
@@ -25,13 +25,10 @@ abstract class BaseExtendedFragment(private val currentLessonActivity: CurrentLe
     }
 
     fun answerQuestion(){
-        //TODO: view model should handle this logic
-        //currentLessonActivity.currentQuestion = currentLessonActivity.currentLessonViewModel.questionList.value!!.removeAt(0)
         disableOptions()
         currentLessonActivity.popUpWindow = PopupHelper.displaySelectionInPopUp(currentLessonActivity, this.isCorrectAnswer())
-
         if(!this.isCorrectAnswer())
-            currentLessonActivity.currentLessonViewModel.questionList.value!!.add(currentLessonActivity.currentQuestion)
+            currentLessonActivity.currentLessonViewModel.addQuestion(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!)
         if(currentLessonActivity.currentLessonViewModel.questionList.value!!.size > 0)
             this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
         else

@@ -21,14 +21,12 @@ import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CurrentLessonActivity : AppCompatActivity() {
-     var wordsLearned: Int = 0
-     var dataListSize: Int = 0   //vm (ViewModel)
-    private var requestedLesson: String = ""   //vm (ViewModel)
+    var wordsLearned: Int = 0
+    private var dataListSize: Int = 0
+    private var requestedLesson: String = ""
 
     var popUpWindow: PopupWindow? = null
-    lateinit var currentQuestion: QuestionGroup   //TODO: might not need
     var buttonState: UserButton = UserButton.AnswerNotSelected
-    //var selectedAnswer = ""    //vm (ViewModel)
     private var lessonIndex = 0
 
     lateinit var currentLessonViewModel: CurrentLessonViewModel
@@ -47,6 +45,7 @@ class CurrentLessonActivity : AppCompatActivity() {
 
         currentLessonViewModel.listReady.observe(this, Observer { ready ->
             if(ready){
+                this.dataListSize = currentLessonViewModel.questionList.value!!.size
                 this.setCurrentQuestion()
                 when(currentLessonViewModel.currentQuestion.value!!.QuestionFormat) {
                     "SingleSelect" -> navigateToFragment("SingleSelect")
@@ -67,7 +66,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     fun navigateToFragment(fragmentName: String = ""){
-        Timber.d("CHUKA - fragmentName: $fragmentName")
+        Timber.d("CHUKA - currentQuestion: ${this.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question} | fragmentName: $fragmentName")
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
@@ -126,7 +125,7 @@ class CurrentLessonActivity : AppCompatActivity() {
         val wordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
-        //TODO: check for out of bounds index
+        //TODO: check for out of bounds index ie last lesson
         dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/${lessonIndex + 1}/Unlocked").setValue("True")
         launchCompletedLessonScreen()
     }

@@ -33,7 +33,7 @@ class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : Ba
         this.writtenTextChangeListener()
         binding.buttonId.setOnClickListener(buttonClickListener)
         setUpView()
-        return view
+        return binding.root
     }
 
     private val buttonClickListener = View.OnClickListener {

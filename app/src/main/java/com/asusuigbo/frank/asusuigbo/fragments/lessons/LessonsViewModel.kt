@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class LessonsViewModel : ViewModel(){
     private val _lessonsList = MutableLiveData<List<UserLesson>>()

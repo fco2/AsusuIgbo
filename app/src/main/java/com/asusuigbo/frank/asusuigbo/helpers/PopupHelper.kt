@@ -54,7 +54,7 @@ class PopupHelper {
                 image.setImageResource(R.mipmap.img_wrong_answer)
                 val wrongAnswerColor = ContextCompat.getColor(currentLessonActivity.applicationContext, R.color.wrongAnswer)
                 popUpLayout.setBackgroundColor(wrongAnswerColor)
-                correctAnswerText!!.text = currentLessonActivity.currentQuestion.CorrectAnswer
+                correctAnswerText!!.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer
             }
         }
     }

@@ -5,15 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.adapters.ImgChoiceOptionsAdapter
+import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgChoiceOptionsAdapter
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentImgChoiceBinding
 import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
@@ -39,7 +36,7 @@ class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : Base
         binding.imgChoiceQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
         setUpView()
         binding.buttonId.setOnClickListener(buttonClickListener)
-        return view
+        return binding.root
     }
 
     private val buttonClickListener = View.OnClickListener {
@@ -76,7 +73,11 @@ class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : Base
         binding.imgChoiceRecyclerViewId.hasFixedSize()
         binding.imgChoiceRecyclerViewId.addItemDecoration(this.itemOffsetDecoration)
         currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.shuffle()
-        val adapter = ImgChoiceOptionsAdapter(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options, this)
+        val adapter =
+            ImgChoiceOptionsAdapter(
+                currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options,
+                this
+            )
         binding.imgChoiceRecyclerViewId.adapter = null
         binding.imgChoiceRecyclerViewId.adapter = adapter
         binding.imgChoiceRecyclerViewId.adapter!!.notifyDataSetChanged()

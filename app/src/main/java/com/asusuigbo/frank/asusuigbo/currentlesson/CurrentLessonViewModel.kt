@@ -1,11 +1,9 @@
 package com.asusuigbo.frank.asusuigbo.currentlesson
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +13,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() {
-    //data list
     private val job = Job()
     private val scope = CoroutineScope(IO + job)
 
@@ -32,8 +29,6 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
     private val _selectedAnswer = MutableLiveData<String>()
     val selectedAnswer : LiveData<String>
         get() = _selectedAnswer
-
-    var dataListSize: Int = 0
 
     init{
         scope.launch {
@@ -52,13 +47,11 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
                 for (d in dataSnapshot.children) {
                     val questionGroup = d.getValue(QuestionGroup::class.java)!!
                     dl.add(questionGroup)
-                    Timber.d("CHUKA - Got here")
                 }
-                dataListSize = dl.size
                 dl.shuffle()
                 _questionList.value = dl
                 _listReady.value = true
-                Timber.d("CHUKA size2 - ${_questionList.value!!.size}")
+                Timber.d("CHUKA size - ${_questionList.value!!.size}")
 
                 //TODO: change the db reference to get user data
                 /*database.reference.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -81,6 +74,10 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
 
     fun setSelectedAnswer(s: String){
         this._selectedAnswer.value = s
+    }
+
+    fun addQuestion(q: QuestionGroup){
+        this._questionList.value!!.add(q)
     }
 
     override fun onCleared() {
