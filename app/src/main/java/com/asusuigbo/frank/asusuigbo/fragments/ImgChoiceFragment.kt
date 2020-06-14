@@ -1,10 +1,16 @@
 package com.asusuigbo.frank.asusuigbo.fragments
 
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,14 +22,18 @@ import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
+import androidx.lifecycle.Observer
+import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgOptionClickListener
+import com.asusuigbo.frank.asusuigbo.models.OptionInfo
+import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.
  */
-class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
+class ImgChoiceFragment(private val currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
 
     private lateinit var itemOffsetDecoration: ItemOffsetDecoration
-
     lateinit var binding: FragmentImgChoiceBinding
 
     override fun onCreateView(
@@ -32,10 +42,8 @@ class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : Base
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_img_choice, container, false)
         itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
-        //set question and view parameters here
-        binding.imgChoiceQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        setUpView()
         binding.buttonId.setOnClickListener(buttonClickListener)
+        updateOptions()
         return binding.root
     }
 
@@ -48,10 +56,14 @@ class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : Base
                 currentLessonActivity.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
     }
 
-    override fun updateOptions(){
-        binding.imgChoiceQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        this.setUpImageChoiceView()
-        currentLessonActivity.currentLessonViewModel.setSelectedAnswer("")
+    override fun updateOptions() {
+        currentLessonActivity.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer{ question ->
+            binding.imgChoiceQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+            this.setUpImageChoiceView(question.Options)
+            currentLessonActivity.currentLessonViewModel.setSelectedAnswer("")
+            this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+            currentLessonActivity.setProgressBarStatus()
+        })
     }
 
     override fun disableOptions(){
@@ -68,18 +80,40 @@ class ImgChoiceFragment(val currentLessonActivity: CurrentLessonActivity) : Base
         currentLessonActivity.buttonState = buttonState
     }
 
-    private fun setUpImageChoiceView(){
+    private fun setUpImageChoiceView(options: MutableList<OptionInfo>) {
         binding.imgChoiceRecyclerViewId.layoutManager = GridLayoutManager(this.currentLessonActivity, 2)
         binding.imgChoiceRecyclerViewId.hasFixedSize()
         binding.imgChoiceRecyclerViewId.addItemDecoration(this.itemOffsetDecoration)
-        currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.shuffle()
-        val adapter =
-            ImgChoiceOptionsAdapter(
-                currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options,
-                this
-            )
+
+
+        val adapter = ImgChoiceOptionsAdapter(
+            ImgOptionClickListener{ option, audio, view -> onClickImageAction(option, audio, view) }
+        )
         binding.imgChoiceRecyclerViewId.adapter = null
         binding.imgChoiceRecyclerViewId.adapter = adapter
-        binding.imgChoiceRecyclerViewId.adapter!!.notifyDataSetChanged()
+        adapter.submitList(options)
+    }
+
+    private fun onClickImageAction(option: String, audio: String, view: View){
+        //play audio here
+        if(audio != "")
+            this.playAudio(audio)
+        //remove color filter for all items
+        for(i in 0 until this.binding.imgChoiceRecyclerViewId.childCount){
+            val v: View = this.binding.imgChoiceRecyclerViewId.getChildAt(i)
+            v.background.clearColorFilter()
+            val image = v.findViewById<ImageView>(R.id.AdditionalInfo)
+            image.clearColorFilter()
+        }
+        //add color filter for selected item, both RelativeLayout and imageView
+        val overlayColor = ContextCompat.getColor(this.currentLessonActivity.applicationContext,
+            R.color.selectedImgChoiceOption)
+        val filter = PorterDuffColorFilter(overlayColor, PorterDuff.Mode.MULTIPLY)
+        view.background.colorFilter = filter
+        val imgChoiceImg = view.findViewById(R.id.AdditionalInfo) as ImageView
+        imgChoiceImg.colorFilter = filter
+        //enable button click and set buttonState
+        this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+        this.currentLessonActivity.currentLessonViewModel.setSelectedAnswer(option)
     }
 }

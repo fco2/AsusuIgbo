@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() {
     private val job = Job()
@@ -48,11 +47,10 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
                     val questionGroup = d.getValue(QuestionGroup::class.java)!!
                     dl.add(questionGroup)
                 }
-                dl.shuffle()
+                //TODO: set back
+                //dl.shuffle()
                 _questionList.value = dl
                 _listReady.value = true
-                Timber.d("CHUKA size - ${_questionList.value!!.size}")
-
                 //TODO: change the db reference to get user data
                 /*database.reference.addListenerForSingleValueEvent(object: ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot) {

@@ -3,8 +3,6 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -12,12 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
 import com.asusuigbo.frank.asusuigbo.fragments.*
-import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CurrentLessonActivity : AppCompatActivity() {
@@ -68,7 +64,6 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     fun navigateToFragment(fragmentName: String = ""){
-        Timber.d("CHUKA - currentQuestion: ${this.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question} | fragmentName: $fragmentName")
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager

@@ -84,8 +84,8 @@ class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : B
             view.background = ContextCompat.
                 getDrawable(this.currentLesson.applicationContext, R.drawable.option_background)
             view.setPadding(25,25,25,25)
-            view.setOnClickListener { setSelectedAnswer(view.text.toString())}
             view.isClickable = true
+            view.setOnClickListener { setSelectedAnswer(view.text.toString())}
             view.tag = index
             binding.choicesRadioGroup.addView(view)
         }
