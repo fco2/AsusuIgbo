@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsFragment
-import com.asusuigbo.frank.asusuigbo.fragments.NewestFragment
+import com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment
 import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         when(menuItem.itemId){
             R.id.home_icon_id -> initializeFragment(LessonsFragment(), "Lessons")
-            R.id.newest_icon_id -> initializeFragment(NewestFragment(), "New Words")
+            R.id.newest_icon_id -> initializeFragment(WeeklyNewsFragment(), "New Words")
             R.id.profile_icon_id -> initializeFragment(ProfileFragment(), "Profile")
             else -> initializeFragment(LessonsFragment(), "Lessons")
         }

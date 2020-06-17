@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,21 +12,53 @@
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:minHeight="?android:attr/actionBarSize"
-        android:layout_alignParentTop="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:elevation="12dp"
         android:background="@color/colorPrimary">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textAppearance="@style/ToolbarCustomTextAppearance"
-            android:id="@+id/toolbar_text_id"/>
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                android:gravity="center"
+                android:textAppearance="@style/ToolbarCustomTextAppearance"
+                android:id="@+id/toolbar_text_id"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/toolbar_text_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                android:background="@drawable/bgd_current_language"
+                android:gravity="start|center_vertical"
+                android:text="@string/igbo"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/galindo"
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:id="@+id/current_language"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
    <FrameLayout
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="0dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+       app:layout_constraintBottom_toTopOf="@id/bottom_nav_view_id"
        android:layout_below="@id/toolbar_main"
        android:orientation="vertical"
        android:layout_above="@id/bottom_nav_view_id"
@@ -34,11 +67,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_alignParentBottom="true"
         android:padding="4dp"
-
         android:background="#FFFFFF"
         android:elevation="20dp"
         app:menu="@menu/bottom_nav_menu"
         android:id="@+id/bottom_nav_view_id"/>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -130,7 +130,7 @@ class WordPairFragment(private var currentLessonActivity: CurrentLessonActivity)
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
             view.background = ContextCompat.getDrawable(currentLessonActivity.applicationContext,
-                R.drawable.bgd_word_pair_word)
+                R.drawable.bgd_white)
             view.setPadding(30,30,30,30)
             view.isClickable = true
             view.tag = index

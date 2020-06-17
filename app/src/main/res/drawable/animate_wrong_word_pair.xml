@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/bgd_word_pair_word_wrong" />
-    <item android:drawable="@drawable/bgd_word_pair_word" />
+    <item android:drawable="@drawable/bgd_white" />
 </transition>

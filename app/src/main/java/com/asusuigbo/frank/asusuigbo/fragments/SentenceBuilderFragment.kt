@@ -120,7 +120,7 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
             view.background = ContextCompat.getDrawable(this.currentLessonActivity.applicationContext,
-                R.drawable.bgd_word_pair_word)
+                R.drawable.bgd_white)
             view.setPadding(30,30,30,30)
             view.setTextColor(ContextCompat.getColor(currentLessonActivity, R.color.colorPrimaryDark))
             view.isClickable = true

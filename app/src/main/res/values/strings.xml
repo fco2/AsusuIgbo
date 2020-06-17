@@ -58,6 +58,10 @@
     <string name="option">Option</string>
     <string name="save">Save</string>
     <string name="play_audio">Play Audio</string>
+    <string name="news_weekly">Weekly</string>
+    <string name="more">More</string>
+    <string name="igbo">Igbo</string>
+    <string name="select_language">Select Language to Learn</string>
 
     <!-- Question type list -->
     <string-array name="question_type">
