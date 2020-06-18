@@ -92,11 +92,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|center_horizontal"
-        android:padding="10dp"
+        android:padding="18dp"
         android:textAllCaps="false"
-        android:text="@string/login"
+        android:text="@string/already_have_an_account_login"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:background="@null"
         android:id="@+id/login_link_id"/>
 

@@ -8,6 +8,35 @@
         android:background="@color/colorGrey"
         tools:context=".auth.ChooseLangActivity">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:minHeight="?android:attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="12dp"
+            android:background="@color/colorPrimary">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.4"
+                    android:text="@string/choose_language_text"
+                    android:gravity="center"
+                    android:textAppearance="@style/ToolbarCustomTextAppearance"
+                    android:id="@+id/toolbar_text_id"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
         <TextView
             android:id="@+id/choose_lang_text"
             android:layout_width="match_parent"
@@ -16,9 +45,9 @@
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toolbar_main"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintVertical_bias="0.1"
             app:layout_constraintHorizontal_bias="0.1"
             android:padding="4dp"
             android:layout_margin="20dp"
