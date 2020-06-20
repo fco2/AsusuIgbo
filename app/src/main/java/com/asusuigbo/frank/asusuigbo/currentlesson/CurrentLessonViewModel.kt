@@ -3,15 +3,18 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() {
+class CurrentLessonViewModel(private var requestedLesson: String, activeLang: String) : ViewModel() {
     private val job = Job()
     private val scope = CoroutineScope(IO + job)
 
@@ -29,15 +32,23 @@ class CurrentLessonViewModel(private var requestedLesson: String) : ViewModel() 
     val selectedAnswer : LiveData<String>
         get() = _selectedAnswer
 
+    private val _activeLanguage = MutableLiveData<String>()
+    val activeLanguage : LiveData<String>
+        get() = _activeLanguage
+
     init{
         scope.launch {
+            withContext(Main){
+                _activeLanguage.value = activeLang
+            }
             populateList()
         }
     }
 
     private fun populateList() {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val dbReference: DatabaseReference = database.getReference("Lessons/$requestedLesson")
+        // /Language/${viewModel.language.value!!}/Lessons/
+        val dbReference: DatabaseReference = database.getReference("Language/${activeLanguage.value}/Lessons/$requestedLesson")
 
         dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

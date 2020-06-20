@@ -1,8 +1,14 @@
 package com.asusuigbo.frank.asusuigbo.fragments.lessons
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.asusuigbo.frank.asusuigbo.database.AsusuIgboDatabase
+import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
+import com.asusuigbo.frank.asusuigbo.database.LanguageInfoDao
+import com.asusuigbo.frank.asusuigbo.database.LanguageInfoRepository
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -11,10 +17,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class LessonsViewModel : ViewModel(){
+class LessonsViewModel(application: Application) : AndroidViewModel(application){
     private val _lessonsList = MutableLiveData<List<UserLesson>>()
     val lessonsList: LiveData<List<UserLesson>>
         get() = _lessonsList
@@ -22,8 +30,20 @@ class LessonsViewModel : ViewModel(){
     private val job = Job()
     private val scope = CoroutineScope(IO + job)
 
+    private lateinit var repository : LanguageInfoRepository
+
+    private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(application).languageInfoDao
+
+    private val _activeLanguage = MutableLiveData<LanguageInfo>()
+    val activeLanguage : LiveData<LanguageInfo>
+        get() = _activeLanguage
+
     init{
         scope.launch{
+            repository = LanguageInfoRepository(dao)
+            withContext(Main){
+                _activeLanguage.value = repository.getActiveLanguage()
+            }
             populateDataList()
         }
     }
@@ -32,7 +52,7 @@ class LessonsViewModel : ViewModel(){
         //TODO: get language from db.
         val auth = FirebaseAuth.getInstance()
         val dbReference = FirebaseDatabase.getInstance().reference
-            .child("Users/${auth.currentUser!!.uid}/Language/Igbo/Lessons/")
+            .child("Users/${auth.currentUser!!.uid}/Language/${this.activeLanguage.value!!.Language}/Lessons/")
         dbReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
 

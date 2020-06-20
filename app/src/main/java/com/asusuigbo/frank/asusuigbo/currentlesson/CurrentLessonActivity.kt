@@ -1,6 +1,7 @@
 package com.asusuigbo.frank.asusuigbo.currentlesson
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,10 @@ class CurrentLessonActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
-        factory = CurrentLessonViewModelFactory(this.requestedLesson)
+        val language = intent.getStringExtra("LANGUAGE")!!
+        Log.d("CHUKA", "langggg: ${language}")
+
+        factory = CurrentLessonViewModelFactory(this.requestedLesson, language)
         currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
 
         currentLessonViewModel.listReady.observe(this, Observer { ready ->

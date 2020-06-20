@@ -3,6 +3,7 @@ package com.asusuigbo.frank.asusuigbo.fragments.lessons
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,10 @@ class LessonsFragment : Fragment() {
             populateRecyclerView(it)
             binding.progressBar.visibility = View.GONE
         })
+        binding.lessonsViewModel!!.activeLanguage.observe(viewLifecycleOwner, Observer{
+            binding.layoutToolbar.toolbarText.text = getString(R.string.lessons_text)
+            binding.layoutToolbar.currentLanguage.text = it.Language
+        })
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -55,6 +60,8 @@ class LessonsFragment : Fragment() {
             intent.putExtra("LESSON_NAME", lessonName)
             intent.putExtra("LESSON_INDEX", index)
             intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
+            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!.Language)
+
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context!!.applicationContext.startActivity(intent)

@@ -64,6 +64,7 @@
     <string name="select_language">Select Language to Learn</string>
     <string name="choose_language_text">Choose Language</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="weekly_news">Weekly News</string>
 
     <!-- Question type list -->
     <string-array name="question_type">

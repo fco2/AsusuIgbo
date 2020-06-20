@@ -12,9 +12,15 @@
             android:background="#cfd8dc"
             tools:context="com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsFragment">
 
+                <include layout="@layout/toolbar_layout"
+                    android:id="@+id/layoutToolbar"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
                     android:scrollbars="vertical"
                     android:fadeScrollbars="true"
                     android:scrollbarStyle="insideInset"

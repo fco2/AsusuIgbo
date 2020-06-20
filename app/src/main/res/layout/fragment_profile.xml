@@ -1,17 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment"
-    android:animateLayoutChanges="true"
-    android:id="@+id/profile_layout">
-
-    <RelativeLayout
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/profile_image_and_name">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment"
+        android:animateLayoutChanges="true"
+        android:id="@+id/profile_layout">
+
+        <include layout="@layout/toolbar_layout"
+            android:id="@+id/layoutToolbar"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutToolbar"
+            android:id="@+id/profile_image_and_name">
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -23,187 +27,189 @@
                 android:src="@mipmap/user_profile_image"
                 android:id="@+id/user_profile_img_view"/>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                app:cardCornerRadius="18dp"
+                android:padding="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_toEndOf="@id/user_profile_img_view"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/hammersmith_one"
+                    android:gravity="center"
+                    android:id="@+id/username_id"
+                    android:textAlignment="center"
+                    android:textSize="17sp" />
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/shape_divider"
+            android:layout_below="@id/profile_image_and_name"
+            android:layout_margin="6dp"
+            android:id="@+id/user_profile_divider"/>
+
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:elevation="5dp"
-            app:cardCornerRadius="18dp"
-            android:padding="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_toEndOf="@id/user_profile_img_view"
-            android:layout_centerVertical="true">
+            app:cardCornerRadius="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/user_profile_divider"
+            android:id="@+id/card_view_lessons_completed">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/hammersmith_one"
-                android:gravity="center"
-                android:id="@+id/username_id"
-                android:textAlignment="center"
-                android:textSize="17sp" />
+                android:layout_margin="4dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/galindo"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="@string/lessons_completed_text"
+                    android:id="@+id/lessons_completed_template_text"/>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_toEndOf="@id/lessons_completed_template_text"
+                    android:background="@drawable/shape_divider"
+                    android:id="@+id/divider_2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/andika"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@id/divider_2"
+                    android:id="@+id/lessons_completed_value"/>
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Words learned -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/card_view_lessons_completed"
+            android:id="@+id/card_view_words_learned">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp">
+
+                <TextView
+                    android:id="@+id/words_learned_template_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/galindo"
+                    android:gravity="center"
+                    android:text="@string/total_words_learned"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_toEndOf="@id/words_learned_template_text"
+                    android:background="@drawable/shape_divider"
+                    android:id="@+id/divider_3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/andika"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@id/divider_3"
+                    android:id="@+id/words_learned_value"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/sign_out_id"
+            android:padding="8dp"
+            android:text="@string/add_question"
+            android:drawableStart="@mipmap/icon_add_white"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/bgd_add_question_btn"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/add_question_id"/>
+
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            style="@style/RoundedCornerButtonTheme"
+            android:layout_marginBottom="10dp"
+            android:text="@string/log_out"
+            android:id="@+id/sign_out_id"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar_profile_id"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:max="500"
+            android:progress="0"/>
+
     </RelativeLayout>
+</layout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/shape_divider"
-        android:layout_below="@id/profile_image_and_name"
-        android:layout_margin="6dp"
-        android:id="@+id/user_profile_divider"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/user_profile_divider"
-        android:id="@+id/card_view_lessons_completed">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/galindo"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:text="@string/lessons_completed_text"
-                android:id="@+id/lessons_completed_template_text"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@id/lessons_completed_template_text"
-                android:background="@drawable/shape_divider"
-                android:id="@+id/divider_2"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/andika"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_toEndOf="@id/divider_2"
-                android:id="@+id/lessons_completed_value"/>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Words learned -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/card_view_lessons_completed"
-        android:id="@+id/card_view_words_learned">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp">
-
-            <TextView
-                android:id="@+id/words_learned_template_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/galindo"
-                android:gravity="center"
-                android:text="@string/total_words_learned"
-                android:textAlignment="center"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@id/words_learned_template_text"
-                android:background="@drawable/shape_divider"
-                android:id="@+id/divider_3"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="@font/andika"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:layout_toEndOf="@id/divider_3"
-                android:id="@+id/words_learned_value"/>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/sign_out_id"
-        android:padding="8dp"
-        android:text="@string/add_question"
-        android:drawableStart="@mipmap/icon_add_white"
-        android:textSize="18sp"
-        android:visibility="gone"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/bgd_add_question_btn"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/add_question_id"/>
-
-
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:padding="18dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        style="@style/RoundedCornerButtonTheme"
-        android:layout_marginBottom="10dp"
-        android:text="@string/log_out"
-        android:id="@+id/sign_out_id"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar_profile_id"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:max="500"
-        android:progress="0"/>
-
-</RelativeLayout>

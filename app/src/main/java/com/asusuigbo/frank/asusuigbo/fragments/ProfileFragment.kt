@@ -6,46 +6,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
-import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 
 class ProfileFragment : Fragment() {
-
-    private lateinit var signOutBtn: Button
     private lateinit var auth: FirebaseAuth
-    private lateinit var username: TextView
-    private lateinit var lessonsCompleted: TextView
-    private lateinit var wordsLearned: TextView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var addQuestionButton: Button
+    private lateinit var binding: FragmentProfileBinding
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_profile, container, false)
-        signOutBtn = view.findViewById(R.id.sign_out_id)
-        username = view.findViewById(R.id.username_id)
-        lessonsCompleted = view.findViewById(R.id.lessons_completed_value)
-        wordsLearned = view.findViewById(R.id.words_learned_value)
-        progressBar = view.findViewById(R.id.progress_bar_profile_id)
-        addQuestionButton = view.findViewById(R.id.add_question_id)
-        progressBar.visibility = View.VISIBLE
+        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        binding.progressBarProfileId.visibility = View.VISIBLE
 
+        binding.layoutToolbar.toolbarText.text = getString(R.string.profile_text)
+        binding.layoutToolbar.currentLanguage.visibility = View.GONE
         auth = FirebaseAuth.getInstance()
 
         setUserName()
-        signOutBtn.setOnClickListener(signOutClickListener)
-        addQuestionButton.setOnClickListener(addQuestionClickListener)
-        return view
+        binding.signOutId.setOnClickListener(signOutClickListener)
+        binding.addQuestionId.setOnClickListener(addQuestionClickListener)
+        return binding.root
     }
 
     private val addQuestionClickListener = View.OnClickListener{
@@ -68,17 +57,17 @@ class ProfileFragment : Fragment() {
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
-                username.text = p0.child("Users").child(auth.currentUser!!.uid).child("Username").value.toString()
-                wordsLearned.text = p0.child("Users").child(auth.currentUser!!.uid)
+                binding.usernameId.text = p0.child("Users").child(auth.currentUser!!.uid).child("Username").value.toString()
+                binding.wordsLearnedValue.text = p0.child("Users").child(auth.currentUser!!.uid)
                         .child("WordsLearned").value.toString()
-                lessonsCompleted.text = p0.child("Users").child(auth.currentUser!!.uid)
+                binding.lessonsCompletedValue.text = p0.child("Users").child(auth.currentUser!!.uid)
                         .child("LessonsCompleted").value.toString()
 
-                progressBar.visibility = View.GONE
+                binding.progressBarProfileId.visibility = View.GONE
 
-                if(username.text == "chuka")
-                    addQuestionButton.visibility = View.VISIBLE
+                if(binding.usernameId.text == "chuka")
+                    binding.addQuestionId.visibility = View.VISIBLE
             }
         })
     }
-}// Required empty public constructor
+}
