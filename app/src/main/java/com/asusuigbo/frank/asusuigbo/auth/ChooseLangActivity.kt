@@ -2,12 +2,13 @@ package com.asusuigbo.frank.asusuigbo.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangClickListener
+import com.asusuigbo.frank.asusuigbo.auth.chooselangprompt.ChooseLangPromptActivity
+import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
 import com.asusuigbo.frank.asusuigbo.models.LanguageInfo
 import com.google.android.material.snackbar.Snackbar
@@ -34,8 +35,10 @@ class ChooseLangActivity : AppCompatActivity() {
         binding.chooseLangRecyclerView.layoutManager = manager
         binding.chooseLangRecyclerView.hasFixedSize()
         val adapter = ChooseLangAdapter(ChooseLangClickListener {
-            //TODO: implement going to sign up screen
             Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
+            val intent = Intent(this, SignUpActivity::class.java)
+            intent.putExtra("LANGUAGE", it)
+            startActivity(intent)
         })
         binding.chooseLangRecyclerView.adapter = adapter
         adapter.submitList(langList)

@@ -29,9 +29,10 @@ class LessonsViewModel : ViewModel(){
     }
 
     private fun populateDataList(){
+        //TODO: get language from db.
         val auth = FirebaseAuth.getInstance()
         val dbReference = FirebaseDatabase.getInstance().reference
-            .child("Users/${auth.currentUser!!.uid}/Lessons")
+            .child("Users/${auth.currentUser!!.uid}/Language/Igbo/Lessons/")
         dbReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
 
@@ -52,7 +53,6 @@ class LessonsViewModel : ViewModel(){
             }
         })
     }
-
 
     override fun onCleared() {
         super.onCleared()

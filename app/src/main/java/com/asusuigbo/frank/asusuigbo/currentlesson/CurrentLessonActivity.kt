@@ -33,8 +33,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCurrentLessonBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
         factory = CurrentLessonViewModelFactory(this.requestedLesson)

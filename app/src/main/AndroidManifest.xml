@@ -19,10 +19,10 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".auth.ChooseLangActivity"/>
         <activity android:name=".AddQuestionActivity" />
-        <activity android:name=".auth.SignUpActivity" />
+        <activity android:name=".auth.signup.SignUpActivity" />
         <activity android:name=".auth.LoginActivity" />
-        <activity android:name=".SplashScreenActivity" />
-        <activity android:name=".auth.ChooseLangPromptActivity">
+        <activity android:name=".auth.chooselangprompt.ChooseLangPromptActivity" />
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

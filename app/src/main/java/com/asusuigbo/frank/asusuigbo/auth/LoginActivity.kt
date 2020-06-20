@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.asusuigbo.frank.asusuigbo.MainActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.getInstance
 import timber.log.Timber

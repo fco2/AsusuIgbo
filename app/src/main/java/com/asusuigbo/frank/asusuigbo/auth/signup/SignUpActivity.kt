@@ -1,96 +1,98 @@
-package com.asusuigbo.frank.asusuigbo.auth
+package com.asusuigbo.frank.asusuigbo.auth.signup
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.asusuigbo.frank.asusuigbo.MainActivity
-import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
+import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
+import com.asusuigbo.frank.asusuigbo.databinding.ActivitySignUpBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SignUpActivity : AppCompatActivity() {
 
-    private lateinit var signUpBtn: Button
-    private lateinit var loginBtn: Button
-    private lateinit var email: EditText
-    private lateinit var username: EditText
-    private lateinit var password: EditText
     private lateinit var auth: FirebaseAuth
-
-    private lateinit var progressBar: ProgressBar
     private var userLessonList: ArrayList<UserLesson> = ArrayList()
+    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var viewModel: SignUpViewModel
+    private lateinit var factory: SignUpViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-
-        signUpBtn = findViewById(R.id.sign_up_button_id)
-        loginBtn = findViewById(R.id.login_link_id)
-        email = findViewById(R.id.email_id)
-        username = findViewById(R.id.username_id)
-        password = findViewById(R.id.password_id)
-        progressBar = findViewById(R.id.loading_sign_up_id)
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
-
+        val application = requireNotNull(this).application
+        factory = SignUpViewModelFactory(application)
+        viewModel = ViewModelProvider(this, factory).get(SignUpViewModel::class.java)
+        setLanguage()
         populateUserLessons()
-        signUpBtn.setOnClickListener(signUpClickListener)
-        loginBtn.setOnClickListener(loginClickListener)
+        binding.signUpButton.setOnClickListener(signUpClickListener)
+        binding.loginLink.setOnClickListener(loginClickListener)
+    }
+
+    private fun setLanguage(){
+        val lang = intent.getStringExtra("LANGUAGE")
+        viewModel.setLanguage(lang!!)
     }
 
     private val signUpClickListener = View.OnClickListener {
-        val usernameText = username.text.toString()
-        val emailText = email.text.toString()
-        val passwordText = password.text.toString()
+        val usernameText = binding.username.text.toString()
+        val emailText = binding.email.text.toString()
+        val passwordText = binding.password.text.toString()
 
         if(usernameText.isEmpty() || emailText.isEmpty() || passwordText.isEmpty()){
-            Toast.makeText(this, "Please fill email, username and password.", Toast.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "Please fill email, username and password.", Snackbar.LENGTH_SHORT).show()
         }else{
-            progressBar.visibility = View.VISIBLE
+            binding.signUpProgressBar.visibility = View.VISIBLE
             auth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful){
                             //set up basic user info and login user
-                            setUpNewUserData(usernameText)
-                            startActivity(Intent(this, MainActivity::class.java))
-                            progressBar.visibility = View.GONE
-                            finish()
+                            val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+                            val languageInfo = LanguageInfo(viewModel.language.value!!, true, getFormattedDate())
+                            this.viewModel.insert(languageInfo)
+                            setUpNewUserData(dbReference, usernameText)
+                            this.setUpUserLessonInfo(dbReference)
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            binding.signUpProgressBar.visibility = View.GONE
+                            Snackbar.make(binding.root, "Account created successfully!", Snackbar.LENGTH_SHORT).show()
                         }else{
-                            Toast.makeText(this, "Unable to create account: ${task.exception!!.message}",
-                                    Toast.LENGTH_LONG).show()
-                            progressBar.visibility = View.GONE
+                            Snackbar.make(binding.root, "Unable to create account: ${task.exception!!.message}", Snackbar.LENGTH_SHORT).show()
+                            binding.signUpProgressBar.visibility = View.GONE
                         }
                     }
         }
     }
 
     private val loginClickListener = View.OnClickListener {
-        progressBar.visibility = View.VISIBLE
+        binding.signUpProgressBar.visibility = View.VISIBLE
         startActivity(Intent(this, LoginActivity::class.java))
-        progressBar.visibility = View.GONE
+        binding.signUpProgressBar.visibility = View.GONE
         finish()
     }
 
-    private fun setUpNewUserData(username: String){
-        val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private fun setUpNewUserData(dbReference: DatabaseReference, username: String){
         dbReference.child("Users").child(auth.currentUser!!.uid).child("Username").setValue(username)
         dbReference.child("Users").child(auth.currentUser!!.uid).child("WordsLearned").setValue("0")
-        this.setUpUserLessonInfo(dbReference)
     }
 
     private fun setUpUserLessonInfo(dbReference: DatabaseReference){
         for((index, item) in this.userLessonList.withIndex()){
-            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/LessonName").setValue(item.LessonName)
-            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/LessonImage").setValue(item.LessonImage)
-            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/$index/Unlocked").setValue(item.Unlocked)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Language/${viewModel.language.value!!}/Lessons/$index/LessonName").setValue(item.LessonName)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Language/${viewModel.language.value!!}/Lessons/$index/LessonImage").setValue(item.LessonImage)
+            dbReference.child("Users/${auth.currentUser!!.uid}/Language/${viewModel.language.value!!}/Lessons/$index/Unlocked").setValue(item.Unlocked)
         }
-
     }
 
     private fun populateUserLessons() {
@@ -126,5 +128,14 @@ class SignUpActivity : AppCompatActivity() {
         userLessonList.add(UserLesson("Animals", "lesson_animals"))
         userLessonList.add(UserLesson("Sentences", "lesson_sentences"))
         userLessonList.add(UserLesson("Group Chat", "lesson_group_chat"))
+    }
+
+    private fun getFormattedDate(): String {
+        val cal = Calendar.getInstance()
+        val fmt = Formatter()
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH))
+        val year = cal.get(Calendar.YEAR)
+        val monthName = fmt.format("%tB", cal)
+        return "$monthName, $year"
     }
 }

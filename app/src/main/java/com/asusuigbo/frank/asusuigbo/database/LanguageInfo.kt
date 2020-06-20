@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "language_info")
 data class LanguageInfo(
     @PrimaryKey
     @ColumnInfo(name = "language")
