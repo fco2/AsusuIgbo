@@ -37,12 +37,12 @@ class ImgChoiceFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_img_choice, container, false)
         itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
         updateOptions()
-        currentLesson.currentLessonViewModel.checkAnswer.observe(viewLifecycleOwner, Observer{ answerFlag ->
-            if(answerFlag){
+        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+            if(canAnswer){
                 disableOptions()
                 isCorrectAnswer()
                 currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
-                currentLesson.currentLessonViewModel.setCheckAnswer() //reset it back to false
+                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
         return binding.root
@@ -65,7 +65,7 @@ class ImgChoiceFragment : Fragment() {
     }
 
     private fun updateOptions() {
-        //TODO: change logic on how it works
+        //TODO: change logic on how it works -- just check how it works.
         currentLesson.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer{ question ->
             binding.imgChoiceQuestionId.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
             this.setUpImageChoiceView(question.Options)

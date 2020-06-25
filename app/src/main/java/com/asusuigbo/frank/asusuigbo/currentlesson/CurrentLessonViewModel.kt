@@ -40,9 +40,9 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
     val buttonState : LiveData<UserButton>
         get() = _buttonState
 
-    private val _checkAnswer = MutableLiveData<Boolean>()
-    val checkAnswer : LiveData<Boolean>
-        get() = _checkAnswer
+    private val _canAnswerQuestion = MutableLiveData<Boolean>()
+    val canAnswerQuestion : LiveData<Boolean>
+        get() = _canAnswerQuestion
 
     private val _isCorrect = MutableLiveData<Boolean>()
     val isCorrect : LiveData<Boolean>
@@ -54,7 +54,7 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     init{
         _buttonState.value = UserButton.AnswerNotSelected
-        _checkAnswer.value = false
+        _canAnswerQuestion.value = false
         scope.launch {
             withContext(Main){
                 _activeLanguage.value = activeLang
@@ -108,8 +108,8 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
         this._buttonState.value = b
     }
 
-    fun setCheckAnswer(){
-        this._checkAnswer.value = !this.checkAnswer.value!!
+    fun setCanAnswerQuestion(){
+        this._canAnswerQuestion.value = !this.canAnswerQuestion.value!!
     }
 
     fun setIsCorrect(f: Boolean){

@@ -124,16 +124,12 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
 
     private val btnClickListener = View.OnClickListener {
         when(buttonState){
-            UserButton.AnswerSelected ->{
-                currentLessonViewModel.setCheckAnswer()
-            }
+            UserButton.AnswerSelected -> currentLessonViewModel.setCanAnswerQuestion()  //TODO: give this better description
             UserButton.NextQuestion -> {
                 this.setCurrentQuestion()
                 this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
             }
-            else -> {
-                this.navigateToFragment()
-            }
+            else -> this.navigateToFragment()
         }
     }
 

@@ -36,19 +36,13 @@ class SingleSelectFragment : Fragment() {
         if(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
             binding.playAudioBtn.visibility = View.VISIBLE
 
-        currentLesson.currentLessonViewModel.buttonState.observe(viewLifecycleOwner, Observer{ btnState ->
-            btnState?.let {
-                when(btnState){
-                    UserButton.AnswerNotSelected -> updateOptions()
-                    UserButton.AnswerSelected -> { //check answer
-                        }
-                    UserButton.NextQuestion -> { //go to next question
-
-                    }
-                    else -> {
-
-                    }
-                }
+        updateOptions()
+        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+            if(canAnswer){
+                disableOptions()
+                isCorrectAnswer()
+                currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
+                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
 
@@ -69,26 +63,26 @@ class SingleSelectFragment : Fragment() {
         currentLesson.playAudio(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio)
     }
 
-    fun isCorrectAnswer(): Boolean {
+    private fun isCorrectAnswer(): Boolean {
         return currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 currentLesson.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
     }
 
-    fun updateOptions(){
-        binding.questionText.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        binding.choicesRadioGroup.removeAllViews()
-        currentLesson.currentLessonViewModel.setSelectedAnswer("")
-        this.buildRadioGroupContent()
+    private fun updateOptions(){
+        currentLesson.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer { question ->
+            binding.questionText.text = question!!.QuestionInfo.Question
+            binding.choicesRadioGroup.removeAllViews()
+            currentLesson.currentLessonViewModel.setSelectedAnswer("")
+            this.buildRadioGroupContent()
+        })
     }
 
-    fun disableOptions(){
+    private fun disableOptions(){
         for(index in 0 until binding.choicesRadioGroup.childCount){
             val v = binding.choicesRadioGroup.getChildAt(index)
             v.isEnabled = false
         }
     }
-
-
 
     private fun buildRadioGroupContent(){
         for((index,item) in currentLesson.currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
@@ -105,14 +99,12 @@ class SingleSelectFragment : Fragment() {
                 getDrawable(this.currentLesson.applicationContext, R.drawable.option_background)
             view.setPadding(25,25,25,25)
             view.isClickable = true
-            view.setOnClickListener { setSelectedAnswer(view.text.toString())}
+            view.setOnClickListener {
+                currentLesson.currentLessonViewModel.setSelectedAnswer(view.text.toString())
+                currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            }
             view.tag = index
             binding.choicesRadioGroup.addView(view)
         }
-    }
-
-    private fun setSelectedAnswer(s: String){
-        currentLesson.currentLessonViewModel.setSelectedAnswer(s)
-        //this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
     }
 }
