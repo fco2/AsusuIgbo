@@ -87,7 +87,7 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/button_id"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="10dp"
@@ -100,21 +100,6 @@
                 android:id="@+id/flexbox_source_id">
             </com.google.android.flexbox.FlexboxLayout>
 
-            <Button
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:padding="18dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:textSize="18sp"
-                android:enabled="false"
-                style="@style/RoundedCornerButtonTheme"
-                android:layout_marginBottom="10dp"
-                android:text="@string/answer_button_state"
-                android:id="@+id/button_id"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

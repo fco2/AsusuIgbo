@@ -36,19 +36,6 @@
             app:justifyContent="center"
             app:flexWrap="wrap"
             android:id="@+id/flex_box_words_id"/>
-
-        <Button
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:padding="18dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:textSize="18sp"
-            android:enabled="false"
-            style="@style/RoundedCornerButtonTheme"
-            android:layout_marginBottom="10dp"
-            android:text="@string/answer_button_state"
-            android:id="@+id/button_id"/>
     </RelativeLayout>
     </FrameLayout>
 </layout>

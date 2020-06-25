@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentSentenceBuilderBinding
-import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
@@ -21,48 +21,60 @@ import com.google.android.flexbox.FlexboxLayout
 /**
  * A simple [Fragment] subclass.
  */
-class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
+class SentenceBuilderFragment : Fragment(){
 
     private var textViewClickListener = View.OnClickListener{}
     private var selectedSentence: ArrayList<Int> = ArrayList()
     private var audioUrl = ""
+    private lateinit var currentLesson: CurrentLessonActivity
 
     private lateinit var binding: FragmentSentenceBuilderBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        currentLesson = arguments!!["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sentence_builder, container, false)
         this.initializeViewClickListener()
-        binding.buttonId.setOnClickListener(buttonClickListener)
 
-        binding.multiQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        audioUrl = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio
-        this.setUpView()
+        binding.multiQuestionId.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+        audioUrl = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio
+        updateOptions()
         binding.playAudioId.setOnClickListener(playAudioClickListener)
 
-        if(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
+        if(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
             binding.playAudioId.visibility = View.VISIBLE
+        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+            if(canAnswer){
+                disableOptions()
+                isCorrectAnswer()
+                currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
+                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
+            }
+        })
         return binding.root
+    }
+    
+    companion object{
+        fun getInstance(currentLesson: CurrentLessonActivity) : SentenceBuilderFragment{
+            val fragment = SentenceBuilderFragment()
+            val bundle = Bundle()
+            bundle.putSerializable("currentLesson", currentLesson)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     private val playAudioClickListener  = View.OnClickListener {
-        playAudio(audioUrl)
+        currentLesson.playAudio(audioUrl)
     }
 
-    private val buttonClickListener = View.OnClickListener {
-        this.executeButtonAction()
-    }
-
-    override fun isCorrectAnswer(): Boolean{
+    private fun isCorrectAnswer(){
         val sentence = this.buildSentence()
-        return sentence == currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer
+        currentLesson.currentLessonViewModel.setIsCorrect(sentence == currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer)
     }
 
     private fun initializeViewClickListener(){
         this.textViewClickListener = View.OnClickListener { v ->
-            this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
 
             if(binding.flexboxDestinationId.indexOfChild(v) == -1){
                 binding.flexboxSourceId.removeView(v)
@@ -76,15 +88,17 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
         }
     }
 
-    override fun updateOptions(){
-        binding.multiQuestionId.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        binding.flexboxSourceId.removeAllViews()
-        binding.flexboxDestinationId.removeAllViews()
-        this.selectedSentence.clear()
-        this.buildFlexBoxContent()
+    private fun updateOptions(){
+        currentLesson.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer { question ->
+            binding.multiQuestionId.text = question!!.QuestionInfo.Question
+            binding.flexboxSourceId.removeAllViews()
+            binding.flexboxDestinationId.removeAllViews()
+            this.selectedSentence.clear()
+            this.buildFlexBoxContent()
+        })
     }
 
-    override fun disableOptions(){
+    private fun disableOptions(){
         disableViewsFor(binding.flexboxSourceId)
         disableViewsFor(binding.flexboxDestinationId)
     }
@@ -99,30 +113,24 @@ class SentenceBuilderFragment(private var currentLessonActivity: CurrentLessonAc
     private fun buildSentence(): String{
         val sb = StringBuilder()
         this.selectedSentence.forEach{item ->
-            sb.append(currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.elementAt(item).Option).append(" ")
+            sb.append(currentLesson.currentLessonViewModel.currentQuestion.value!!.Options.elementAt(item).Option).append(" ")
         }
         return sb.toString().trim()
     }
 
-    override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
-        binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
-        binding.buttonId.text = getString(buttonText)
-        currentLessonActivity.buttonState = buttonState
-    }
-
     private fun buildFlexBoxContent() {
-        for((index, item: OptionInfo) in this.currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
-            val view = TextView(this.currentLessonActivity.applicationContext)
+        for((index, item: OptionInfo) in this.currentLesson.currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
+            val view = TextView(this.currentLesson.applicationContext)
             val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
             params.setMargins(10,10,10,10)
             view.layoutParams = params
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-            view.background = ContextCompat.getDrawable(this.currentLessonActivity.applicationContext,
+            view.background = ContextCompat.getDrawable(this.currentLesson.applicationContext,
                 R.drawable.bgd_white)
             view.setPadding(30,30,30,30)
-            view.setTextColor(ContextCompat.getColor(currentLessonActivity, R.color.colorPrimaryDark))
+            view.setTextColor(ContextCompat.getColor(currentLesson, R.color.colorPrimaryDark))
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)

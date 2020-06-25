@@ -50,7 +50,7 @@ class SingleSelectFragment : Fragment() {
     }
 
     companion object{
-        fun newInstance(currentLesson: CurrentLessonActivity): SingleSelectFragment{
+        fun getInstance(currentLesson: CurrentLessonActivity): SingleSelectFragment{
             val fragment = SingleSelectFragment()
             val bundle = Bundle()
             bundle.putSerializable("currentLesson", currentLesson)
@@ -63,9 +63,10 @@ class SingleSelectFragment : Fragment() {
         currentLesson.playAudio(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio)
     }
 
-    private fun isCorrectAnswer(): Boolean {
-        return currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+    private fun isCorrectAnswer(){
+        val result = currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 currentLesson.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
+        currentLesson.currentLessonViewModel.setIsCorrect(result)
     }
 
     private fun updateOptions(){

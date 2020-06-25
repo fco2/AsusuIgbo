@@ -36,10 +36,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
     private val activeLanguage : LiveData<String>
         get() = _activeLanguage
 
-    private val _buttonState = MutableLiveData<UserButton>()
-    val buttonState : LiveData<UserButton>
-        get() = _buttonState
-
     private val _canAnswerQuestion = MutableLiveData<Boolean>()
     val canAnswerQuestion : LiveData<Boolean>
         get() = _canAnswerQuestion
@@ -53,7 +49,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
         get() = _hasCorrectBeenSet
 
     init{
-        _buttonState.value = UserButton.AnswerNotSelected
         _canAnswerQuestion.value = false
         scope.launch {
             withContext(Main){
@@ -102,10 +97,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     fun addQuestion(q: QuestionGroup){
         this._questionList.value!!.add(q)
-    }
-
-    fun setButtonState(b: UserButton){
-        this._buttonState.value = b
     }
 
     fun setCanAnswerQuestion(){

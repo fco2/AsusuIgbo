@@ -24,7 +24,7 @@
                     android:scrollbars="vertical"
                     android:fadeScrollbars="true"
                     android:scrollbarStyle="insideInset"
-                    android:background="@null"
+                    android:paddingBottom="72dp"
                     android:id="@+id/recycler_view" />
 
                 <ProgressBar

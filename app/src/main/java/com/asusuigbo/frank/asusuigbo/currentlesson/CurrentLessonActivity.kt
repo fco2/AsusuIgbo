@@ -2,10 +2,10 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,17 +18,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlin.math.roundToInt
 import java.io.Serializable
+import kotlin.math.roundToInt
 
 class CurrentLessonActivity : AppCompatActivity(), Serializable {
-
-
-    private var activity: CurrentLessonActivity = this
     var wordsLearned: Int = 0
     private var dataListSize: Int = 0
     private var requestedLesson: String = ""
     private var totalLessons: Int = 0
+    private lateinit var language: String
 
     var popUpWindow: PopupWindow? = null
     var buttonState: UserButton = UserButton.AnswerNotSelected
@@ -44,7 +42,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
-        val language = intent.getStringExtra("LANGUAGE")!!
+        language = intent.getStringExtra("LANGUAGE")!!
 
         factory = CurrentLessonViewModelFactory(this.requestedLesson, language)
         currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
@@ -95,11 +93,11 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
-                val singleSelectFragment = SingleSelectFragment.newInstance(this)
+                val singleSelectFragment = SingleSelectFragment.getInstance(this)
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
             }
             "MultiSelect" -> {
-                val sentenceBuilder = SentenceBuilderFragment(this)
+                val sentenceBuilder = SentenceBuilderFragment.getInstance(this)
                 ft.replace(R.id.frame_layout_id, sentenceBuilder)
             }
             "ImageSelect" -> {
@@ -107,11 +105,11 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
                 ft.replace(R.id.frame_layout_id, imgChoiceFragment)
             }
             "WrittenText" -> {
-                val writtenTextFragment = WrittenTextFragment(this)
+                val writtenTextFragment = WrittenTextFragment.getInstance(this)
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
             }
             "WordPair" -> {
-                val wordPairFragment = WordPairFragment(this)
+                val wordPairFragment = WordPairFragment.getInstance(this)
                 ft.replace(R.id.frame_layout_id, wordPairFragment)
             }
             else -> {
@@ -124,7 +122,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
 
     private val btnClickListener = View.OnClickListener {
         when(buttonState){
-            UserButton.AnswerSelected -> currentLessonViewModel.setCanAnswerQuestion()  //TODO: give this better description
+            UserButton.AnswerSelected -> currentLessonViewModel.setCanAnswerQuestion()
             UserButton.NextQuestion -> {
                 this.setCurrentQuestion()
                 this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
@@ -136,41 +134,6 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
     fun setCurrentQuestion(){
         this.currentLessonViewModel.setCurrentQuestion()
     }
-
-   /* fun setUpView(){
-        this.updateOptions()
-
-        //TODO: do this in activity
-        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
-        this.setProgressBarStatus()
-    }
-
-    private fun answerQuestion(){
-        disableOptions()
-        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, this.isCorrectAnswer())
-        if(!this.isCorrectAnswer())
-            this.currentLessonViewModel.addQuestion(this.currentLessonViewModel.currentQuestion.value!!)
-        if(this.currentLessonViewModel.questionList.value!!.size > 0)
-            this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
-        else
-            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
-    }*/
-
-    //TODO: button click order || AnswerNotSelected -> AnswerSelected -> NextQuestion -> ...
-   /* fun executeButtonAction(f: Fragment) {
-        when(this.buttonState){
-            UserButton.AnswerSelected -> {
-                answerQuestion()
-            }
-            UserButton.NextQuestion -> {
-                this.setCurrentQuestion()
-                this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
-            }
-            else -> {
-                this.navigateToFragment()
-            }
-        }
-    }*/
 
     fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         binding.button.isEnabled = buttonState != UserButton.AnswerNotSelected
@@ -211,9 +174,14 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         val wordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
                 .child("WordsLearned").setValue(wordsLearned.toString())
+
         if(lessonIndex < totalLessons)
-            dbReference.child("Users/${auth.currentUser!!.uid}/Lessons/${lessonIndex + 1}/Unlocked").setValue("True")
-        launchCompletedLessonScreen()
+            dbReference
+                .child("Users/${auth.currentUser!!.uid}/Language/$language/Lessons/${lessonIndex + 1}/Unlocked")
+                .setValue("True")
+                .addOnCompleteListener {
+                    launchCompletedLessonScreen()
+            }
     }
 
     private fun launchCompletedLessonScreen(){

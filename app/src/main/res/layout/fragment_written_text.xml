@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.WrittenTextFragment">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
@@ -16,6 +16,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:textAlignment="textStart"
                 android:text="@string/type_translation"
                 android:fontFamily="@font/bree_serif"
@@ -31,7 +34,9 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:layout_below="@id/instruction_written_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instruction_written_id"
                 android:background="#e2e1cc"
                 android:id="@+id/view_divider_written_id"/>
 
@@ -39,7 +44,9 @@
                 android:id="@+id/written_text_question_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/view_divider_written_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_divider_written_id"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="10dp"
@@ -49,9 +56,11 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/written_text_question_id"
-                android:layout_above="@id/button_id"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/written_text_question_id"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="15dp"
                 android:textColor="#757575"
                 android:fontFamily="@font/andika"
@@ -64,22 +73,8 @@
                 android:inputType="textMultiLine|textNoSuggestions"
                 android:lines="13"
                 android:hint="@string/write_translation"
-                tools:targetApi="o"
                 android:importantForAutofill="no"
                 android:id="@+id/written_text_answer_id"/>
-
-            <Button
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:padding="18dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:textSize="18sp"
-                android:enabled="false"
-                style="@style/RoundedCornerButtonTheme"
-                android:layout_marginBottom="10dp"
-                android:text="@string/answer_button_state"
-                android:id="@+id/button_id"/>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>
