@@ -25,6 +25,8 @@ import java.util.*
 class WrittenTextFragment(var currentLessonActivity: CurrentLessonActivity) : BaseExtendedFragment(currentLessonActivity) {
     private lateinit var binding: FragmentWrittenTextBinding
 
+    constructor() : this(CurrentLessonActivity()){}
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

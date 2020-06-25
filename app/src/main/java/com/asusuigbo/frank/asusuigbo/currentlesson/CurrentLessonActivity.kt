@@ -1,23 +1,30 @@
 package com.asusuigbo.frank.asusuigbo.currentlesson
 
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
 import com.asusuigbo.frank.asusuigbo.fragments.*
+import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlin.math.roundToInt
+import java.io.Serializable
 
-class CurrentLessonActivity : AppCompatActivity() {
+class CurrentLessonActivity : AppCompatActivity(), Serializable {
+
+
+    private var activity: CurrentLessonActivity = this
     var wordsLearned: Int = 0
     private var dataListSize: Int = 0
     private var requestedLesson: String = ""
@@ -38,7 +45,6 @@ class CurrentLessonActivity : AppCompatActivity() {
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
         val language = intent.getStringExtra("LANGUAGE")!!
-        Log.d("CHUKA", "langggg: ${language}")
 
         factory = CurrentLessonViewModelFactory(this.requestedLesson, language)
         currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
@@ -58,6 +64,18 @@ class CurrentLessonActivity : AppCompatActivity() {
                 binding.spinnerProgressBar.visibility = View.GONE
             }
         })
+        binding.button.setOnClickListener(btnClickListener)
+        currentLessonViewModel.hasCorrectBeenSet.observe(this, Observer{ wasCorrectSet ->
+            if(wasCorrectSet){
+                popUpWindow = PopupHelper.displaySelectionInPopUp(this, currentLessonViewModel.isCorrect.value!!)
+                if(!currentLessonViewModel.isCorrect.value!!)
+                    this.currentLessonViewModel.addQuestion(this.currentLessonViewModel.currentQuestion.value!!)
+                if(this.currentLessonViewModel.questionList.value!!.size > 0)
+                    this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
+                else
+                    this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
+            }
+        })
     }
 
     private fun setLessonData(){
@@ -67,6 +85,9 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     fun navigateToFragment(fragmentName: String = ""){
+        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        this.setProgressBarStatus()
+
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
@@ -74,7 +95,7 @@ class CurrentLessonActivity : AppCompatActivity() {
         ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
-                val singleSelectFragment = SingleSelectFragment(this)
+                val singleSelectFragment = SingleSelectFragment.newInstance(this)
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
             }
             "MultiSelect" -> {
@@ -82,7 +103,7 @@ class CurrentLessonActivity : AppCompatActivity() {
                 ft.replace(R.id.frame_layout_id, sentenceBuilder)
             }
             "ImageSelect" -> {
-                val imgChoiceFragment = ImgChoiceFragment(this)
+                val imgChoiceFragment = ImgChoiceFragment.getInstance(this)
                 ft.replace(R.id.frame_layout_id, imgChoiceFragment)
             }
             "WrittenText" -> {
@@ -101,8 +122,64 @@ class CurrentLessonActivity : AppCompatActivity() {
         ft.commit()
     }
 
+    private val btnClickListener = View.OnClickListener {
+        when(buttonState){
+            UserButton.AnswerSelected ->{
+                currentLessonViewModel.setCheckAnswer()
+            }
+            UserButton.NextQuestion -> {
+                this.setCurrentQuestion()
+                this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
+            }
+            else -> {
+                this.navigateToFragment()
+            }
+        }
+    }
+
     fun setCurrentQuestion(){
         this.currentLessonViewModel.setCurrentQuestion()
+    }
+
+   /* fun setUpView(){
+        this.updateOptions()
+
+        //TODO: do this in activity
+        this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
+        this.setProgressBarStatus()
+    }
+
+    private fun answerQuestion(){
+        disableOptions()
+        this.popUpWindow = PopupHelper.displaySelectionInPopUp(this, this.isCorrectAnswer())
+        if(!this.isCorrectAnswer())
+            this.currentLessonViewModel.addQuestion(this.currentLessonViewModel.currentQuestion.value!!)
+        if(this.currentLessonViewModel.questionList.value!!.size > 0)
+            this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
+        else
+            this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
+    }*/
+
+    //TODO: button click order || AnswerNotSelected -> AnswerSelected -> NextQuestion -> ...
+   /* fun executeButtonAction(f: Fragment) {
+        when(this.buttonState){
+            UserButton.AnswerSelected -> {
+                answerQuestion()
+            }
+            UserButton.NextQuestion -> {
+                this.setCurrentQuestion()
+                this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
+            }
+            else -> {
+                this.navigateToFragment()
+            }
+        }
+    }*/
+
+    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+        binding.button.isEnabled = buttonState != UserButton.AnswerNotSelected
+        binding.button.text = getString(buttonText)
+        this.buttonState = buttonState
     }
 
     fun setProgressBarStatus(){
@@ -110,6 +187,19 @@ class CurrentLessonActivity : AppCompatActivity() {
         var result = percent.roundToInt()
         result = if(result == 0) 5 else result
         binding.lessonProgressBar.progress = result
+    }
+
+    fun playAudio(audioUrl: String){
+        val storageRef = FirebaseStorage.getInstance().reference
+        storageRef.child(audioUrl).
+        downloadUrl.addOnSuccessListener {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(it.toString())
+            mediaPlayer.setOnPreparedListener{player ->
+                player.start()
+            }
+            mediaPlayer.prepareAsync()
+        }
     }
 
     private fun finishQuiz(){
@@ -136,5 +226,14 @@ class CurrentLessonActivity : AppCompatActivity() {
         val lf = LessonCompletedFragment()
         ft.add(android.R.id.content, lf)
         ft.commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(popUpWindow != null)
+            popUpWindow!!.dismiss()
+        currentLessonViewModel.isCorrect.removeObservers(this)
+        currentLessonViewModel.listReady.removeObservers(this)
+        currentLessonViewModel.setHasCorrectBeenSet(false)
     }
 }

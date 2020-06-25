@@ -11,64 +11,84 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentSingleSelectBinding
-import com.asusuigbo.frank.asusuigbo.helpers.BaseExtendedFragment
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : BaseExtendedFragment(currentLesson) {
+class SingleSelectFragment : Fragment() {
 
     private lateinit var binding: FragmentSingleSelectBinding
+    private lateinit var currentLesson: CurrentLessonActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        currentLesson = arguments!!["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_single_select, container, false)
-        binding.buttonId.setOnClickListener(buttonClickListener)
         binding.questionText.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
-        this.setUpView()
+        updateOptions()
         binding.playAudioBtn.setOnClickListener(playAudioClickListener)
         //set visibility of play button
         if(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
             binding.playAudioBtn.visibility = View.VISIBLE
+
+        currentLesson.currentLessonViewModel.buttonState.observe(viewLifecycleOwner, Observer{ btnState ->
+            btnState?.let {
+                when(btnState){
+                    UserButton.AnswerNotSelected -> updateOptions()
+                    UserButton.AnswerSelected -> { //check answer
+                        }
+                    UserButton.NextQuestion -> { //go to next question
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        })
+
         return binding.root
     }
 
+    companion object{
+        fun newInstance(currentLesson: CurrentLessonActivity): SingleSelectFragment{
+            val fragment = SingleSelectFragment()
+            val bundle = Bundle()
+            bundle.putSerializable("currentLesson", currentLesson)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     private val playAudioClickListener  = View.OnClickListener {
-        playAudio(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio)
+        currentLesson.playAudio(currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio)
     }
 
-    private val buttonClickListener = View.OnClickListener {
-        this.executeButtonAction()
-    }
-
-    override fun isCorrectAnswer(): Boolean {
+    fun isCorrectAnswer(): Boolean {
         return currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 currentLesson.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
     }
 
-    override fun updateOptions(){
+    fun updateOptions(){
         binding.questionText.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
         binding.choicesRadioGroup.removeAllViews()
         currentLesson.currentLessonViewModel.setSelectedAnswer("")
         this.buildRadioGroupContent()
     }
 
-    override fun disableOptions(){
+    fun disableOptions(){
         for(index in 0 until binding.choicesRadioGroup.childCount){
             val v = binding.choicesRadioGroup.getChildAt(index)
             v.isEnabled = false
         }
     }
 
-    override fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
-        binding.buttonId.isEnabled = buttonState != UserButton.AnswerNotSelected
-        binding.buttonId.text = getString(buttonText)
-        currentLesson.buttonState = buttonState
-    }
+
 
     private fun buildRadioGroupContent(){
         for((index,item) in currentLesson.currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
@@ -93,6 +113,6 @@ class SingleSelectFragment(private var currentLesson: CurrentLessonActivity) : B
 
     private fun setSelectedAnswer(s: String){
         currentLesson.currentLessonViewModel.setSelectedAnswer(s)
-        this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+        //this.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
     }
 }

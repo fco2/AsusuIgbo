@@ -3,8 +3,8 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
+import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
@@ -33,10 +33,28 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
         get() = _selectedAnswer
 
     private val _activeLanguage = MutableLiveData<String>()
-    val activeLanguage : LiveData<String>
+    private val activeLanguage : LiveData<String>
         get() = _activeLanguage
 
+    private val _buttonState = MutableLiveData<UserButton>()
+    val buttonState : LiveData<UserButton>
+        get() = _buttonState
+
+    private val _checkAnswer = MutableLiveData<Boolean>()
+    val checkAnswer : LiveData<Boolean>
+        get() = _checkAnswer
+
+    private val _isCorrect = MutableLiveData<Boolean>()
+    val isCorrect : LiveData<Boolean>
+        get() = _isCorrect
+
+    private val _hasCorrectBeenSet = MutableLiveData<Boolean>()
+    val hasCorrectBeenSet : LiveData<Boolean>
+        get() = _hasCorrectBeenSet
+
     init{
+        _buttonState.value = UserButton.AnswerNotSelected
+        _checkAnswer.value = false
         scope.launch {
             withContext(Main){
                 _activeLanguage.value = activeLang
@@ -47,7 +65,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     private fun populateList() {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        // /Language/${viewModel.language.value!!}/Lessons/
         val dbReference: DatabaseReference = database.getReference("Language/${activeLanguage.value}/Lessons/$requestedLesson")
 
         dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -58,7 +75,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
                     val questionGroup = d.getValue(QuestionGroup::class.java)!!
                     dl.add(questionGroup)
                 }
-                //TODO: set back
                 //dl.shuffle()
                 _questionList.value = dl
                 _listReady.value = true
@@ -72,7 +88,6 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
                     override fun onCancelled(p0: DatabaseError) { }
                 })*/
             }
-
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
@@ -87,6 +102,22 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     fun addQuestion(q: QuestionGroup){
         this._questionList.value!!.add(q)
+    }
+
+    fun setButtonState(b: UserButton){
+        this._buttonState.value = b
+    }
+
+    fun setCheckAnswer(){
+        this._checkAnswer.value = !this.checkAnswer.value!!
+    }
+
+    fun setIsCorrect(f: Boolean){
+        this._isCorrect.value = f
+    }
+
+    fun setHasCorrectBeenSet(f: Boolean){
+        this._hasCorrectBeenSet.value = f
     }
 
     override fun onCleared() {

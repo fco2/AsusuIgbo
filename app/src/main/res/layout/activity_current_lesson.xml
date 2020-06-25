@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
     </data>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,24 +19,47 @@
             android:minHeight="50dp"
             style="@style/CustomProgressBar"
             android:theme="@style/CustomProgressBar"
-            android:layout_alignParentTop="true"
+           app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/lessonProgressBar"
             android:progress="5"
             android:layout_margin="10dp"/>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lessonProgressBar"
+            app:layout_constraintBottom_toTopOf="@id/button"
             android:layout_below="@id/lessonProgressBar"
             android:id="@+id/frame_layout_id"/>
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="18dp"
+            android:textSize="18sp"
+            android:enabled="false"
+            style="@style/RoundedCornerButtonTheme"
+            android:layout_marginBottom="10dp"
+            android:text="@string/answer_button_state"
+            android:id="@+id/button"/>
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerProgressBar"
-            android:layout_centerInParent="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:indeterminate="true"
             android:max="500"
             android:progress="0"/>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

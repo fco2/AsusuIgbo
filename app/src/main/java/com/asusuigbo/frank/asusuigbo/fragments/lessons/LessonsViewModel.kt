@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.asusuigbo.frank.asusuigbo.database.AsusuIgboDatabase
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfoDao
@@ -29,9 +28,7 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
 
     private val job = Job()
     private val scope = CoroutineScope(IO + job)
-
     private lateinit var repository : LanguageInfoRepository
-
     private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(application).languageInfoDao
 
     private val _activeLanguage = MutableLiveData<LanguageInfo>()
@@ -49,28 +46,20 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun populateDataList(){
-        //TODO: get language from db.
         val auth = FirebaseAuth.getInstance()
         val dbReference = FirebaseDatabase.getInstance().reference
             .child("Users/${auth.currentUser!!.uid}/Language/${this.activeLanguage.value!!.Language}/Lessons/")
         dbReference.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-
-                dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val list = ArrayList<UserLesson>()
-                        for (d in dataSnapshot.children){
-                            val userLesson = d.getValue(UserLesson::class.java)!!
-                            userLesson.Index = d.key!!.toInt()
-                            list.add(userLesson)
-                        }
-                        _lessonsList.value = list
-                    }
-                    override fun onCancelled(databaseError: DatabaseError) { }
-                })
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val list = ArrayList<UserLesson>()
+                for (d in dataSnapshot.children){
+                    val userLesson = d.getValue(UserLesson::class.java)!!
+                    userLesson.Index = d.key!!.toInt()
+                    list.add(userLesson)
+                }
+                _lessonsList.value = list
             }
-            override fun onCancelled(p0: DatabaseError) {
-            }
+            override fun onCancelled(p0: DatabaseError) {}
         })
     }
 
