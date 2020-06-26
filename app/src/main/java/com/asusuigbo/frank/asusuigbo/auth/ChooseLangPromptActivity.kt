@@ -4,13 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.asusuigbo.frank.asusuigbo.MainActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangPromptBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class ChooseLangPromptActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseLangPromptBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChooseLangPromptBinding.inflate(layoutInflater)
+        //check if is authenticated
+        val auth = FirebaseAuth.getInstance()
+        if(auth.currentUser != null){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
+
         setContentView(binding.root)
         binding.selectLanguage.setOnClickListener {
             startActivity(Intent(this, ChooseLangActivity::class.java))

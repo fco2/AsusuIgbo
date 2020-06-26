@@ -2,7 +2,6 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
@@ -22,14 +21,14 @@ import java.io.Serializable
 import kotlin.math.roundToInt
 
 class CurrentLessonActivity : AppCompatActivity(), Serializable {
-    var wordsLearned: Int = 0
+    private var wordsLearned: Int = 0
     private var dataListSize: Int = 0
     private var requestedLesson: String = ""
     private var totalLessons: Int = 0
     private lateinit var language: String
 
-    var popUpWindow: PopupWindow? = null
-    var buttonState: UserButton = UserButton.AnswerNotSelected
+    private var popUpWindow: PopupWindow? = null
+    private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonIndex = 0
 
     lateinit var currentLessonViewModel: CurrentLessonViewModel
@@ -50,7 +49,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         currentLessonViewModel.listReady.observe(this, Observer { ready ->
             if(ready){
                 this.dataListSize = currentLessonViewModel.questionList.value!!.size
-                this.setCurrentQuestion()
+                this.currentLessonViewModel.setCurrentQuestion()
                 when(currentLessonViewModel.currentQuestion.value!!.QuestionFormat) {
                     "SingleSelect" -> navigateToFragment("SingleSelect")
                     "MultiSelect" -> navigateToFragment("MultiSelect")
@@ -78,19 +77,22 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
 
     private fun setLessonData(){
         this.requestedLesson = intent.getStringExtra("LESSON_NAME")!!
-        this.lessonIndex = intent.getIntExtra("LESSON_INDEX", 0)
+        val indexAndWordsLearned = intent.getStringExtra("INDEX_AND_WORDS_LEARNED")!!.split("|")
+        this.lessonIndex = indexAndWordsLearned[0].toInt()
+        this.wordsLearned = indexAndWordsLearned[1].toInt()
         this.totalLessons = intent.getIntExtra("NUM_OF_LESSONS", 0)
     }
 
-    fun navigateToFragment(fragmentName: String = ""){
+    private fun navigateToFragment(fragmentName: String = ""){
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         this.setProgressBarStatus()
 
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
         val fragmentManager = supportFragmentManager
-        val ft = fragmentManager.beginTransaction()
-        ft.setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
+        val ft = fragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
                 val singleSelectFragment = SingleSelectFragment.getInstance(this)
@@ -124,15 +126,11 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         when(buttonState){
             UserButton.AnswerSelected -> currentLessonViewModel.setCanAnswerQuestion()
             UserButton.NextQuestion -> {
-                this.setCurrentQuestion()
+                this.currentLessonViewModel.setCurrentQuestion()
                 this.navigateToFragment(this.currentLessonViewModel.currentQuestion.value!!.QuestionFormat)
             }
             else -> this.navigateToFragment()
         }
-    }
-
-    fun setCurrentQuestion(){
-        this.currentLessonViewModel.setCurrentQuestion()
     }
 
     fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
@@ -141,7 +139,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         this.buttonState = buttonState
     }
 
-    fun setProgressBarStatus(){
+    private fun setProgressBarStatus(){
         val percent: Double = (this.dataListSize - currentLessonViewModel.questionList.value!!.size).toDouble() / this.dataListSize.toDouble() * 100
         var result = percent.roundToInt()
         result = if(result == 0) 5 else result
@@ -169,11 +167,9 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
     private fun updateCompletedLesson(){
         val auth = FirebaseAuth.getInstance()
         val dbReference: DatabaseReference  = FirebaseDatabase.getInstance().reference
-
-        //TODO: change how this is saved..might need to get data before save.
-        val wordsLearned = wordsLearned + 9
+        val updatedWordsLearned = wordsLearned + 9
         dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue(wordsLearned.toString())
+                .child("WordsLearned").setValue(updatedWordsLearned.toString())
 
         if(lessonIndex < totalLessons)
             dbReference
@@ -200,6 +196,4 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         currentLessonViewModel.listReady.removeObservers(this)
         currentLessonViewModel.setHasCorrectBeenSet(false)
     }
-
-    //TODO:
 }

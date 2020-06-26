@@ -27,7 +27,7 @@
             android:progress="5"
             android:layout_margin="10dp"/>
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"

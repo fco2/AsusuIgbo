@@ -32,6 +32,8 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
     private lateinit var repository : LanguageInfoRepository
     private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(application).languageInfoDao
 
+    var wordsLearned = "No"
+
     private val _activeLanguage = MutableLiveData<LanguageInfo>()
     val activeLanguage : LiveData<LanguageInfo>
         get() = _activeLanguage
@@ -47,9 +49,11 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun populateDataList(){
+        // WordsLearned
         val dbReference = FirebaseDatabase.getInstance().reference
-            .child("Users/$authUserId/Language/${this.activeLanguage.value!!.language}/Lessons/")
-        dbReference.addListenerForSingleValueEvent(object: ValueEventListener {
+        val userLessons = dbReference.child("Users/$authUserId/Language/${this.activeLanguage.value!!.language}/Lessons/")
+        val wordsLearnedRef = dbReference.child("Users/$authUserId/WordsLearned")
+        userLessons.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val list = ArrayList<UserLesson>()
                 for (d in dataSnapshot.children){
@@ -57,7 +61,15 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
                     userLesson.Index = d.key!!.toInt()
                     list.add(userLesson)
                 }
-                _lessonsList.value = list
+
+                wordsLearnedRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onCancelled(error: DatabaseError) {}
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        wordsLearned = snapshot.value.toString()
+                        _lessonsList.value = list
+                    }
+                })
             }
             override fun onCancelled(p0: DatabaseError) {}
         })

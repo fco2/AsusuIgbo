@@ -18,6 +18,7 @@ import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentLessonsBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
+import com.google.android.material.snackbar.Snackbar
 
 class LessonsFragment : Fragment() {
     private lateinit var binding: FragmentLessonsBinding
@@ -44,6 +45,7 @@ class LessonsFragment : Fragment() {
 
         binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, Observer{
             populateRecyclerView(it)
+            Snackbar.make(binding.root, binding.lessonsViewModel!!.wordsLearned, Snackbar.LENGTH_LONG).show()
             binding.progressBar.visibility = View.GONE
         })
         binding.lessonsViewModel!!.activeLanguage.observe(viewLifecycleOwner, Observer{
@@ -58,7 +60,8 @@ class LessonsFragment : Fragment() {
         val adapter = LessonsAdapter(LessonsClickListener { lessonName, index ->
             val intent = Intent(context!!.applicationContext, CurrentLessonActivity::class.java)
             intent.putExtra("LESSON_NAME", lessonName)
-            intent.putExtra("LESSON_INDEX", index)
+            val indexAndWordsLearned = index.toString() + "|" + viewModel.wordsLearned
+            intent.putExtra("INDEX_AND_WORDS_LEARNED", indexAndWordsLearned)
             intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
             intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!.language)
 
