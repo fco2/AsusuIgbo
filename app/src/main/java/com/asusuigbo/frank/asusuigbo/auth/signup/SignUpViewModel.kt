@@ -17,19 +17,15 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
     //co-routine
     private val job = Job()
     private val coroutineScope = CoroutineScope(IO + job)
-    private var repository : LanguageInfoRepository
 
     private val _language = MutableLiveData<String>()
     val language : LiveData<String>
         get() = _language
     private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(application).languageInfoDao
 
-    init{
-        repository = LanguageInfoRepository(dao)
-    }
-
-    fun insert(languageInfo: LanguageInfo) = coroutineScope.launch {
-        //repository.delete()
+    fun insert(authUserId: String, languageInfo: LanguageInfo) = coroutineScope.launch {
+        val repository = LanguageInfoRepository(authUserId, dao)
+        repository.delete()
         repository.addLanguage(languageInfo)
     }
 

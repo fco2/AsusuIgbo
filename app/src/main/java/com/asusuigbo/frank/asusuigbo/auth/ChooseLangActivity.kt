@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangClickListener
-import com.asusuigbo.frank.asusuigbo.auth.chooselangprompt.ChooseLangPromptActivity
 import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
 import com.asusuigbo.frank.asusuigbo.models.LanguageInfo
@@ -25,6 +24,7 @@ class ChooseLangActivity : AppCompatActivity() {
         binding.toolbarMain.setNavigationOnClickListener {
             val intent = Intent(this, ChooseLangPromptActivity::class.java)
             startActivityForResult(intent, 0)
+            finish()
         }
         setUpRecyclerView()
     }

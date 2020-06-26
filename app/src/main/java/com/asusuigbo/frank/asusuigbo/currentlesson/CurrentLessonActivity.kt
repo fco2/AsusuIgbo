@@ -200,4 +200,6 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         currentLessonViewModel.listReady.removeObservers(this)
         currentLessonViewModel.setHasCorrectBeenSet(false)
     }
+
+    //TODO:
 }

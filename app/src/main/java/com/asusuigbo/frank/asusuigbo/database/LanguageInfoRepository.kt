@@ -1,8 +1,8 @@
 package com.asusuigbo.frank.asusuigbo.database
 
-class LanguageInfoRepository(private val dao: LanguageInfoDao) {
+class LanguageInfoRepository(private val userId: String, private val dao: LanguageInfoDao) {
     suspend fun getActiveLanguage(): LanguageInfo?{
-        return dao.getActiveLanguage()
+        return dao.getActiveLanguage(userId)
     }
 
     suspend fun addLanguage(languageInfo: LanguageInfo){
@@ -10,11 +10,11 @@ class LanguageInfoRepository(private val dao: LanguageInfoDao) {
     }
 
     suspend fun getLanguage(language: String): LanguageInfo?{
-        return dao.getLanguage(language)
+        return dao.getLanguage(userId, language)
     }
 
-    suspend fun update(not_active: Boolean){
-        dao.update(not_active)
+    suspend fun update(notActive: Boolean){
+        dao.update(userId, notActive)
     }
 
     suspend fun delete(){

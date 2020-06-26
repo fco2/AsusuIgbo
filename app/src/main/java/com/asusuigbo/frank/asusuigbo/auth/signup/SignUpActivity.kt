@@ -58,8 +58,8 @@ class SignUpActivity : AppCompatActivity() {
                         if(task.isSuccessful){
                             //set up basic user info and login user
                             val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
-                            val languageInfo = LanguageInfo(viewModel.language.value!!, true, getFormattedDate())
-                            this.viewModel.insert(languageInfo)
+                            val languageInfo = LanguageInfo(auth.currentUser!!.uid, viewModel.language.value!!, true, getFormattedDate())
+                            this.viewModel.insert(auth.currentUser!!.uid, languageInfo)
                             setUpNewUserData(dbReference, usernameText)
                             this.setUpUserLessonInfo(dbReference)
                             val intent = Intent(this, MainActivity::class.java)

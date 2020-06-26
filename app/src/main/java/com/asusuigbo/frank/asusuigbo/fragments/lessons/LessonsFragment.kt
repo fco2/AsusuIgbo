@@ -48,7 +48,7 @@ class LessonsFragment : Fragment() {
         })
         binding.lessonsViewModel!!.activeLanguage.observe(viewLifecycleOwner, Observer{
             binding.layoutToolbar.toolbarText.text = getString(R.string.lessons_text)
-            binding.layoutToolbar.currentLanguage.text = it.Language
+            binding.layoutToolbar.currentLanguage.text = it.language
         })
         binding.lifecycleOwner = this
         return binding.root
@@ -60,7 +60,7 @@ class LessonsFragment : Fragment() {
             intent.putExtra("LESSON_NAME", lessonName)
             intent.putExtra("LESSON_INDEX", index)
             intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
-            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!.Language)
+            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!.language)
 
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

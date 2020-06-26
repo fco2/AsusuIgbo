@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.asusuigbo.frank.asusuigbo.MainActivity
-import com.asusuigbo.frank.asusuigbo.auth.chooselangprompt.ChooseLangPromptActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.getInstance

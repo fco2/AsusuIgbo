@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LessonsViewModel(application: Application) : AndroidViewModel(application){
+    private val authUserId = FirebaseAuth.getInstance().currentUser!!.uid
     private val _lessonsList = MutableLiveData<List<UserLesson>>()
     val lessonsList: LiveData<List<UserLesson>>
         get() = _lessonsList
@@ -37,7 +38,7 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
 
     init{
         scope.launch{
-            repository = LanguageInfoRepository(dao)
+            repository = LanguageInfoRepository(authUserId, dao)
             withContext(Main){
                 _activeLanguage.value = repository.getActiveLanguage()
             }
@@ -46,9 +47,8 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun populateDataList(){
-        val auth = FirebaseAuth.getInstance()
         val dbReference = FirebaseDatabase.getInstance().reference
-            .child("Users/${auth.currentUser!!.uid}/Language/${this.activeLanguage.value!!.Language}/Lessons/")
+            .child("Users/$authUserId/Language/${this.activeLanguage.value!!.language}/Lessons/")
         dbReference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val list = ArrayList<UserLesson>()
