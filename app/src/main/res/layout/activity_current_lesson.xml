@@ -37,7 +37,7 @@
             android:layout_below="@id/lessonProgressBar"
             android:id="@+id/frame_layout_id"/>
 
-        <Button
+        <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,11 +17,12 @@
     </style>
     <!-- end toolbar -->
 
-    <style name="RoundedCornerButtonTheme" parent="Widget.AppCompat.Button.Colored">
+    <!-- Button text color and style -->
+    <style name="RoundedCornerButtonTheme" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/rounder_corner_button_shape</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 

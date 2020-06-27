@@ -72,5 +72,6 @@
         <item>MultiSelect</item>
         <item>ImageSelect</item>
         <item>WordPair</item>
+        <item>WrittenText</item>
     </string-array>
 </resources>

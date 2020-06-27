@@ -45,7 +45,6 @@ class LessonsFragment : Fragment() {
 
         binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, Observer{
             populateRecyclerView(it)
-            Snackbar.make(binding.root, binding.lessonsViewModel!!.wordsLearned, Snackbar.LENGTH_LONG).show()
             binding.progressBar.visibility = View.GONE
         })
         binding.lessonsViewModel!!.activeLanguage.observe(viewLifecycleOwner, Observer{

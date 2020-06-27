@@ -30,7 +30,6 @@ class ProfileFragment : Fragment() {
         binding.layoutToolbar.toolbarText.text = getString(R.string.profile_text)
         binding.layoutToolbar.currentLanguage.visibility = View.GONE
         auth = FirebaseAuth.getInstance()
-
         setUserName()
         binding.signOutId.setOnClickListener(signOutClickListener)
         binding.addQuestionId.setOnClickListener(addQuestionClickListener)
@@ -43,8 +42,10 @@ class ProfileFragment : Fragment() {
 
     private val signOutClickListener = View.OnClickListener {
        if(auth.currentUser != null){
-            auth.signOut()
-            startActivity(Intent(activity!!.applicationContext, LoginActivity::class.java))
+           auth.signOut()
+           val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
+           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+           startActivity(intent)
         }
         /*val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.child("Lessons/Intro/0").removeValue()
@@ -65,7 +66,7 @@ class ProfileFragment : Fragment() {
 
                 binding.progressBarProfileId.visibility = View.GONE
 
-                if(binding.usernameId.text == "chuka")
+                //if(binding.usernameId.text == "Chukafc")
                     binding.addQuestionId.visibility = View.VISIBLE
             }
         })

@@ -41,8 +41,6 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
-        language = intent.getStringExtra("LANGUAGE")!!
-
         factory = CurrentLessonViewModelFactory(this.requestedLesson, language)
         currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
 
@@ -81,6 +79,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         this.lessonIndex = indexAndWordsLearned[0].toInt()
         this.wordsLearned = indexAndWordsLearned[1].toInt()
         this.totalLessons = intent.getIntExtra("NUM_OF_LESSONS", 0)
+        language = intent.getStringExtra("LANGUAGE")!!
     }
 
     private fun navigateToFragment(fragmentName: String = ""){
@@ -167,9 +166,8 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
     private fun updateCompletedLesson(){
         val auth = FirebaseAuth.getInstance()
         val dbReference: DatabaseReference  = FirebaseDatabase.getInstance().reference
-        val updatedWordsLearned = wordsLearned + 9
-        dbReference.child("Users").child(auth.currentUser!!.uid)
-                .child("WordsLearned").setValue(updatedWordsLearned.toString())
+        val updatedWordsLearned = wordsLearned + dataListSize
+        dbReference.child("Users/${auth.currentUser!!.uid}/WordsLearned").setValue(updatedWordsLearned.toString())
 
         if(lessonIndex < totalLessons)
             dbReference

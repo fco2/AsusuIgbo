@@ -2,26 +2,22 @@ package com.asusuigbo.frank.asusuigbo.adapters
 
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
-import java.io.File
+import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 
-class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
-                        private var addQuestionsActivity: AddQuestionActivity)
+class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private var addQuestionsActivity: AddQuestionActivity)
     : RecyclerView.Adapter<OptionInfoAdapter.CustomViewHolder>() {
 
     private lateinit var mediaRecorder: MediaRecorder
@@ -91,15 +87,13 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>,
         if(motionEvent.action == MotionEvent.ACTION_DOWN) {
             setFileNameAndAudio(view)
             startRecording()
-            Toast.makeText(addQuestionsActivity.applicationContext,
-                "Started recording..", Toast.LENGTH_SHORT).show()
+            Snackbar.make(view.rootView, "Started recording..", Snackbar.LENGTH_SHORT).show()
             addQuestionsActivity.vibrateForAudio()
         }
         else
         if(motionEvent.action == MotionEvent.ACTION_UP) {
             stopRecording()
-            Toast.makeText(addQuestionsActivity.applicationContext,
-                "Finished recording!", Toast.LENGTH_SHORT).show()
+            Snackbar.make(view.rootView, "Finished recording!", Snackbar.LENGTH_SHORT).show()
             addQuestionsActivity.vibrateForAudio()
         }
         true

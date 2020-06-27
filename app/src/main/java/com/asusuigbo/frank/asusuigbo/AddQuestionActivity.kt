@@ -3,21 +3,24 @@ package com.asusuigbo.frank.asusuigbo
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.*
-import android.util.Log
+import android.os.Build
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.MotionEvent
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.adapters.OptionInfoAdapter
+import com.asusuigbo.frank.asusuigbo.databinding.ActivityAddQuestionBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.QuestionInfo
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -27,50 +30,36 @@ import java.io.File
 import java.io.IOException
 
 class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-
-    private lateinit var questionTypeSpinner: Spinner
-    private lateinit var recordAudioBtn: ImageView
-    private lateinit var optionRecyclerView: RecyclerView
+    private lateinit var binding: ActivityAddQuestionBinding
     private var questionTypeText = ""
     private var optionList: MutableList<OptionInfo> = mutableListOf()
-    private lateinit var fab: FloatingActionButton
-    private lateinit var optionAdapter: OptionInfoAdapter
-    private lateinit var questionEditText: TextInputEditText
-    lateinit var lessonNameEditText: TextInputEditText
-    private lateinit var correctAnswerEditText: TextInputEditText
     private lateinit var mediaRecorder: MediaRecorder
     private var filePath = ""
     private var fileName = ""
     private var optionFilePath = ""
     private var optionFileName = ""
-    private lateinit var saveBtn: Button
+    private lateinit var optionAdapter: OptionInfoAdapter
     private lateinit var questionGroup: QuestionGroup
     private lateinit var vibrator: Vibrator
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_question)
-        questionTypeSpinner = findViewById(R.id.question_type_spinner_id)
-        recordAudioBtn = findViewById(R.id.record_audio_button_id)
-        fab = findViewById(R.id.add_option_btn_id)
-        questionEditText = findViewById(R.id.add_question_id)
-        lessonNameEditText = findViewById(R.id.lesson_name_id)
-        correctAnswerEditText = findViewById(R.id.correct_answer_id)
-        saveBtn = findViewById(R.id.save_question)
-        initializeSpinner()
-        questionTypeSpinner.onItemSelectedListener = this
+        binding = ActivityAddQuestionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initializeQuestionFormatSpinner()
+        binding.questionTypeSpinnerId.onItemSelectedListener = this
         val manager = LinearLayoutManager(this)
         optionAdapter = OptionInfoAdapter(optionList, this)
-        optionRecyclerView = findViewById<RecyclerView>(R.id.option_recycler_view_id).apply{
+        binding.optionRecyclerViewId.apply{
             setHasFixedSize(true)
             layoutManager = manager
             adapter = optionAdapter
         }
-        fab.setOnClickListener(addOptionBtnClickListener)
-        recordAudioBtn.setOnTouchListener(recordAudioOnTouchListener)
-        saveBtn.setOnClickListener(saveQuestionClickListener)
-        setUpSwipeToDelete()
+        binding.fab.setOnClickListener(addOptionBtnClickListener)
+        binding.recordAudioButtonId.setOnTouchListener(recordAudioOnTouchListener)
+        binding.saveQuestionBtn.setOnClickListener(saveQuestionClickListener)
+        setUpSwipeToDeleteOption()
         vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
     }
 
@@ -82,26 +71,23 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun populateQuestionGroup(){
         val file = File(filePath)
         val audio = if(file.exists())
-            "Audio/${lessonNameEditText.text}/$fileName"
+            "Audio/${binding.lessonNameEditText.text}/$fileName"
         else
             ""
-        val qi = QuestionInfo(questionEditText.text.toString(), audio)
-        this.questionGroup = QuestionGroup(qi,
-            optionList, correctAnswerEditText.text.toString(), questionTypeText)
+        val qi = QuestionInfo(binding.questionEditText.text.toString(), audio)
+        this.questionGroup = QuestionGroup(qi, optionList, binding.correctAnswerEditText.text.toString(), questionTypeText)
     }
 
     private fun saveQuestionGroupToFireBase(){
         val dbRef = FirebaseDatabase.getInstance().reference
-
         //we will first get size of lesson then increment it by 1 and save.
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val lastQuestionIndex=
-                if(p0.child("Lessons/${lessonNameEditText.text}").children.count() == 0)
+                val lastQuestionIndex= if(p0.child("Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
                     0
                 else
-                    p0.child("Lessons/${lessonNameEditText.text}").children.last().key!!.toInt() + 1
+                    p0.child("Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
                 saveLessonData(lastQuestionIndex)
             }
         })
@@ -112,14 +98,13 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         //set option audio value
         optionList.forEach {
             optionFilePath = getOptionFilePath(it)
-
             val file = File(optionFilePath)
             it.Audio = if(file.exists())
-                "Audio/${lessonNameEditText.text}/$optionFileName"
+                "Audio/${binding.lessonNameEditText.text}/$optionFileName"
             else
                 ""
         }
-        dbRef.child("Lessons/${lessonNameEditText.text}")
+        dbRef.child("Lessons/${binding.lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
         if(File(filePath).exists())
@@ -131,7 +116,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 saveRecordingToFireBase(optionFilePath, it.Audio)
             }
         }
-        Toast.makeText(this, "Saved data successfully!", Toast.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, "Saved data successfully!", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getOptionFilePath(it: OptionInfo): String {
@@ -153,14 +138,14 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private val recordAudioOnTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN){
-            Toast.makeText(this, "Started recording..", Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Started recording..", Snackbar.LENGTH_SHORT).show()
             startRecording()
             vibrateForAudio()
         }else
         if(motionEvent.action == MotionEvent.ACTION_UP){
             stopRecording()
             vibrateForAudio()
-            Toast.makeText(this, "Finished recording!", Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Finished recording!", Snackbar.LENGTH_SHORT).show()
         }
         true
     }
@@ -175,8 +160,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
         filePath = applicationContext.getExternalFilesDir(null)!!.absolutePath
-        fileName = replaceSpaceWithUnderscore(questionEditText.text.toString())
-        fileName += ".3gp"
+        fileName = replaceSpaceWithUnderscore(binding.questionEditText.text.toString()) + ".3gp"
         filePath += "/$fileName"
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
@@ -203,14 +187,14 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         optionAdapter.addOption(OptionInfo("", ""))
     }
 
-    private fun initializeSpinner(){
+    private fun initializeQuestionFormatSpinner(){
         ArrayAdapter.createFromResource(
             this,
             R.array.question_type,
             android.R.layout.simple_list_item_1
         ).also {adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            questionTypeSpinner.adapter = adapter
+            binding.questionTypeSpinnerId.adapter = adapter
         }
     }
 
@@ -226,7 +210,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             .replace("?", "")
     }
 
-    private fun setUpSwipeToDelete(){
+    private fun setUpSwipeToDeleteOption(){
         val itemTouchHelperCallback =
             object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
                 override fun onMove(
@@ -240,10 +224,10 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     optionList.remove(optionList[viewHolder.adapterPosition])
                     optionAdapter.notifyDataSetChanged()
-                    Toast.makeText(applicationContext, "Deleted Item!", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Deleted Item!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(optionRecyclerView)
+        itemTouchHelper.attachToRecyclerView(binding.optionRecyclerViewId)
     }
 }

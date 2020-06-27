@@ -49,7 +49,6 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun populateDataList(){
-        // WordsLearned
         val dbReference = FirebaseDatabase.getInstance().reference
         val userLessons = dbReference.child("Users/$authUserId/Language/${this.activeLanguage.value!!.language}/Lessons/")
         val wordsLearnedRef = dbReference.child("Users/$authUserId/WordsLearned")
