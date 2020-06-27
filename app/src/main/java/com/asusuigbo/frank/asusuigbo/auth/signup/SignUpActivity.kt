@@ -97,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun populateUserLessons() {
         userLessonList.add(UserLesson("Intro", "lesson_intro", "True"))
-        userLessonList.add(UserLesson("Intro2", "lesson_intro_2"))
+        userLessonList.add(UserLesson("Intro 2", "lesson_intro_2"))
         userLessonList.add(UserLesson("Phrases", "lesson_phrases"))
         userLessonList.add(UserLesson("Phrases 2", "lesson_phrases_2"))
         userLessonList.add(UserLesson("Greetings", "lesson_greetings"))

@@ -66,7 +66,7 @@ class ProfileFragment : Fragment() {
 
                 binding.progressBarProfileId.visibility = View.GONE
 
-                //if(binding.usernameId.text == "Chukafc")
+                if(binding.usernameId.text == "Chukafc")
                     binding.addQuestionId.visibility = View.VISIBLE
             }
         })
