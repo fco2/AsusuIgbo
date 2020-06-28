@@ -3,7 +3,6 @@ package com.asusuigbo.frank.asusuigbo.fragments.lessons
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentLessonsBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
-import com.google.android.material.snackbar.Snackbar
 
 class LessonsFragment : Fragment() {
     private lateinit var binding: FragmentLessonsBinding
@@ -49,7 +47,7 @@ class LessonsFragment : Fragment() {
         })
         binding.lessonsViewModel!!.activeLanguage.observe(viewLifecycleOwner, Observer{
             binding.layoutToolbar.toolbarText.text = getString(R.string.lessons_text)
-            binding.layoutToolbar.currentLanguage.text = it.language
+            binding.layoutToolbar.currentLanguage.text = it
         })
         binding.lifecycleOwner = this
         return binding.root
@@ -62,7 +60,7 @@ class LessonsFragment : Fragment() {
             val indexAndWordsLearned = index.toString() + "|" + viewModel.wordsLearned
             intent.putExtra("INDEX_AND_WORDS_LEARNED", indexAndWordsLearned)
             intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
-            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!.language)
+            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!)
 
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

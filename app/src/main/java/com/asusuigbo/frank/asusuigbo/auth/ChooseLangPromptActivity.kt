@@ -17,8 +17,9 @@ class ChooseLangPromptActivity : AppCompatActivity() {
         val auth = FirebaseAuth.getInstance()
         if(auth.currentUser != null){
             val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+            finish()
         }
 
         setContentView(binding.root)

@@ -34,7 +34,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
             android:layout_margin="10dp">
             <EditText
                 android:layout_width="match_parent"
@@ -44,14 +43,12 @@
                 android:inputType="text"
                 android:focusedByDefault="false"
                 android:hint="@string/username"
-                android:textColor="@color/colorWhite"
                 android:id="@+id/username"
                 tools:ignore="UnusedAttribute" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
             android:layout_margin="10dp">
             <EditText
                 android:layout_width="match_parent"
@@ -60,7 +57,6 @@
                 android:singleLine="true"
                 android:inputType="textPassword"
                 android:hint="@string/password"
-                android:textColor="@color/colorWhite"
                 android:id="@+id/password"/>
         </com.google.android.material.textfield.TextInputLayout>
         <ProgressBar
@@ -70,7 +66,7 @@
             android:indeterminate="true"
             android:visibility="invisible"
             android:id="@+id/sign_up_progress_bar"/>
-        <Button
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|center_horizontal"
@@ -82,7 +78,7 @@
             android:textColor="@color/colorWhite"
             android:background="@drawable/rounder_corner_button_shape"
             android:id="@+id/sign_up_button"/>
-        <Button
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|center_horizontal"

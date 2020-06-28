@@ -8,6 +8,7 @@ import com.asusuigbo.frank.asusuigbo.database.AsusuIgboDatabase
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfoDao
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfoRepository
+import com.asusuigbo.frank.asusuigbo.helpers.DateHelper
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -34,44 +35,86 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
 
     var wordsLearned = "No"
 
-    private val _activeLanguage = MutableLiveData<LanguageInfo>()
-    val activeLanguage : LiveData<LanguageInfo>
+    private val _activeLanguage = MutableLiveData<String>()
+    val activeLanguage : LiveData<String>
         get() = _activeLanguage
 
     init{
         scope.launch{
             repository = LanguageInfoRepository(authUserId, dao)
             withContext(Main){
-                _activeLanguage.value = repository.getActiveLanguage()
+                val langInfo = repository.getActiveLanguage()
+                if (langInfo != null)
+                    _activeLanguage.value = langInfo.language
             }
             populateDataList()
         }
     }
 
+    private fun insert(authUserId: String, languageInfo: LanguageInfo) = scope.launch {
+        val repository = LanguageInfoRepository(authUserId, dao)
+        //repository.delete()
+        repository.addLanguage(languageInfo)
+    }
+
     private fun populateDataList(){
         val dbReference = FirebaseDatabase.getInstance().reference
-        val userLessons = dbReference.child("Users/$authUserId/Language/${this.activeLanguage.value!!.language}/Lessons/")
-        val wordsLearnedRef = dbReference.child("Users/$authUserId/WordsLearned")
-        userLessons.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val list = ArrayList<UserLesson>()
-                for (d in dataSnapshot.children){
-                    val userLesson = d.getValue(UserLesson::class.java)!!
-                    userLesson.Index = d.key!!.toInt()
-                    list.add(userLesson)
-                }
+        //check if user has un-installed app before, or if db has changed.
+        if(activeLanguage.value == null){
+            val languageRef = dbReference.child("Users/$authUserId/Language/")
+            languageRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {}
 
-                wordsLearnedRef.addListenerForSingleValueEvent(object : ValueEventListener{
-                    override fun onCancelled(error: DatabaseError) {}
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        wordsLearned = snapshot.value.toString()
-                        _lessonsList.value = list
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(lang in snapshot.children){
+                        _activeLanguage.value = lang.key.toString()
                     }
-                })
-            }
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+                    val lessonRef = dbReference.child("Users/$authUserId/Language/${activeLanguage.value!!}/Lessons")
+
+                        lessonRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                            override fun onCancelled(error: DatabaseError) {}
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                //get lessons for that language, then save lesson data to db using room.
+                                val list = getLessons(snapshot)
+                                //save room db data as new entry
+                                val languageInfo = LanguageInfo(authUserId, activeLanguage.value!!, true, DateHelper.getFormattedDate())
+                                insert(authUserId, languageInfo)
+                                wordsLearned = "0"
+                                _lessonsList.value = list
+                            }
+                        })
+                }
+            })
+        }else{
+            val userLessons = dbReference.child("Users/$authUserId/Language/${this.activeLanguage.value!!}/Lessons/")
+            val wordsLearnedRef = dbReference.child("Users/$authUserId/WordsLearned")
+            userLessons.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val list = getLessons(dataSnapshot)
+
+                    wordsLearnedRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onCancelled(error: DatabaseError) {}
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            wordsLearned = snapshot.value.toString()
+                            _lessonsList.value = list
+                        }
+                    })
+                }
+                override fun onCancelled(p0: DatabaseError) {}
+            })
+        }
+    }
+
+    private fun getLessons(dataSnapshot: DataSnapshot): ArrayList<UserLesson> {
+        val list = ArrayList<UserLesson>()
+        for (d in dataSnapshot.children) {
+            val userLesson = d.getValue(UserLesson::class.java)!!
+            userLesson.Index = d.key!!.toInt()
+            list.add(userLesson)
+        }
+        return list
     }
 
     override fun onCleared() {

@@ -3,12 +3,14 @@ package com.asusuigbo.frank.asusuigbo.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangClickListener
 import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
+import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.models.LanguageInfo
 import com.google.android.material.snackbar.Snackbar
 
@@ -32,16 +34,20 @@ class ChooseLangActivity : AppCompatActivity() {
     private fun setUpRecyclerView(){
         populateList()
         val manager = LinearLayoutManager(this)
-        binding.chooseLangRecyclerView.layoutManager = manager
-        binding.chooseLangRecyclerView.hasFixedSize()
-        val adapter = ChooseLangAdapter(ChooseLangClickListener {
-            Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
+        val dividerItemOffsetDecoration = DividerItemDecoration(this, manager.orientation)
+        val chooseLangAdapter = ChooseLangAdapter(ChooseLangClickListener {
+            //Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
             val intent = Intent(this, SignUpActivity::class.java)
             intent.putExtra("LANGUAGE", it)
             startActivity(intent)
         })
-        binding.chooseLangRecyclerView.adapter = adapter
-        adapter.submitList(langList)
+        binding.chooseLangRecyclerView.apply {
+            layoutManager = manager
+            hasFixedSize()
+            adapter = chooseLangAdapter
+            addItemDecoration(dividerItemOffsetDecoration)
+            chooseLangAdapter.submitList(langList)
+        }
     }
 
     private fun populateList(){

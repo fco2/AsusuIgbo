@@ -25,7 +25,7 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
 
     fun insert(authUserId: String, languageInfo: LanguageInfo) = coroutineScope.launch {
         val repository = LanguageInfoRepository(authUserId, dao)
-        repository.delete()
+        //repository.delete()
         repository.addLanguage(languageInfo)
     }
 

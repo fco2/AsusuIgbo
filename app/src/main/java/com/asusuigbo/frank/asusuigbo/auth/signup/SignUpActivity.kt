@@ -9,13 +9,12 @@ import com.asusuigbo.frank.asusuigbo.MainActivity
 import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.databinding.ActivitySignUpBinding
+import com.asusuigbo.frank.asusuigbo.helpers.DateHelper
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.util.*
-import kotlin.collections.ArrayList
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -58,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
                         if(task.isSuccessful){
                             //set up basic user info and login user
                             val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
-                            val languageInfo = LanguageInfo(auth.currentUser!!.uid, viewModel.language.value!!, true, getFormattedDate())
+                            val languageInfo = LanguageInfo(auth.currentUser!!.uid, viewModel.language.value!!, true, DateHelper.getFormattedDate())
                             this.viewModel.insert(auth.currentUser!!.uid, languageInfo)
                             setUpNewUserData(dbReference, usernameText)
                             this.setUpUserLessonInfo(dbReference)
@@ -128,14 +127,5 @@ class SignUpActivity : AppCompatActivity() {
         userLessonList.add(UserLesson("Animals", "lesson_animals"))
         userLessonList.add(UserLesson("Sentences", "lesson_sentences"))
         userLessonList.add(UserLesson("Group Chat", "lesson_group_chat"))
-    }
-
-    private fun getFormattedDate(): String {
-        val cal = Calendar.getInstance()
-        val fmt = Formatter()
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH))
-        val year = cal.get(Calendar.YEAR)
-        val monthName = fmt.format("%tB", cal)
-        return "$monthName, $year"
     }
 }
