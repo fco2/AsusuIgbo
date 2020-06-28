@@ -84,7 +84,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val lastQuestionIndex= if(p0.child("Language/${binding.languageSavingTo}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
+                val lastQuestionIndex= if(p0.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
                     0
                 else
                     p0.child("Language/Igbo/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
@@ -104,7 +104,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             else
                 ""
         }
-        dbRef.child("Language/${binding.languageSavingTo}/Lessons/${binding.lessonNameEditText.text}")
+        dbRef.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
         if(File(filePath).exists())
