@@ -10,9 +10,7 @@ import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangClickListener
 import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
-import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.models.LanguageInfo
-import com.google.android.material.snackbar.Snackbar
 
 class ChooseLangActivity : AppCompatActivity() {
 
@@ -36,7 +34,6 @@ class ChooseLangActivity : AppCompatActivity() {
         val manager = LinearLayoutManager(this)
         val dividerItemOffsetDecoration = DividerItemDecoration(this, manager.orientation)
         val chooseLangAdapter = ChooseLangAdapter(ChooseLangClickListener {
-            //Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
             val intent = Intent(this, SignUpActivity::class.java)
             intent.putExtra("LANGUAGE", it)
             startActivity(intent)

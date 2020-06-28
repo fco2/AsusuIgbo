@@ -84,8 +84,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                //TODO get language dynamically
-                val lastQuestionIndex= if(p0.child("Language/Igbo/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
+                val lastQuestionIndex= if(p0.child("Language/${binding.languageSavingTo}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
                     0
                 else
                     p0.child("Language/Igbo/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
@@ -105,8 +104,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             else
                 ""
         }
-        //TODO: get language dynamically
-        dbRef.child("Language/Igbo/Lessons/${binding.lessonNameEditText.text}")
+        dbRef.child("Language/${binding.languageSavingTo}/Lessons/${binding.lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
         if(File(filePath).exists())
@@ -138,7 +136,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
     }
 
-    private val recordAudioOnTouchListener = View.OnTouchListener{ view: View, motionEvent: MotionEvent ->
+    private val recordAudioOnTouchListener = View.OnTouchListener{ _: View, motionEvent: MotionEvent ->
         if(motionEvent.action == MotionEvent.ACTION_DOWN){
             Snackbar.make(binding.root, "Started recording..", Snackbar.LENGTH_SHORT).show()
             startRecording()

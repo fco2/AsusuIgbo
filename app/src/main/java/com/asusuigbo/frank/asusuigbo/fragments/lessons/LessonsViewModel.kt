@@ -78,7 +78,7 @@ class LessonsViewModel(application: Application) : AndroidViewModel(application)
                                 //get lessons for that language, then save lesson data to db using room.
                                 val list = getLessons(snapshot)
                                 //save room db data as new entry
-                                val languageInfo = LanguageInfo(authUserId, activeLanguage.value!!, true, DateHelper.getFormattedDate())
+                                val languageInfo = LanguageInfo(authUserId, activeLanguage.value!!,true, DateHelper.getFormattedDate())
                                 insert(authUserId, languageInfo)
                                 wordsLearned = "0"
                                 _lessonsList.value = list
