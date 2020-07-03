@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment
+import com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment
 import com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment
 import com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView

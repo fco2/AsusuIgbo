@@ -6,21 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseLangClickListener
+import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
+import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
-import com.asusuigbo.frank.asusuigbo.models.LanguageInfo
+import com.asusuigbo.frank.asusuigbo.models.DataInfo
 
 class ChooseLangActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChooseLangBinding
-    private var langList = ArrayList<LanguageInfo>()
+    private var langList = ArrayList<DataInfo>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChooseLangBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarMain.setNavigationIcon(R.mipmap.baseline_arrow_back_white_18dp)
+        binding.toolbarMain.setNavigationIcon(R.mipmap.icon_arrow_back_white_18dp)
         binding.toolbarMain.setNavigationOnClickListener {
             val intent = Intent(this, ChooseLangPromptActivity::class.java)
             startActivityForResult(intent, 0)
@@ -33,7 +33,7 @@ class ChooseLangActivity : AppCompatActivity() {
         populateList()
         val manager = LinearLayoutManager(this)
         val dividerItemOffsetDecoration = DividerItemDecoration(this, manager.orientation)
-        val chooseLangAdapter = ChooseLangAdapter(ChooseLangClickListener {
+        val chooseTextAdapter = ChooseTextAdapter(ChooseTextClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             intent.putExtra("LANGUAGE", it)
             startActivity(intent)
@@ -41,15 +41,15 @@ class ChooseLangActivity : AppCompatActivity() {
         binding.chooseLangRecyclerView.apply {
             layoutManager = manager
             hasFixedSize()
-            adapter = chooseLangAdapter
+            adapter = chooseTextAdapter
             addItemDecoration(dividerItemOffsetDecoration)
-            chooseLangAdapter.submitList(langList)
+            chooseTextAdapter.submitList(langList)
         }
     }
 
     private fun populateList(){
-        langList.add(LanguageInfo("Igbo"))
-        langList.add(LanguageInfo("Oza"))
-        langList.add(LanguageInfo("Yoruba"))
+        langList.add(DataInfo("Igbo"))
+        langList.add(DataInfo("Oza"))
+        langList.add(DataInfo("Yoruba"))
     }
 }

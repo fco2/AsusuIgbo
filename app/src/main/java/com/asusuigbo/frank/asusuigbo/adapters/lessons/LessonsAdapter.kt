@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.databinding.LessonItemBinding
+import com.asusuigbo.frank.asusuigbo.databinding.ItemLessonBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 
 /**
@@ -21,7 +21,7 @@ import com.asusuigbo.frank.asusuigbo.models.UserLesson
 class LessonsAdapter(private var clickListener: LessonsClickListener)
     : ListAdapter<UserLesson, LessonsAdapter.ViewHolder>(LessonsDiffUtil()){
 
-    class ViewHolder(private val binding: LessonItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemLessonBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UserLesson, clickListener: LessonsClickListener) {
             binding.userLesson = item
             binding.clickListener = clickListener
@@ -46,7 +46,7 @@ class LessonsAdapter(private var clickListener: LessonsClickListener)
         companion object{
             fun from(parent: ViewGroup): ViewHolder{
                 val inflater = LayoutInflater.from(parent.context)
-                val binding = LessonItemBinding.inflate(inflater, parent, false)
+                val binding = ItemLessonBinding.inflate(inflater, parent, false)
                 return ViewHolder(binding)
             }
         }

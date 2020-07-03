@@ -4,7 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
-import kotlinx.android.synthetic.main.lesson_item.view.*
+import kotlinx.android.synthetic.main.item_lesson.view.*
 
 
 @BindingAdapter("LessonName")

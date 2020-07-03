@@ -66,6 +66,8 @@
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="weekly_news">Weekly News</string>
     <string name="language">Language</string>
+    <string name="template_started_july_20th_2020">Started: July 20th, 2020</string>
+    <string name="template_current_language_igbo">Current Language: Igbo</string>
 
     <!-- Question type list -->
     <string-array name="question_type">

@@ -71,7 +71,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun populateQuestionGroup(){
         val file = File(filePath)
         val audio = if(file.exists())
-            "Audio/${binding.lessonNameEditText.text}/$fileName"
+            "Audio/${binding.languageSavingTo.text}/${binding.lessonNameEditText.text}/$fileName"
         else
             ""
         val qi = QuestionInfo(binding.questionEditText.text.toString(), audio)
@@ -100,7 +100,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             optionFilePath = getOptionFilePath(it)
             val file = File(optionFilePath)
             it.Audio = if(file.exists())
-                "Audio/${binding.lessonNameEditText.text}/$optionFileName"
+                "Audio/${binding.languageSavingTo.text}/${binding.lessonNameEditText.text}/$optionFileName"
             else
                 ""
         }

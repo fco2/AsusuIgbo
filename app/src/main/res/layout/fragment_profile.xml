@@ -1,199 +1,98 @@
-<layout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="com.asusuigbo.frank.asusuigbo.fragments.ProfileFragment"
+        tools:context="com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment"
         android:animateLayoutChanges="true"
         android:id="@+id/profile_layout">
 
         <include layout="@layout/toolbar_layout"
             android:id="@+id/layoutToolbar"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutToolbar"
-            android:id="@+id/profile_image_and_name">
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="10dp"
-                android:padding="7dp"
-                android:layout_alignParentStart="true"
-                android:background="@drawable/user_profile_bgd"
-                android:contentDescription="@string/user_profile_image"
-                android:src="@mipmap/user_profile_image"
-                android:id="@+id/user_profile_img_view"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="5dp"
-                app:cardCornerRadius="18dp"
-                android:padding="10dp"
-                android:layout_marginStart="40dp"
-                android:layout_toEndOf="@id/user_profile_img_view"
-                android:layout_centerVertical="true">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:fontFamily="@font/hammersmith_one"
-                    android:gravity="center"
-                    android:id="@+id/username_id"
-                    android:textAlignment="center"
-                    android:textSize="17sp" />
-
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/shape_divider"
-            android:layout_below="@id/profile_image_and_name"
-            android:layout_margin="6dp"
-            android:id="@+id/user_profile_divider"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:elevation="5dp"
-            app:cardCornerRadius="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/user_profile_divider"
-            android:id="@+id/card_view_lessons_completed">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/galindo"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:text="@string/lessons_completed_text"
-                    android:id="@+id/lessons_completed_template_text"/>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_toEndOf="@id/lessons_completed_template_text"
-                    android:background="@drawable/shape_divider"
-                    android:id="@+id/divider_2"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/andika"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:layout_toEndOf="@id/divider_2"
-                    android:id="@+id/lessons_completed_value"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Words learned -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:elevation="5dp"
-            app:cardCornerRadius="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/card_view_lessons_completed"
-            android:id="@+id/card_view_words_learned">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
-
-                <TextView
-                    android:id="@+id/words_learned_template_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/galindo"
-                    android:gravity="center"
-                    android:text="@string/total_words_learned"
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_toEndOf="@id/words_learned_template_text"
-                    android:background="@drawable/shape_divider"
-                    android:id="@+id/divider_3"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/andika"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:layout_toEndOf="@id/divider_3"
-                    android:id="@+id/words_learned_value"/>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/sign_out_id"
-            android:padding="8dp"
-            android:text="@string/add_question"
-            android:drawableStart="@mipmap/icon_add_white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/bgd_add_question_btn"
-            android:layout_marginBottom="30dp"
-            android:id="@+id/add_question_id"/>
-
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.03"
+            android:contentDescription="@string/user_profile_image"
+            android:background="@null"
+            android:src="@mipmap/icon_person" />
 
         <TextView
-            android:layout_width="280dp"
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="18dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/galindo"
+            android:textColor="@color/textColorBlue"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@id/profile_img"
+            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+            app:layout_constraintVertical_bias="0.03" />
+
+        <TextView
+            android:id="@+id/language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/profile_img"
+            app:layout_constraintTop_toBottomOf="@id/username"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="25dp"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/profile_img"
+            app:layout_constraintTop_toBottomOf="@id/language"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="25dp"
+            app:layout_constraintVertical_bias="0.01" />
+
+        <ImageView
+            android:id="@+id/add_question_id"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toEndOf="@id/username"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.85"
+            android:contentDescription="@string/user_profile_image"
+            android:background="@null"
+            android:src="@mipmap/icon_edit"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date"
+            app:layout_constraintBottom_toTopOf="@id/sign_out_id"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"
             android:textSize="18sp"
             android:textAllCaps="false"
             style="@style/RoundedCornerButtonTheme"
@@ -205,11 +104,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/progress_bar_profile_id"
-            android:layout_centerInParent="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:indeterminate="true"
             android:max="500"
             android:progress="0"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
