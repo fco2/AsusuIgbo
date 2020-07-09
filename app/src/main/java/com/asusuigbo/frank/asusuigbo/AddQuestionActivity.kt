@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.io.IOException
 
+@Suppress("DEPRECATION")
 class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: ActivityAddQuestionBinding
     private var questionTypeText = ""

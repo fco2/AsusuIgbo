@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
-import com.asusuigbo.frank.asusuigbo.models.UserButton
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -64,24 +62,13 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
         dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val auth = FirebaseAuth.getInstance()
                 val dl = ArrayList<QuestionGroup>()
                 for (d in dataSnapshot.children) {
                     val questionGroup = d.getValue(QuestionGroup::class.java)!!
                     dl.add(questionGroup)
                 }
-                //dl.shuffle()
                 _questionList.value = dl
                 _listReady.value = true
-                //TODO: change the db reference to get user data
-                /*database.reference.addListenerForSingleValueEvent(object: ValueEventListener {
-                    override fun onDataChange(p0: DataSnapshot) {
-                        val temp = p0.child("Users").child(auth.currentUser!!.uid)
-                            .child("WordsLearned").value.toString()
-                        currentLessonActivity.wordsLearned = Integer.parseInt(temp)
-                    }
-                    override fun onCancelled(p0: DatabaseError) { }
-                })*/
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })

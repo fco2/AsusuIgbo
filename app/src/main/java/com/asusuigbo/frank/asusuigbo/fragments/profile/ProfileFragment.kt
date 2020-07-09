@@ -20,7 +20,6 @@ import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 
 
 class ProfileFragment : Fragment() {
