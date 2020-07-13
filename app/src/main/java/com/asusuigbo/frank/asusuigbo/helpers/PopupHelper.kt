@@ -13,11 +13,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import kotlinx.android.synthetic.main.activity_current_lesson.*
 
 class PopupHelper {
     companion object {
-        fun displaySelectionInPopUp(currentLessonActivity: CurrentLessonActivity, isCorrectAnswer: Boolean): PopupWindow{
+        fun displaySelectionInPopUp(currentLessonActivity: CurrentLessonActivity,
+                                    currentLessonViewModel: CurrentLessonViewModel): PopupWindow{
             val layoutInflater: LayoutInflater =
                     currentLessonActivity.baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val customView = layoutInflater.inflate(R.layout.component_popup_layout, currentLessonActivity.lessons_layout_id,
@@ -35,18 +37,20 @@ class PopupHelper {
                 popUpTextResult,
                 customView,
                 currentLessonActivity,
-                isCorrectAnswer
+                currentLessonViewModel
             )
             popUpWindow.showAtLocation(currentLessonActivity.binding.lessonsLayoutId, Gravity.BOTTOM, 0, 500)
             return popUpWindow
         }
 
-        private fun stylePopUp(popUpTextResult: TextView, customView: View, currentLessonActivity: CurrentLessonActivity,
-                               isCorrectAnswer: Boolean) {
+        private fun stylePopUp(popUpTextResult: TextView,
+                               customView: View,
+                               currentLessonActivity: CurrentLessonActivity,
+                               currentLessonViewModel: CurrentLessonViewModel) {
             val popUpLayout = customView.findViewById<ConstraintLayout>(R.id.custom_view_id)
             val correctAnswerText = customView.findViewById<TextView>(R.id.correct_answer_id)
             val image = customView.findViewById<ImageView>(R.id.pop_up_image_id)
-            if(isCorrectAnswer){
+            if(currentLessonViewModel.isCorrect.value!!){
                 popUpTextResult.text = currentLessonActivity.getString(R.string.you_are_correct_text)
                 correctAnswerText.visibility = View.GONE
             }else{
@@ -54,7 +58,7 @@ class PopupHelper {
                 image.setImageResource(R.mipmap.img_wrong_answer)
                 val wrongAnswerColor = ContextCompat.getColor(currentLessonActivity.applicationContext, R.color.wrongAnswer)
                 popUpLayout.setBackgroundColor(wrongAnswerColor)
-                correctAnswerText!!.text = currentLessonActivity.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer
+                correctAnswerText!!.text = currentLessonViewModel.currentQuestion.value!!.CorrectAnswer
             }
         }
     }

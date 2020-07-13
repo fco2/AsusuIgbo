@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentWrittenTextBinding
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
@@ -22,18 +24,19 @@ import java.util.*
 class WrittenTextFragment : Fragment() {
     private lateinit var binding: FragmentWrittenTextBinding
     private lateinit var currentLesson: CurrentLessonActivity
+    private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = arguments!!["currentLesson"] as CurrentLessonActivity
+        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_written_text, container, false)
         this.writtenTextChangeListener()
         updateOptions()
-        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+        currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
             if(canAnswer){
                 disableOptions()
                 isCorrectAnswer()
-                currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
-                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
+                currentLessonViewModel.setHasCorrectBeenSet(true)
+                currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
         return binding.root
@@ -50,14 +53,14 @@ class WrittenTextFragment : Fragment() {
     }
 
     private fun isCorrectAnswer(){
-       val isCorrectFlag = currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
-                currentLesson.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
-        currentLesson.currentLessonViewModel.setIsCorrect(isCorrectFlag)
+       val isCorrectFlag = currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
+       currentLessonViewModel.setIsCorrect(isCorrectFlag)
     }
 
     private fun updateOptions(){
-        currentLesson.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer { question ->
-            currentLesson.currentLessonViewModel.setSelectedAnswer("")
+        currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer { question ->
+            currentLessonViewModel.setSelectedAnswer("")
             binding.writtenTextQuestionId.text = question!!.QuestionInfo.Question
             binding.writtenTextAnswerId.text.clear()
             binding.writtenTextAnswerId.isEnabled = true
@@ -71,7 +74,7 @@ class WrittenTextFragment : Fragment() {
     private fun writtenTextChangeListener(){
         binding.writtenTextAnswerId.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                currentLesson.currentLessonViewModel.setSelectedAnswer(p0.toString())
+                currentLessonViewModel.setSelectedAnswer(p0.toString())
                 currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

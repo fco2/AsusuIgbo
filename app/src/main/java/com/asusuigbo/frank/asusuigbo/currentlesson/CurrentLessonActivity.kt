@@ -31,7 +31,7 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonIndex = 0
 
-    lateinit var currentLessonViewModel: CurrentLessonViewModel
+    private lateinit var currentLessonViewModel: CurrentLessonViewModel
     private lateinit var factory: CurrentLessonViewModelFactory
     lateinit var binding: ActivityCurrentLessonBinding
 
@@ -62,7 +62,8 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         binding.button.setOnClickListener(btnClickListener)
         currentLessonViewModel.hasCorrectBeenSet.observe(this, Observer{ wasCorrectSet ->
             if(wasCorrectSet){
-                popUpWindow = PopupHelper.displaySelectionInPopUp(this, currentLessonViewModel.isCorrect.value!!)
+                // .isCorrect.value!!
+                popUpWindow = PopupHelper.displaySelectionInPopUp(this, currentLessonViewModel)
                 if(!currentLessonViewModel.isCorrect.value!!)
                     this.currentLessonViewModel.addQuestion(this.currentLessonViewModel.currentQuestion.value!!)
                 if(this.currentLessonViewModel.questionList.value!!.size > 0)

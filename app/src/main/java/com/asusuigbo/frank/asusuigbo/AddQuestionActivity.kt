@@ -88,7 +88,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 val lastQuestionIndex= if(p0.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
                     0
                 else
-                    p0.child("Language/Igbo/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
+                    p0.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
                 saveLessonData(lastQuestionIndex)
             }
         })

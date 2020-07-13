@@ -11,12 +11,14 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgChoiceOptionsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgOptionClickListener
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentImgChoiceBinding
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
@@ -32,17 +34,19 @@ class ImgChoiceFragment : Fragment() {
     lateinit var binding: FragmentImgChoiceBinding
     private lateinit var currentLesson: CurrentLessonActivity
 
+    private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = arguments!!["currentLesson"] as CurrentLessonActivity
+        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_img_choice, container, false)
-        itemOffsetDecoration = ItemOffsetDecoration(this.context!!.applicationContext, R.dimen.item_offset)
+        itemOffsetDecoration = ItemOffsetDecoration(this.requireContext().applicationContext, R.dimen.item_offset)
         updateOptions()
-        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+        currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
             if(canAnswer){
                 disableOptions()
                 isCorrectAnswer()
-                currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
-                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
+                currentLessonViewModel.setHasCorrectBeenSet(true)
+                currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
         return binding.root
@@ -59,17 +63,16 @@ class ImgChoiceFragment : Fragment() {
     }
 
     private fun isCorrectAnswer(){
-        val result = currentLesson.currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
-                currentLesson.currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
-        currentLesson.currentLessonViewModel.setIsCorrect(result)
+        val result = currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
+                currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
+        currentLessonViewModel.setIsCorrect(result)
     }
 
     private fun updateOptions() {
-        //TODO: change logic on how it works -- just check how it works.
-        currentLesson.currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer{ question ->
-            binding.imgChoiceQuestionId.text = currentLesson.currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
+        currentLessonViewModel.currentQuestion.observe(viewLifecycleOwner, Observer{ question ->
+            binding.imgChoiceQuestionId.text = currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Question
             this.setUpImageChoiceView(question.Options)
-            currentLesson.currentLessonViewModel.setSelectedAnswer("")
+            currentLessonViewModel.setSelectedAnswer("")
         })
     }
 
@@ -85,7 +88,6 @@ class ImgChoiceFragment : Fragment() {
         binding.imgChoiceRecyclerViewId.layoutManager = GridLayoutManager(this.currentLesson, 2)
         binding.imgChoiceRecyclerViewId.hasFixedSize()
         binding.imgChoiceRecyclerViewId.addItemDecoration(this.itemOffsetDecoration)
-
 
         val adapter = ImgChoiceOptionsAdapter(
             ImgOptionClickListener{ option, audio, view -> onClickImageAction(option, audio, view) }
@@ -116,6 +118,6 @@ class ImgChoiceFragment : Fragment() {
 
         //enable button click and set buttonState
         currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
-        this.currentLesson.currentLessonViewModel.setSelectedAnswer(option)
+        currentLessonViewModel.setSelectedAnswer(option)
     }
 }

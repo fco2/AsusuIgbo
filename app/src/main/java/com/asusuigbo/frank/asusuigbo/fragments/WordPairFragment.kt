@@ -11,9 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
+import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentWordPairBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.google.android.flexbox.FlexboxLayout
@@ -28,16 +30,17 @@ class WordPairFragment : Fragment(){
     private var totalProcessedWords = 0
     private var chosenWordIndex = -1
     private lateinit var currentLesson: CurrentLessonActivity
+    private val currentLessonViewModel:CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = arguments!!["currentLesson"] as CurrentLessonActivity
+        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_word_pair, container, false)
         updateOptions()
-        currentLesson.currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
+        currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
             if(canAnswer){
                 isCorrectAnswer()
-                currentLesson.currentLessonViewModel.setHasCorrectBeenSet(true)
-                currentLesson.currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
+                currentLessonViewModel.setHasCorrectBeenSet(true)
+                currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
         return binding.root
@@ -69,7 +72,7 @@ class WordPairFragment : Fragment(){
         }
 
         if (totalProcessedWords == options.size)
-            currentLesson.currentLessonViewModel.setCanAnswerQuestion()
+            currentLessonViewModel.setCanAnswerQuestion()
     }
 
     private fun setBgdCurrentChosenWord(textView: TextView){
@@ -109,10 +112,10 @@ class WordPairFragment : Fragment(){
         totalProcessedWords += 1
     }
 
-    private fun isCorrectAnswer() = currentLesson.currentLessonViewModel.setIsCorrect(true)
+    private fun isCorrectAnswer() = currentLessonViewModel.setIsCorrect(true)
 
     private fun updateOptions() {
-        this.options = currentLesson.currentLessonViewModel.currentQuestion.value!!.Options
+        this.options = currentLessonViewModel.currentQuestion.value!!.Options
         this.options.shuffle()
         for((index, item: OptionInfo) in this.options.withIndex()){
             val view = TextView(currentLesson.applicationContext)
