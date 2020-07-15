@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.asusuigbo.frank.asusuigbo.adapters.OptionInfoAdapter
+import com.asusuigbo.frank.asusuigbo.adapters.optionInfo.OptionInfoAdapter
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityAddQuestionBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
@@ -51,7 +51,11 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         initializeQuestionFormatSpinner()
         binding.questionTypeSpinnerId.onItemSelectedListener = this
         val manager = LinearLayoutManager(this)
-        optionAdapter = OptionInfoAdapter(optionList, this)
+        optionAdapter =
+            OptionInfoAdapter(
+                optionList,
+                this
+            )
         binding.optionRecyclerViewId.apply{
             setHasFixedSize(true)
             layoutManager = manager

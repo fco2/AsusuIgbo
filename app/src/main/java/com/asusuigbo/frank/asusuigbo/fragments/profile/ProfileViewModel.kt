@@ -43,6 +43,7 @@ class ProfileViewModel(val app: Application) : AndroidViewModel(app) {
             }
         }
     }
+
     private fun setListData() {
         val list = mutableListOf<DataInfo>()
         list.add(DataInfo(("Edit Profile")))

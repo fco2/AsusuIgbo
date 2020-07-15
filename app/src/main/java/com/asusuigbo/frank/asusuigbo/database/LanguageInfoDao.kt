@@ -1,5 +1,6 @@
 package com.asusuigbo.frank.asusuigbo.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -16,9 +17,18 @@ interface LanguageInfoDao {
     @Query("SELECT * FROM language_info WHERE language = :language AND userId = :userId LIMIT 1")
     suspend fun getLanguage(userId: String, language: String): LanguageInfo?
 
-    @Query("UPDATE language_info SET is_active = :notActive AND userId = :userId")
-    suspend fun update(userId: String, notActive: Boolean)
+    @Query("SELECT * FROM language_info WHERE userId = :userId")
+    fun getAllLanguages(userId: String): LiveData<List<LanguageInfo>>
 
-    @Query("DELETE FROM language_info")
-    suspend fun delete()
+    @Query("UPDATE language_info SET is_active = :flag WHERE userId = :userId")
+    suspend fun updateAll(userId: String, flag: Boolean)
+
+    @Query("UPDATE language_info SET is_active = 1 WHERE userId = :userId AND language = :language")
+    suspend fun updateNewActive(userId: String, language: String)
+
+    @Query("DELETE FROM language_info WHERE userId = :userId")
+    suspend fun deleteAll(userId: String)
+
+    @Query("DELETE FROM language_info WHERE userId = :userId AND language = :language")
+    suspend fun delete(userId: String, language: String)
 }

@@ -21,5 +21,6 @@
     <color name="greenDarkShade">#1b5e20</color>
     <color name="selectedImgChoiceOption">#e3f2fd</color>
     <color name="lightGreyTextColor">#607d8b</color>
+    <color name="lighterGrey">#78909c</color>
     <color name="lighterBlue">#64b5f6</color>
 </resources>

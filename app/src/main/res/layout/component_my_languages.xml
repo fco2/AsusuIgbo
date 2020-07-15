@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View"/>
         <variable
             name="dataInfo"
             type="com.asusuigbo.frank.asusuigbo.models.DataInfo" />
@@ -12,12 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
+        app:additionalInfo="@{dataInfo}"
         android:paddingStart="20dp"
         android:paddingEnd="15dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:onClick="@{() -> clickListener.onClick(dataInfo)}"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/additionalInfo">
 
         <TextView
             android:id="@+id/language"
@@ -33,13 +36,17 @@
             app:dataText="@{dataInfo}"
             android:fontFamily="@font/galindo"/>
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+        <TextView
+            android:id="@+id/isActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:active="@{dataInfo}"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/app_logo"
-            android:src="@mipmap/icon_navigate_forward" />
+            android:text="@string/active"
+            android:background="@drawable/bgd_word_green"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

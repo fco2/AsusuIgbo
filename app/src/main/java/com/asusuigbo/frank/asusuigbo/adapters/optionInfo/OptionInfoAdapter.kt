@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.adapters
+package com.asusuigbo.frank.asusuigbo.adapters.optionInfo
 
 import android.annotation.SuppressLint
 import android.media.MediaRecorder
@@ -38,7 +38,9 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private v
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.component_option_info, parent, false)
-        return CustomViewHolder(view)
+        return CustomViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int = this.dataList.size

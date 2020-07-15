@@ -13,9 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
+import com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesActivity
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextClickListener
+import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
 import com.google.android.material.snackbar.Snackbar
@@ -38,7 +39,7 @@ class ProfileFragment : Fragment() {
         binding.layoutToolbar.toolbarText.text = getString(R.string.profile_text)
         binding.layoutToolbar.currentLanguage.visibility = View.GONE
         auth = FirebaseAuth.getInstance()
-        val app = activity!!.application
+        val app = requireActivity().application
         factory = ProfileViewModelFactory(app)
         viewModel = ViewModelProvider(this, factory).get(ProfileViewModel::class.java)
         setUpRecyclerView()
@@ -59,10 +60,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        val manager = LinearLayoutManager(context!!.applicationContext)
-        val itemDecoration = DividerItemDecoration(context!!.applicationContext, manager.orientation)
+        val manager = LinearLayoutManager(requireContext().applicationContext)
+        val itemDecoration = DividerItemDecoration(requireContext().applicationContext, manager.orientation)
         val profileAdapter = ChooseTextAdapter(ChooseTextClickListener{
             Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
+            navigateToActivity(it)
         })
         binding.recyclerView.apply {
             layoutManager = manager
@@ -74,18 +76,25 @@ class ProfileFragment : Fragment() {
     }
 
     private val addQuestionClickListener = View.OnClickListener{
-        startActivity(Intent(activity!!.applicationContext, AddQuestionActivity::class.java))
+        startActivity(Intent(requireActivity().applicationContext, AddQuestionActivity::class.java))
     }
 
     private val signOutClickListener = View.OnClickListener {
        if(auth.currentUser != null){
            auth.signOut()
-           val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
+           val intent = Intent(requireActivity().applicationContext, LoginActivity::class.java)
            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
            startActivity(intent)
         }
         /*val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.child("Lessons/Intro/0").removeValue()
         Toast.makeText(context!!.applicationContext, "Deleted!", Toast.LENGTH_SHORT).show()*/
+    }
+
+    private fun navigateToActivity(s: String){
+        when(s){
+            "Languages" -> startActivity(Intent(requireContext().applicationContext, MyLanguagesActivity::class.java))
+            else -> { }
+        }
     }
 }

@@ -6,14 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
-import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
 import com.asusuigbo.frank.asusuigbo.models.DataInfo
 
 class ChooseLangActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityChooseLangBinding
     private var langList = ArrayList<DataInfo>()
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -77,7 +77,7 @@ class WordPairFragment : Fragment(){
 
     private fun setBgdCurrentChosenWord(textView: TextView){
         textView.background = ContextCompat.getDrawable(currentLesson.applicationContext,
-            R.drawable.bgd_word_pair_word_selected)
+            R.drawable.bgd_word_blue)
         textView.setTextColor(ContextCompat.getColor(currentLesson.applicationContext,
             R.color.colorWhite))
     }
