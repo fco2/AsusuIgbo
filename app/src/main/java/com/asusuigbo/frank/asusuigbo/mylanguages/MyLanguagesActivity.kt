@@ -32,7 +32,6 @@ class MyLanguagesActivity : AppCompatActivity() {
         })
         viewModel.dataList.observe(this, Observer{
             setUpRecyclerView(it)
-            Snackbar.make(binding.root, "List updated", Snackbar.LENGTH_SHORT).show()
         })
     }
 

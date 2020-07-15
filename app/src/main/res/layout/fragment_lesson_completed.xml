@@ -1,56 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:id="@+id/lesson_completed_id"
-    tools:context=".fragments.LessonCompletedFragment">
-
-    <RelativeLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:background="@color/colorWhite"
+        android:id="@+id/lesson_completed_id"
+        tools:context=".fragments.LessonCompletedFragment">
 
-        <ImageView
-            android:layout_width="280dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/congratulations_text"
-            android:layout_above="@id/task_completed_id"
-            android:src="@mipmap/congratulations"
-            android:id="@+id/image_view_congrats"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/congratulations_image1"
-            android:src="@mipmap/task_completed"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/task_completed_id"/>
+            <ImageView
+                android:id="@+id/image_view_congrats"
+                android:layout_width="280dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/congratulations_text"
+                android:src="@mipmap/congratulations"
+                app:layout_constraintBottom_toTopOf="@+id/finished_quiz_button_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.397" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/task_completed_id"
-            android:text="@string/completed_the_lesson"
-            />
+            <ImageView
+                android:id="@+id/task_completed_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/congratulations_image1"
+                android:src="@mipmap/task_completed"
+                app:layout_constraintBottom_toTopOf="@+id/finished_quiz_button_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_view_congrats"
+                app:layout_constraintVertical_bias="0.024" />
 
-        <TextView
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:padding="18dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:textSize="18sp"
-            style="@style/RoundedCornerButtonTheme"
-            android:layout_marginBottom="30dp"
-            android:text="@string/continue_text"
-            android:id="@+id/finished_quiz_button_id"/>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/completed_the_lesson"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/finished_quiz_button_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/task_completed_id"
+                app:layout_constraintVertical_bias="0.043" />
 
-</FrameLayout>
+            <TextView
+                android:id="@+id/finished_quiz_button_id"
+                style="@style/RoundedCornerButtonTheme"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:padding="18dp"
+                android:text="@string/continue_text"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.976" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
