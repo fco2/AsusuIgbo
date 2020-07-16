@@ -22,5 +22,5 @@ fun TextView.setActive(dataInfo: DataInfo){
 
 @BindingAdapter("additionalInfo")
 fun ConstraintLayout.setEnabled(dataInfo: DataInfo){
-    this.isEnabled = dataInfo.additionalInfo == "Add Language"
+   // this.isEnabled = dataInfo.additionalInfo == "Add Language"
 }

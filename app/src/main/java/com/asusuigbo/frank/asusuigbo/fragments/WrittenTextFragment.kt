@@ -12,10 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentWrittenTextBinding
-import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
 
 /**
@@ -23,11 +21,9 @@ import java.util.*
  */
 class WrittenTextFragment : Fragment() {
     private lateinit var binding: FragmentWrittenTextBinding
-    private lateinit var currentLesson: CurrentLessonActivity
     private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_written_text, container, false)
         this.writtenTextChangeListener()
         updateOptions()
@@ -40,16 +36,6 @@ class WrittenTextFragment : Fragment() {
             }
         })
         return binding.root
-    }
-    
-    companion object{
-        fun getInstance(currentLesson: CurrentLessonActivity) : WrittenTextFragment{
-            val fragment = WrittenTextFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("currentLesson", currentLesson)
-            fragment.arguments = bundle
-            return fragment
-        }
     }
 
     private fun isCorrectAnswer(){
@@ -75,7 +61,7 @@ class WrittenTextFragment : Fragment() {
         binding.writtenTextAnswerId.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 currentLessonViewModel.setSelectedAnswer(p0.toString())
-                currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+                currentLessonViewModel.setResetBtnState(true)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

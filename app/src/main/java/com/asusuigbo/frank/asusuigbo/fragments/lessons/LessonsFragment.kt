@@ -28,7 +28,7 @@ class LessonsFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_lessons, container, false)
         viewModel = ViewModelProvider(this).get(LessonsViewModel::class.java)
         binding.lessonsViewModel = viewModel
-        val glm = GridLayoutManager(context!!.applicationContext, 2)
+        val glm = GridLayoutManager(requireContext().applicationContext, 2)
         //this block below makes the recyclerView staggered
         glm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int { //Index begins at 1
@@ -55,7 +55,7 @@ class LessonsFragment : Fragment() {
 
     private fun populateRecyclerView(it: List<UserLesson>) {
         val adapter = LessonsAdapter(LessonsClickListener { lessonName, index ->
-            val intent = Intent(context!!.applicationContext, CurrentLessonActivity::class.java)
+            val intent = Intent(requireContext().applicationContext, CurrentLessonActivity::class.java)
             intent.putExtra("LESSON_NAME", lessonName)
             val indexAndWordsLearned = index.toString() + "|" + viewModel.wordsLearned
             intent.putExtra("INDEX_AND_WORDS_LEARNED", indexAndWordsLearned)
@@ -64,7 +64,7 @@ class LessonsFragment : Fragment() {
 
             // You need this if starting activity outside an activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context!!.applicationContext.startActivity(intent)
+            requireContext().applicationContext.startActivity(intent)
         })
         binding.recyclerView.adapter = adapter
         adapter.submitList(it)

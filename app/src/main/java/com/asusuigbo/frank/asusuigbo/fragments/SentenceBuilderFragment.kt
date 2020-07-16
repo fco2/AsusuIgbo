@@ -13,11 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentSentenceBuilderBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
-import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.android.flexbox.FlexboxLayout
 
 /**
@@ -28,13 +26,11 @@ class SentenceBuilderFragment : Fragment(){
     private var textViewClickListener = View.OnClickListener{}
     private var selectedSentence: ArrayList<Int> = ArrayList()
     private var audioUrl = ""
-    private lateinit var currentLesson: CurrentLessonActivity
 
     private lateinit var binding: FragmentSentenceBuilderBinding
     private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sentence_builder, container, false)
         this.initializeViewClickListener()
 
@@ -55,19 +51,9 @@ class SentenceBuilderFragment : Fragment(){
         })
         return binding.root
     }
-    
-    companion object{
-        fun getInstance(currentLesson: CurrentLessonActivity) : SentenceBuilderFragment{
-            val fragment = SentenceBuilderFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("currentLesson", currentLesson)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
 
     private val playAudioClickListener  = View.OnClickListener {
-        currentLesson.playAudio(audioUrl)
+        currentLessonViewModel.setPlayAudio(audioUrl)
     }
 
     private fun isCorrectAnswer(){
@@ -77,7 +63,7 @@ class SentenceBuilderFragment : Fragment(){
 
     private fun initializeViewClickListener(){
         this.textViewClickListener = View.OnClickListener { v ->
-            currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+            currentLessonViewModel.setResetBtnState(true)
 
             if(binding.flexboxDestinationId.indexOfChild(v) == -1){
                 binding.flexboxSourceId.removeView(v)
@@ -123,17 +109,17 @@ class SentenceBuilderFragment : Fragment(){
 
     private fun buildFlexBoxContent() {
         for((index, item: OptionInfo) in currentLessonViewModel.currentQuestion.value!!.Options.withIndex()){
-            val view = TextView(this.currentLesson.applicationContext)
+            val view = TextView(requireContext().applicationContext)
             val params = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
             params.setMargins(10,10,10,10)
             view.layoutParams = params
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-            view.background = ContextCompat.getDrawable(this.currentLesson.applicationContext,
+            view.background = ContextCompat.getDrawable(requireContext().applicationContext,
                 R.drawable.bgd_white)
             view.setPadding(30,30,30,30)
-            view.setTextColor(ContextCompat.getColor(currentLesson, R.color.colorPrimaryDark))
+            view.setTextColor(ContextCompat.getColor(requireContext().applicationContext, R.color.colorPrimaryDark))
             view.isClickable = true
             view.tag = index
             view.setOnClickListener(this.textViewClickListener)

@@ -20,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.Serializable
 import kotlin.math.roundToInt
 
-class CurrentLessonActivity : AppCompatActivity(), Serializable {
+class CurrentLessonActivity : AppCompatActivity() {
     private var wordsLearned: Int = 0
     private var dataListSize: Int = 0
     private var requestedLesson: String = ""
@@ -62,7 +62,6 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
         binding.button.setOnClickListener(btnClickListener)
         currentLessonViewModel.hasCorrectBeenSet.observe(this, Observer{ wasCorrectSet ->
             if(wasCorrectSet){
-                // .isCorrect.value!!
                 popUpWindow = PopupHelper.displaySelectionInPopUp(this, currentLessonViewModel)
                 if(!currentLessonViewModel.isCorrect.value!!)
                     this.currentLessonViewModel.addQuestion(this.currentLessonViewModel.currentQuestion.value!!)
@@ -70,6 +69,18 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
                     this.setUpButtonStateAndText(UserButton.NextQuestion, R.string.next_question_text)
                 else
                     this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
+            }
+        })
+        currentLessonViewModel.playAudio.observe(this, Observer {
+            if(it != ""){
+                playAudio(it)
+                currentLessonViewModel.setPlayAudio("")
+            }
+        })
+        currentLessonViewModel.resetBtnState.observe(this, Observer {
+            if(it){
+                setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+                currentLessonViewModel.setResetBtnState(false)
             }
         })
     }
@@ -95,23 +106,23 @@ class CurrentLessonActivity : AppCompatActivity(), Serializable {
             .setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
         when(fragmentName){
             "SingleSelect" -> {
-                val singleSelectFragment = SingleSelectFragment.getInstance(this)
+                val singleSelectFragment = SingleSelectFragment()
                 ft.replace(R.id.frame_layout_id, singleSelectFragment)
             }
             "MultiSelect" -> {
-                val sentenceBuilder = SentenceBuilderFragment.getInstance(this)
+                val sentenceBuilder = SentenceBuilderFragment()
                 ft.replace(R.id.frame_layout_id, sentenceBuilder)
             }
             "ImageSelect" -> {
-                val imgChoiceFragment = ImgChoiceFragment.getInstance(this)
+                val imgChoiceFragment = ImgChoiceFragment()
                 ft.replace(R.id.frame_layout_id, imgChoiceFragment)
             }
             "WrittenText" -> {
-                val writtenTextFragment = WrittenTextFragment.getInstance(this)
+                val writtenTextFragment = WrittenTextFragment()
                 ft.replace(R.id.frame_layout_id, writtenTextFragment)
             }
             "WordPair" -> {
-                val wordPairFragment = WordPairFragment.getInstance(this)
+                val wordPairFragment = WordPairFragment()
                 ft.replace(R.id.frame_layout_id, wordPairFragment)
             }
             else -> {

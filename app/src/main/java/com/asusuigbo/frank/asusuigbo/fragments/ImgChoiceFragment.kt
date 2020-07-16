@@ -17,12 +17,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgChoiceOptionsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.imagechoiceoptions.ImgOptionClickListener
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentImgChoiceBinding
 import com.asusuigbo.frank.asusuigbo.helpers.ItemOffsetDecoration
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
-import com.asusuigbo.frank.asusuigbo.models.UserButton
 import java.util.*
 
 /**
@@ -32,12 +30,10 @@ class ImgChoiceFragment : Fragment() {
 
     private lateinit var itemOffsetDecoration: ItemOffsetDecoration
     lateinit var binding: FragmentImgChoiceBinding
-    private lateinit var currentLesson: CurrentLessonActivity
 
     private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_img_choice, container, false)
         itemOffsetDecoration = ItemOffsetDecoration(this.requireContext().applicationContext, R.dimen.item_offset)
         updateOptions()
@@ -50,16 +46,6 @@ class ImgChoiceFragment : Fragment() {
             }
         })
         return binding.root
-    }
-
-    companion object{
-        fun getInstance(currentLesson: CurrentLessonActivity) : ImgChoiceFragment{
-            val fragment = ImgChoiceFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("currentLesson", currentLesson)
-            fragment.arguments = bundle
-            return fragment
-        }
     }
 
     private fun isCorrectAnswer(){
@@ -85,7 +71,7 @@ class ImgChoiceFragment : Fragment() {
     }
 
     private fun setUpImageChoiceView(options: MutableList<OptionInfo>) {
-        binding.imgChoiceRecyclerViewId.layoutManager = GridLayoutManager(this.currentLesson, 2)
+        binding.imgChoiceRecyclerViewId.layoutManager = GridLayoutManager(requireContext().applicationContext, 2)
         binding.imgChoiceRecyclerViewId.hasFixedSize()
         binding.imgChoiceRecyclerViewId.addItemDecoration(this.itemOffsetDecoration)
 
@@ -97,10 +83,10 @@ class ImgChoiceFragment : Fragment() {
         adapter.submitList(options)
     }
 
-    private fun onClickImageAction(option: String, audio: String, view: View){
+    private fun onClickImageAction(option: String, audioUrl: String, view: View){
         //play audio here
-        if(audio != "")
-            currentLesson.playAudio(audio)
+        if(audioUrl != "")
+            currentLessonViewModel.setPlayAudio(audioUrl)
         //remove color filter for all items
         for(i in 0 until this.binding.imgChoiceRecyclerViewId.childCount){
             val v: View = this.binding.imgChoiceRecyclerViewId.getChildAt(i)
@@ -109,7 +95,7 @@ class ImgChoiceFragment : Fragment() {
             image.clearColorFilter()
         }
         //add color filter for selected item, both RelativeLayout and imageView
-        val overlayColor = ContextCompat.getColor(this.currentLesson.applicationContext,
+        val overlayColor = ContextCompat.getColor(requireContext().applicationContext,
             R.color.selectedImgChoiceOption)
         val filter = PorterDuffColorFilter(overlayColor, PorterDuff.Mode.MULTIPLY)
         view.background.colorFilter = filter
@@ -117,7 +103,7 @@ class ImgChoiceFragment : Fragment() {
         imgChoiceImg.colorFilter = filter
 
         //enable button click and set buttonState
-        currentLesson.setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
+        currentLessonViewModel.setResetBtnState(true)
         currentLessonViewModel.setSelectedAnswer(option)
     }
 }

@@ -46,6 +46,14 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
     val hasCorrectBeenSet : LiveData<Boolean>
         get() = _hasCorrectBeenSet
 
+    private val _playAudio = MutableLiveData<String>()
+    val playAudio : LiveData<String>
+        get() = _playAudio
+
+    private val _resetBtnState = MutableLiveData<Boolean>()
+    val resetBtnState : LiveData<Boolean>
+        get() = _resetBtnState
+
     init{
         _canAnswerQuestion.value = false
         scope.launch {
@@ -96,6 +104,14 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     fun setHasCorrectBeenSet(f: Boolean){
         this._hasCorrectBeenSet.value = f
+    }
+
+    fun setPlayAudio(s: String){
+        _playAudio.value = s
+    }
+
+    fun setResetBtnState(f: Boolean){
+        _resetBtnState.value = f
     }
 
     override fun onCleared() {

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonViewModel
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentWordPairBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
@@ -29,11 +28,9 @@ class WordPairFragment : Fragment(){
     private var options: MutableList<OptionInfo> = mutableListOf()
     private var totalProcessedWords = 0
     private var chosenWordIndex = -1
-    private lateinit var currentLesson: CurrentLessonActivity
     private val currentLessonViewModel:CurrentLessonViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        currentLesson = requireArguments()["currentLesson"] as CurrentLessonActivity
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_word_pair, container, false)
         updateOptions()
         currentLessonViewModel.canAnswerQuestion.observe(viewLifecycleOwner, Observer{ canAnswer ->
@@ -44,16 +41,6 @@ class WordPairFragment : Fragment(){
             }
         })
         return binding.root
-    }
-
-    companion object{
-        fun getInstance(currentLesson: CurrentLessonActivity) : WordPairFragment{
-            val fragment = WordPairFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("currentLesson", currentLesson)
-            fragment.arguments = bundle
-            return fragment
-        }
     }
 
     private val textViewClickListener = View.OnClickListener {v ->
@@ -76,9 +63,9 @@ class WordPairFragment : Fragment(){
     }
 
     private fun setBgdCurrentChosenWord(textView: TextView){
-        textView.background = ContextCompat.getDrawable(currentLesson.applicationContext,
+        textView.background = ContextCompat.getDrawable(requireContext().applicationContext,
             R.drawable.bgd_word_blue)
-        textView.setTextColor(ContextCompat.getColor(currentLesson.applicationContext,
+        textView.setTextColor(ContextCompat.getColor(requireContext().applicationContext,
             R.color.colorWhite))
     }
 
@@ -89,9 +76,9 @@ class WordPairFragment : Fragment(){
             options[textView.tag.toString().toInt()].Audio
         else
             options[translatedWord.tag.toString().toInt()].Audio
-        if(audioUrl != ""){
-            currentLesson.playAudio(audioUrl)
-        }
+        if(audioUrl != "")
+            currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio
+
         //animate word pair
         animatePairedWords(textView, R.drawable.animate_correct_word_pair)
         animatePairedWords(translatedWord, R.drawable.animate_correct_word_pair)
@@ -99,7 +86,7 @@ class WordPairFragment : Fragment(){
 
     private fun animatePairedWords(translatedWord: TextView, drawable: Int,
                                    isWrongPair: Boolean = false) {
-        translatedWord.background = ContextCompat.getDrawable(currentLesson.applicationContext, drawable)
+        translatedWord.background = ContextCompat.getDrawable(requireContext().applicationContext, drawable)
         val anim2 = translatedWord.background as TransitionDrawable
         anim2.startTransition(3000)
         TextViewCompat.setTextAppearance(translatedWord, R.style.FontForTextView)
@@ -118,7 +105,7 @@ class WordPairFragment : Fragment(){
         this.options = currentLessonViewModel.currentQuestion.value!!.Options
         this.options.shuffle()
         for((index, item: OptionInfo) in this.options.withIndex()){
-            val view = TextView(currentLesson.applicationContext)
+            val view = TextView(requireContext().applicationContext)
             val params = FlexboxLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -126,8 +113,7 @@ class WordPairFragment : Fragment(){
             view.layoutParams = params
             view.text = item.Option
             TextViewCompat.setTextAppearance(view, R.style.FontForTextView)
-            view.background = ContextCompat.getDrawable(currentLesson.applicationContext,
-                R.drawable.bgd_white)
+            view.background = ContextCompat.getDrawable(requireContext().applicationContext, R.drawable.bgd_white)
             view.setPadding(30,30,30,30)
             view.isClickable = true
             view.tag = index

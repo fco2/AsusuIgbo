@@ -58,7 +58,11 @@ class MyLanguagesActivity : AppCompatActivity() {
         val manager = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, manager.orientation)
         val myLanguagesAdapter = MyLanguagesAdapter(ChooseTextClickListener {
-            openAlertDialog()
+            if(it == "+ Add Language") {
+                openAlertDialog()
+            }else{
+                viewModel.setNewActiveLanguage(it)
+            }
         })
         binding.languagesRecyclerView.apply {
             layoutManager = manager
