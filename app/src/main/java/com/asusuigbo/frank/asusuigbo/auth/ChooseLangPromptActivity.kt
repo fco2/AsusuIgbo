@@ -12,7 +12,6 @@ class ChooseLangPromptActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseLangPromptBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityChooseLangPromptBinding.inflate(layoutInflater)
         //check if is authenticated
         val auth = FirebaseAuth.getInstance()
         if(auth.currentUser != null){
@@ -21,7 +20,7 @@ class ChooseLangPromptActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
+        binding = ActivityChooseLangPromptBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.selectLanguage.setOnClickListener {
             startActivity(Intent(this, ChooseLangActivity::class.java))

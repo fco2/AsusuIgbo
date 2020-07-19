@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".mylanguages.MyLanguagesActivity"></activity>
+        <activity android:name=".mylanguages.MyLanguagesActivity"/>
         <activity android:name=".auth.ChooseLangActivity" />
         <activity android:name=".AddQuestionActivity" />
         <activity android:name=".auth.signup.SignUpActivity" />

@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
     <!-- Theme for toolbar -->
@@ -24,9 +25,9 @@
         <item name="android:textColorPrimaryDisableOnly">#455a64</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.NoActionBar">
+    <!--<style name="AppTheme.Launcher" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
-    </style>
+    </style>-->
 
     <style name="CustomProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/lesson_progress_indicator</item>
