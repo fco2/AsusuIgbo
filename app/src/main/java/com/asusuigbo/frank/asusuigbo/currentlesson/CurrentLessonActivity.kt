@@ -33,6 +33,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     private lateinit var currentLessonViewModel: CurrentLessonViewModel
     private lateinit var factory: CurrentLessonViewModelFactory
     lateinit var binding: ActivityCurrentLessonBinding
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +97,8 @@ class CurrentLessonActivity : AppCompatActivity() {
     private fun navigateToFragment(fragmentName: String = ""){
         this.setUpButtonStateAndText(UserButton.AnswerNotSelected, R.string.answer_button_state)
         this.setProgressBarStatus()
+        if(this::mediaPlayer.isInitialized)
+            mediaPlayer.stop()
 
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
@@ -143,7 +146,7 @@ class CurrentLessonActivity : AppCompatActivity() {
         }
     }
 
-    fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
+    private fun setUpButtonStateAndText(buttonState: UserButton, buttonText: Int){
         binding.button.isEnabled = buttonState != UserButton.AnswerNotSelected
         binding.button.text = getString(buttonText)
         this.buttonState = buttonState
@@ -156,11 +159,11 @@ class CurrentLessonActivity : AppCompatActivity() {
         binding.lessonProgressBar.progress = result
     }
 
-    fun playAudio(audioUrl: String){
+    private fun playAudio(audioUrl: String){
         val storageRef = FirebaseStorage.getInstance().reference
         storageRef.child(audioUrl).
         downloadUrl.addOnSuccessListener {
-            val mediaPlayer = MediaPlayer()
+            mediaPlayer = MediaPlayer()
             mediaPlayer.setDataSource(it.toString())
             mediaPlayer.setOnPreparedListener{player ->
                 player.start()

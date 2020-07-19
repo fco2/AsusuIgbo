@@ -73,6 +73,7 @@
             app:layout_constraintHorizontal_bias="0.85"
             android:contentDescription="@string/user_profile_image"
             android:background="@null"
+            android:visibility="gone"
             android:src="@mipmap/icon_edit"/>
 
         <androidx.recyclerview.widget.RecyclerView
