@@ -78,6 +78,7 @@ class WordPairFragment : Fragment(){
             options[translatedWord.tag.toString().toInt()].Audio
         if(audioUrl != "")
             currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio
+        currentLessonViewModel.setPlayAudio(audioUrl)
 
         //animate word pair
         animatePairedWords(textView, R.drawable.animate_correct_word_pair)

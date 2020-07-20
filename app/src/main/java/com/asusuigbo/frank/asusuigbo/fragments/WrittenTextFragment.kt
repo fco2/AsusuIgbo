@@ -19,6 +19,8 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
+
+//TODO: needs to implement play audio
 class WrittenTextFragment : Fragment() {
     private lateinit var binding: FragmentWrittenTextBinding
     private val currentLessonViewModel: CurrentLessonViewModel by activityViewModels()
@@ -35,6 +37,10 @@ class WrittenTextFragment : Fragment() {
                 currentLessonViewModel.setCanAnswerQuestion() //reset it back to false
             }
         })
+        binding.playAudioBtn.setOnClickListener(playAudioClickListener)
+        //set visibility of play button
+        if(currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio != "")
+            binding.playAudioBtn.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -42,6 +48,10 @@ class WrittenTextFragment : Fragment() {
        val isCorrectFlag = currentLessonViewModel.currentQuestion.value!!.CorrectAnswer.toLowerCase(Locale.getDefault()).trim() ==
                 currentLessonViewModel.selectedAnswer.value!!.toLowerCase(Locale.getDefault()).trim()
        currentLessonViewModel.setIsCorrect(isCorrectFlag)
+    }
+
+    private val playAudioClickListener  = View.OnClickListener {
+        currentLessonViewModel.setPlayAudio(currentLessonViewModel.currentQuestion.value!!.QuestionInfo.Audio)
     }
 
     private fun updateOptions(){
