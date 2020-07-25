@@ -13,13 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
-import com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesActivity
 import com.asusuigbo.frank.asusuigbo.R
-import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
+import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
 import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
-import com.google.android.material.snackbar.Snackbar
+import com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -63,7 +62,6 @@ class ProfileFragment : Fragment() {
         val manager = LinearLayoutManager(requireContext().applicationContext)
         val itemDecoration = DividerItemDecoration(requireContext().applicationContext, manager.orientation)
         val profileAdapter = ChooseTextAdapter(ChooseTextClickListener{
-            Snackbar.make(binding.root, "Clicked $it", Snackbar.LENGTH_SHORT).show()
             navigateToActivity(it)
         })
         binding.recyclerView.apply {

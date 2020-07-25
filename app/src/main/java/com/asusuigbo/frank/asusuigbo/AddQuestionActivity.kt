@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,7 +31,7 @@ import java.io.File
 import java.io.IOException
 
 @Suppress("DEPRECATION")
-class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class AddQuestionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddQuestionBinding
     private var questionTypeText = ""
     private var optionList: MutableList<OptionInfo> = mutableListOf()
@@ -42,20 +43,21 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private lateinit var optionAdapter: OptionInfoAdapter
     private lateinit var questionGroup: QuestionGroup
     private lateinit var vibrator: Vibrator
+    private var questionTypeList = mutableListOf<String>()
+    private var languageList = mutableListOf<String>()
+    private var languageSavingToText = ""
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        populateQuestionTypeList()
+        populateLanguagesList()
         initializeQuestionFormatSpinner()
-        binding.questionTypeSpinnerId.onItemSelectedListener = this
+        initializeLanguageSpinner()
         val manager = LinearLayoutManager(this)
-        optionAdapter =
-            OptionInfoAdapter(
-                optionList,
-                this
-            )
+        optionAdapter = OptionInfoAdapter(optionList,this)
         binding.optionRecyclerViewId.apply{
             setHasFixedSize(true)
             layoutManager = manager
@@ -76,7 +78,7 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private fun populateQuestionGroup(){
         val file = File(filePath)
         val audio = if(file.exists())
-            "Audio/${binding.languageSavingTo.text}/${binding.lessonNameEditText.text}/$fileName"
+            "Audio/${languageSavingToText}/${binding.lessonNameEditText.text}/$fileName"
         else
             ""
         val qi = QuestionInfo(binding.questionEditText.text.toString(), audio)
@@ -89,10 +91,10 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         dbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val lastQuestionIndex= if(p0.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
+                val lastQuestionIndex= if(p0.child("Language/${languageSavingToText}/Lessons/${binding.lessonNameEditText.text}").children.count() == 0)
                     0
                 else
-                    p0.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
+                    p0.child("Language/${languageSavingToText}/Lessons/${binding.lessonNameEditText.text}").children.last().key!!.toInt() + 1
                 saveLessonData(lastQuestionIndex)
             }
         })
@@ -105,11 +107,11 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             optionFilePath = getOptionFilePath(it)
             val file = File(optionFilePath)
             it.Audio = if(file.exists())
-                "Audio/${binding.languageSavingTo.text}/${binding.lessonNameEditText.text}/$optionFileName"
+                "Audio/${languageSavingToText}/${binding.lessonNameEditText.text}/$optionFileName"
             else
                 ""
         }
-        dbRef.child("Language/${binding.languageSavingTo.text}/Lessons/${binding.lessonNameEditText.text}")
+        dbRef.child("Language/${languageSavingToText}/Lessons/${binding.lessonNameEditText.text}")
             .child("$indexToUpdate").setValue(questionGroup)
         //save audio for question
         if(File(filePath).exists())
@@ -193,20 +195,29 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     }
 
     private fun initializeQuestionFormatSpinner(){
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.question_type,
-            android.R.layout.simple_list_item_1
-        ).also {adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.questionTypeSpinnerId.adapter = adapter
+        val adapter =  ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, questionTypeList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.questionTypeSpinnerId.adapter = adapter
+
+        binding.questionTypeSpinnerId.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                questionTypeText = questionTypeList[i]
+            }
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
+    private fun initializeLanguageSpinner(){
+        val adapter =  ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, languageList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.languageSpinner.adapter = adapter
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        questionTypeText = parent!!.getItemAtPosition(position).toString()
+        binding.languageSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                languageSavingToText = languageList[i]
+            }
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
     }
 
     private fun replaceSpaceWithUnderscore(s: String): String{
@@ -234,5 +245,19 @@ class AddQuestionActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.optionRecyclerViewId)
+    }
+
+    private fun populateQuestionTypeList(){
+        questionTypeList.add("ImageSelect")
+        questionTypeList.add("MultiSelect")
+        questionTypeList.add("SingleSelect")
+        questionTypeList.add("WordPair")
+        questionTypeList.add("WrittenText")
+    }
+
+    private fun populateLanguagesList(){
+        languageList.add("Igbo")
+        languageList.add("Oza")
+        languageList.add("Yoruba")
     }
 }

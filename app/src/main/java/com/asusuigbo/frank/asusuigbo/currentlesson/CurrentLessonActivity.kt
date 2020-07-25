@@ -187,9 +187,7 @@ class CurrentLessonActivity : AppCompatActivity() {
             dbReference
                 .child("Users/${auth.currentUser!!.uid}/Language/$language/Lessons/${lessonIndex + 1}/Unlocked")
                 .setValue("True")
-                .addOnCompleteListener {
-                    launchCompletedLessonScreen()
-            }
+                launchCompletedLessonScreen()
     }
 
     private fun launchCompletedLessonScreen(){

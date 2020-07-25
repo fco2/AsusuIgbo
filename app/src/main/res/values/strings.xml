@@ -71,13 +71,4 @@
     <string name="my_languages">My Languages</string>
     <string name="open_dialog">Open Dialog</string>
     <string name="active">Active</string>
-
-    <!-- Question type list -->
-    <string-array name="question_type">
-        <item>SingleSelect</item>
-        <item>MultiSelect</item>
-        <item>ImageSelect</item>
-        <item>WordPair</item>
-        <item>WrittenText</item>
-    </string-array>
 </resources>
