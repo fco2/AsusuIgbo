@@ -2,10 +2,9 @@ package com.asusuigbo.frank.asusuigbo.mylanguages
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
@@ -13,24 +12,22 @@ import com.asusuigbo.frank.asusuigbo.adapters.mylanguages.MyLanguagesAdapter
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityMyLanguagesBinding
 import com.asusuigbo.frank.asusuigbo.models.DataInfo
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MyLanguagesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyLanguagesBinding
-    private lateinit var viewModel: MyLanguagesViewModel
-    private lateinit var factory: MyLanguagesViewModelFactory
+    private val viewModel: MyLanguagesViewModel by viewModels()
     private var isItemDecorationSet = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyLanguagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        factory = MyLanguagesViewModelFactory(application)
-        viewModel = ViewModelProvider(this, factory).get(MyLanguagesViewModel::class.java)
-        viewModel.getAllLanguagesData().observe(this, Observer {
+        viewModel.getAllLanguagesData().observe(this, {
             viewModel.setListData(it)
         })
-        viewModel.dataList.observe(this, Observer{
+        viewModel.dataList.observe(this, {
             setUpRecyclerView(it)
         })
     }

@@ -30,7 +30,7 @@
                             android:paddingBottom="10dp">
                             <!-- Record audio - will be beside question -->
                             <ImageView
-                                android:layout_width="25dp"
+                                android:layout_width="30dp"
                                 android:layout_height="25dp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
                                 app:layout_constraintVertical_bias="0.08"
                                 android:padding="1dp"
                                 android:contentDescription="@string/app_logo"
-                                android:src="@mipmap/img_record_audio2"
+                                android:src="@mipmap/record_audio"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"

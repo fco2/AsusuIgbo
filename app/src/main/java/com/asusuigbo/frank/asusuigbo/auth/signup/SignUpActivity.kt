@@ -3,8 +3,8 @@ package com.asusuigbo.frank.asusuigbo.auth.signup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.asusuigbo.frank.asusuigbo.MainActivity
 import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
@@ -16,23 +16,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private var userLessonList: ArrayList<UserLesson> = ArrayList()
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var viewModel: SignUpViewModel
-    private lateinit var factory: SignUpViewModelFactory
+    private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
-        val application = requireNotNull(this).application
-        factory = SignUpViewModelFactory(application)
-        viewModel = ViewModelProvider(this, factory).get(SignUpViewModel::class.java)
         setLanguage()
         userLessonList = LessonsHelper.createLessons()
         binding.signUpButton.setOnClickListener(signUpClickListener)
@@ -59,7 +57,8 @@ class SignUpActivity : AppCompatActivity() {
                             //set up basic user info and login user
                             val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
                             val languageInfo = LanguageInfo(auth.currentUser!!.uid, viewModel.language.value!!, true, DateHelper.getFormattedDate())
-                            this.viewModel.insert(auth.currentUser!!.uid, languageInfo)
+
+                            this.viewModel.insert(languageInfo)
                             setUpNewUserData(dbReference, usernameText)
                             LessonsHelper.saveLessonsToFirebase(auth, userLessonList, viewModel.language.value!!)
                             val intent = Intent(this, MainActivity::class.java)

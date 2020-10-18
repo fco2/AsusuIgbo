@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
@@ -20,13 +19,13 @@ import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
 import com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesActivity
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var viewModel: ProfileViewModel
-    private lateinit var factory: ProfileViewModelFactory
+    private val viewModel: ProfileViewModel by viewModels()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +37,9 @@ class ProfileFragment : Fragment() {
         binding.layoutToolbar.toolbarText.text = getString(R.string.profile_text)
         binding.layoutToolbar.currentLanguage.visibility = View.GONE
         auth = FirebaseAuth.getInstance()
-        val app = requireActivity().application
-        factory = ProfileViewModelFactory(app)
-        viewModel = ViewModelProvider(this, factory).get(ProfileViewModel::class.java)
         setUpRecyclerView()
 
-        viewModel.activeLang.observe(viewLifecycleOwner, Observer{
+        viewModel.activeLang.observe(viewLifecycleOwner, {
             val langText = "Current Language: $it"
             val dateText = "Started: ${viewModel.dateStarted.value}"
             binding.language.text = langText

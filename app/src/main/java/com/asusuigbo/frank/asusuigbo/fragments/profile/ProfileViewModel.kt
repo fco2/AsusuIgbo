@@ -1,9 +1,8 @@
 package com.asusuigbo.frank.asusuigbo.fragments.profile
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.asusuigbo.frank.asusuigbo.database.AsusuIgboDatabase
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfoDao
@@ -12,14 +11,14 @@ import com.asusuigbo.frank.asusuigbo.models.DataInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class ProfileViewModel(val app: Application) : AndroidViewModel(app) {
+class ProfileViewModel @ViewModelInject constructor(repository: LanguageInfoRepository) : ViewModel() {
     lateinit var username: String
     private val authUserId = FirebaseAuth.getInstance().currentUser!!.uid
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.IO + job)
-    private lateinit var repository : LanguageInfoRepository
-    private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(app).languageInfoDao
+    //@Inject
+    //lateinit var repository : LanguageInfoRepository
+    //private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(app).languageInfoDao
 
     private val _dataList = MutableLiveData<List<DataInfo>>()
     val dataList: LiveData<List<DataInfo>>
@@ -33,8 +32,8 @@ class ProfileViewModel(val app: Application) : AndroidViewModel(app) {
 
     init {
         setListData()
-        scope.launch{
-            repository = LanguageInfoRepository(authUserId, dao)
+        viewModelScope.launch{
+            //repository = LanguageInfoRepository(authUserId, repository.dao)
             withContext(Dispatchers.Main){
                 val languageInfo = repository.getActiveLanguage()
                 if(languageInfo != null){

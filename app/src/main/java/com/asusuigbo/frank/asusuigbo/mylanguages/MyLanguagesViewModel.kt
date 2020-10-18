@@ -1,32 +1,26 @@
 package com.asusuigbo.frank.asusuigbo.mylanguages
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.asusuigbo.frank.asusuigbo.database.AsusuIgboDatabase
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
-import com.asusuigbo.frank.asusuigbo.database.LanguageInfoDao
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfoRepository
 import com.asusuigbo.frank.asusuigbo.helpers.DateHelper
 import com.asusuigbo.frank.asusuigbo.helpers.LessonsHelper
 import com.asusuigbo.frank.asusuigbo.models.DataInfo
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MyLanguagesViewModel(val app: Application) : AndroidViewModel(app) {
+class MyLanguagesViewModel @ViewModelInject constructor(private var repository: LanguageInfoRepository) : ViewModel() {
     private val authUserId = FirebaseAuth.getInstance().currentUser!!.uid
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.IO + job)
-    private var repository : LanguageInfoRepository
-    private var dao: LanguageInfoDao = AsusuIgboDatabase.getDatabase(app).languageInfoDao
 
     private val _dataList = MutableLiveData<List<DataInfo>>()
     val dataList: LiveData<List<DataInfo>>
         get() = _dataList
-
-    init {
-        repository = LanguageInfoRepository(authUserId, dao)
-    }
 
     fun getAllLanguagesData(): LiveData<List<LanguageInfo>> {
         return repository.getAllLanguages()
@@ -42,7 +36,7 @@ class MyLanguagesViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     fun setNewActiveLanguage(selectedLang: String){
-        scope.launch {
+        viewModelScope.launch {
             withContext(Main) {
                 //deactivate all lang
                 repository.updateAll(false)

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
@@ -17,16 +17,17 @@ import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
 import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentLessonsBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LessonsFragment : Fragment() {
     private lateinit var binding: FragmentLessonsBinding
-    private lateinit var viewModel: LessonsViewModel
+    private val viewModel: LessonsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_lessons, container, false)
-        viewModel = ViewModelProvider(this).get(LessonsViewModel::class.java)
         binding.lessonsViewModel = viewModel
         val glm = GridLayoutManager(requireContext().applicationContext, 2)
         //this block below makes the recyclerView staggered

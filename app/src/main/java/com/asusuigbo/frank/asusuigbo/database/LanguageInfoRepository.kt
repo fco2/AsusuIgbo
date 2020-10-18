@@ -1,8 +1,14 @@
 package com.asusuigbo.frank.asusuigbo.database
 
 import androidx.lifecycle.LiveData
+import com.asusuigbo.frank.asusuigbo.di.AppModule
+import javax.inject.Inject
 
-class LanguageInfoRepository(private val userId: String, private val dao: LanguageInfoDao) {
+
+//it depends on
+//private val userId: String, private val dao: LanguageInfoDao --> for LanguageInfoRepository to be created
+class LanguageInfoRepository @Inject constructor(@AppModule.UserId private val userId: String, val dao: LanguageInfoDao) {
+
     suspend fun getActiveLanguage(): LanguageInfo?{
         return dao.getActiveLanguage(userId)
     }

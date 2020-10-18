@@ -3,19 +3,14 @@ package com.asusuigbo.frank.asusuigbo.currentlesson
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.firebase.database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CurrentLessonViewModel(private var requestedLesson: String, activeLang: String) : ViewModel() {
-    private val job = Job()
-    private val scope = CoroutineScope(IO + job)
-
     private val _listReady = MutableLiveData<Boolean>()
     val listReady : LiveData<Boolean>
         get() = _listReady
@@ -56,7 +51,7 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     init{
         _canAnswerQuestion.value = false
-        scope.launch {
+        viewModelScope.launch {
             withContext(Main){
                 _activeLanguage.value = activeLang
             }
@@ -112,10 +107,5 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     fun setResetBtnState(f: Boolean){
         _resetBtnState.value = f
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 }
