@@ -18,14 +18,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    //@Inject lateinit var userComponentHandler: CustomUserComponentHandler
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpBottomNavigation()
-       // userComponentHandler.login()
     }
 
     private fun setUpBottomNavigation(){

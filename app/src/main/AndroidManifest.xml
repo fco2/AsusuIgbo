@@ -22,8 +22,7 @@
         <activity android:name=".AddQuestionActivity" />
         <activity android:name=".auth.signup.SignUpActivity" />
         <activity android:name=".auth.LoginActivity" />
-        <activity android:name=".auth.ChooseLangPromptActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".auth.ChooseLangPromptActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,7 +1,6 @@
 package com.asusuigbo.frank.asusuigbo.database
 
 import androidx.lifecycle.LiveData
-import com.asusuigbo.frank.asusuigbo.di.AppModule
 import javax.inject.Inject
 
 
