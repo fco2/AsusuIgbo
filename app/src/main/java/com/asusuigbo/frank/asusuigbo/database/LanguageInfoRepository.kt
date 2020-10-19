@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 //it depends on
 //private val userId: String, private val dao: LanguageInfoDao --> for LanguageInfoRepository to be created
-class LanguageInfoRepository @Inject constructor(@AppModule.UserId private val userId: String, val dao: LanguageInfoDao) {
+class LanguageInfoRepository @Inject constructor(private val userId: String, val dao: LanguageInfoDao) {
 
     suspend fun getActiveLanguage(): LanguageInfo?{
         return dao.getActiveLanguage(userId)

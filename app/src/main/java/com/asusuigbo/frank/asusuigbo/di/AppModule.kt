@@ -13,7 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Qualifier
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -49,11 +49,7 @@ object AppModule {
     fun provideLanguageInfoDao(db: AsusuIgboDatabase): LanguageInfoDao = db.languageInfoDao
 
     @Provides
-    @Singleton
-    @UserId
-    fun provideUserId(): String = FirebaseAuth.getInstance().currentUser!!.uid
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class UserId
+    fun provideUserId(): String = FirebaseAuth.getInstance().currentUser!!.uid.also { Timber.d("UserId -> $this") }
 }
+
+//2020-10-18 10:38:31.300 4548-4548/? D/AppModule: UserId -> com.asusuigbo.frank.asusuigbo.di.AppModule@c71bf66
