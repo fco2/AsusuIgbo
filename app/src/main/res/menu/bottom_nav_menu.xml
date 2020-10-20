@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/home_text"
+    <item android:title="@string/lessons_text"
           android:icon="@drawable/menu_item_home"
-          android:id="@+id/home_icon_id"/>
+          android:id="@+id/allLessonsFragment"/>
     <item android:title="@string/news_weekly"
           android:icon="@drawable/menu_item_weekly_news"
-          android:id="@+id/newest_icon_id"/>
+          android:id="@+id/weeklyNewsFragment"/>
     <item android:title="@string/more"
           android:icon="@drawable/menu_item_more"
-          android:id="@+id/profile_icon_id"/>
+          android:id="@+id/profileFragment"/>
 </menu>

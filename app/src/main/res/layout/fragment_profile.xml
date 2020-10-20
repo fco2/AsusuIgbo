@@ -1,119 +1,120 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        tools:context="com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment"
-        android:animateLayoutChanges="true"
-        android:id="@+id/profile_layout">
-
-        <include layout="@layout/toolbar_layout"
-            android:id="@+id/layoutToolbar"/>
-
-        <ImageView
-            android:id="@+id/profile_img"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.03"
-            android:contentDescription="@string/user_profile_image"
-            android:background="@null"
-            android:src="@mipmap/icon_person" />
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/galindo"
-            android:textColor="@color/textColorBlue"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="25dp"
-            app:layout_constraintStart_toEndOf="@id/profile_img"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
-            app:layout_constraintVertical_bias="0.03" />
-
-        <TextView
-            android:id="@+id/language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@id/profile_img"
-            app:layout_constraintTop_toBottomOf="@id/username"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="25dp"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@id/profile_img"
-            app:layout_constraintTop_toBottomOf="@id/language"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="25dp"
-            app:layout_constraintVertical_bias="0.01" />
-
-        <ImageView
-            android:id="@+id/add_question_id"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintStart_toEndOf="@id/username"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.05"
-            app:layout_constraintHorizontal_bias="0.85"
-            android:contentDescription="@string/user_profile_image"
-            android:background="@null"
-            android:visibility="gone"
-            android:src="@mipmap/icon_edit"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:padding="10dp"
+        tools:context="com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date"
-            app:layout_constraintBottom_toTopOf="@id/sign_out_id"/>
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:animateLayoutChanges="true"
+            android:id="@+id/profile_layout">
 
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.95"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            style="@style/RoundedCornerButtonTheme"
-            android:layout_marginBottom="10dp"
-            android:text="@string/log_out"
-            android:id="@+id/sign_out_id"/>
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.03"
+                android:contentDescription="@string/user_profile_image"
+                android:background="@null"
+                android:src="@mipmap/icon_person" />
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress_bar_profile_id"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:indeterminate="true"
-            android:max="500"
-            android:progress="0"/>
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/galindo"
+                android:textColor="@color/textColorBlue"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="25dp"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.03" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="25dp"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toBottomOf="@id/language"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="25dp"
+                app:layout_constraintVertical_bias="0.01" />
+
+            <ImageView
+                android:id="@+id/add_question_id"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toEndOf="@id/username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.05"
+                app:layout_constraintHorizontal_bias="0.85"
+                android:contentDescription="@string/user_profile_image"
+                android:background="@null"
+                android:visibility="gone"
+                android:src="@mipmap/icon_edit"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date"
+                app:layout_constraintBottom_toTopOf="@id/sign_out_id"/>
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.95"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                style="@style/RoundedCornerButtonTheme"
+                android:layout_marginBottom="10dp"
+                android:text="@string/log_out"
+                android:id="@+id/sign_out_id"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar_profile_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:indeterminate="true"
+                android:max="500"
+                android:progress="0"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>
 

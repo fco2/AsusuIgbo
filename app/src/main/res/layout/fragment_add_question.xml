@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+   <FrameLayout
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       tools:context=".AddQuestionFragment">
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="#f5f5f5"
+           tools:ignore="UselessParent">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="20dp"
+               android:paddingBottom="40dp"
+               android:background="#f5f5f5">
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/question_card_view"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:cardCornerRadius="7dp"
+                   android:background="@color/colorWhite"
+                   android:layout_margin="10dp">
+                   <androidx.constraintlayout.widget.ConstraintLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:paddingBottom="10dp">
+                       <!-- Record audio - will be beside question -->
+                       <ImageView
+                           android:layout_width="30dp"
+                           android:layout_height="25dp"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintHorizontal_bias="0.95"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintVertical_bias="0.08"
+                           android:padding="1dp"
+                           android:contentDescription="@string/app_logo"
+                           android:src="@mipmap/record_audio"
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:focusableInTouchMode="true"
+                           android:id="@+id/record_audio_button_id"/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintHorizontal_bias="0.99"
+                           app:layout_constraintTop_toBottomOf="@id/record_audio_button_id"
+                           android:layout_marginTop="2dp"
+                           android:padding="5dp"
+                           android:fontFamily="@font/andika"
+                           android:gravity="center"
+                           android:textSize="10sp"
+                           android:layout_centerHorizontal="true"
+                           android:text="@string/record_audio"
+                           tools:ignore="SmallSp"
+                           android:id="@+id/record_text_id"/>
+                       <!-- Question -->
+                       <com.google.android.material.textfield.TextInputLayout
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_marginStart="10dp"
+                           android:layout_marginEnd="5dp"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintEnd_toStartOf="@id/record_text_id"
+                           app:layout_constraintTop_toTopOf="parent"
+                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                           android:id="@+id/add_question_container_id">
+                           <com.google.android.material.textfield.TextInputEditText
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:fontFamily="@font/andika"
+                               android:textSize="16sp"
+                               android:hint="@string/add_question"
+                               android:id="@+id/questionEditText"/>
+                       </com.google.android.material.textfield.TextInputLayout>
+
+                       <!-- Question Type filled dropdown -->
+                       <com.google.android.material.textfield.TextInputLayout
+                           android:layout_width="160dp"
+                           android:layout_height="wrap_content"
+                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                           android:padding="5dp"
+                           app:layout_constraintTop_toBottomOf="@id/add_question_container_id"
+                           app:layout_constraintStart_toStartOf="parent"
+                           android:layout_marginStart="10dp"
+                           app:layout_constrainedWidth="true"
+                           android:id="@+id/question_type_container_id">
+                           <androidx.appcompat.widget.AppCompatSpinner
+                               android:layout_width="match_parent"
+                               android:layout_height="60dp"
+                               android:padding="5dp"
+                               app:layout_constraintTop_toTopOf="parent"
+                               app:layout_constraintStart_toStartOf="parent"
+                               android:id="@+id/question_type_spinner_id"/>
+                       </com.google.android.material.textfield.TextInputLayout>
+
+                       <!-- Lesson Name -->
+                       <com.google.android.material.textfield.TextInputLayout
+                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_marginStart="10dp"
+                           android:layout_marginEnd="10dp"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintStart_toEndOf="@+id/question_type_container_id"
+                           app:layout_constraintTop_toBottomOf="@id/record_text_id">
+                           <com.google.android.material.textfield.TextInputEditText
+                               android:id="@+id/lessonNameEditText"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:fontFamily="@font/andika"
+                               android:hint="@string/lesson_name"
+                               android:textSize="14sp" />
+                       </com.google.android.material.textfield.TextInputLayout>
+
+                       <!-- Correct Answer -->
+                       <com.google.android.material.textfield.TextInputLayout
+                           android:id="@+id/correct_answer_container"
+                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="5dp"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintWidth_percent="0.6"
+                           app:layout_constraintTop_toBottomOf="@+id/question_type_container_id">
+
+                           <com.google.android.material.textfield.TextInputEditText
+                               android:id="@+id/correctAnswerEditText"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:fontFamily="@font/andika"
+                               android:hint="@string/correct_answer_text"
+                               android:textSize="16sp" />
+                       </com.google.android.material.textfield.TextInputLayout>
+
+                       <!-- Language-->
+                       <com.google.android.material.textfield.TextInputLayout
+                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           app:layout_constraintStart_toEndOf="@id/correct_answer_container"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintTop_toBottomOf="@+id/question_type_container_id"
+                           app:layout_constraintWidth_percent="0.3"
+                           android:layout_margin="5dp">
+
+                           <androidx.appcompat.widget.AppCompatSpinner
+                               android:layout_width="match_parent"
+                               android:layout_height="60dp"
+                               android:hint="@string/language"
+                               android:autofillHints="@string/language"
+                               android:padding="5dp"
+                               android:textSize="16sp"
+                               android:fontFamily="@font/andika"
+                               app:layout_constraintTop_toTopOf="parent"
+                               app:layout_constraintStart_toStartOf="parent"
+                               android:id="@+id/language_spinner"/>
+
+                       </com.google.android.material.textfield.TextInputLayout>
+                   </androidx.constraintlayout.widget.ConstraintLayout>
+               </androidx.cardview.widget.CardView>
+
+               <!-- Options -->
+               <View
+                   android:id="@+id/left_view_line"
+                   android:layout_width="0dp"
+                   android:layout_height="0.8dp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/question_card_view"
+                   app:layout_constraintWidth_percent="0.15"
+                   android:background="@drawable/shape_divider"
+                   android:layout_margin="10dp"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintStart_toEndOf="@id/left_view_line"
+                   app:layout_constraintTop_toBottomOf="@id/question_card_view"
+                   app:layout_constraintEnd_toStartOf="@id/right_view_line"
+                   android:padding="5dp"
+                   android:textSize="12sp"
+                   android:background="#f5f5f5"
+                   android:textColor="@color/lightGreyTextColor"
+                   android:id="@+id/user_info_header_text"
+                   android:text="@string/add_option"/>
+               <View
+                   android:id="@+id/right_view_line"
+                   android:layout_width="0dp"
+                   android:layout_height="0.8dp"
+                   android:layout_margin="10dp"
+                   app:layout_constraintStart_toEndOf="@id/user_info_header_text"
+                   app:layout_constraintTop_toBottomOf="@id/question_card_view"
+                   android:background="@drawable/shape_divider" />
+
+               <!-- option recyclerView -->
+               <FrameLayout
+                   android:id="@+id/frame_layout"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/user_info_header_text"
+                   app:layout_constraintBottom_toBottomOf="parent">
+
+                   <androidx.recyclerview.widget.RecyclerView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="10dp"
+                       android:id="@+id/option_recycler_view_id"/>
+
+                   <com.google.android.material.floatingactionbutton.FloatingActionButton
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="bottom|end"
+                       app:layout_anchorGravity="bottom|end"
+                       android:layout_margin="16dp"
+                       android:src="@mipmap/icon_add_white"
+                       android:background="@color/lighterBlue"
+                       android:id="@+id/fab"/>
+               </FrameLayout>
+
+               <!-- Save button -->
+               <Button
+                   android:layout_marginTop="10dp"
+                   android:layout_width="220dp"
+                   android:layout_height="wrap_content"
+                   android:padding="14dp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/frame_layout"
+                   android:textSize="16sp"
+                   android:textAllCaps="false"
+                   style="@style/RoundedCornerButtonTheme"
+                   android:layout_marginBottom="10dp"
+                   android:text="@string/save"
+                   android:id="@+id/save_question_btn"/>
+           </androidx.constraintlayout.widget.ConstraintLayout>
+       </ScrollView>
+   </FrameLayout>
+</layout>

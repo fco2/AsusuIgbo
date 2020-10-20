@@ -1,5 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/chooseLangPromptFragment"
+    tools:ignore="UnusedNavigation">
+    <fragment
+        android:id="@+id/chooseLangPromptFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.auth.ChooseLangPromptFragment"
+        android:label="ChooseLangPromptFragment" >
+        <action
+            android:id="@+id/action_chooseLangPromptFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_chooseLangPromptFragment_to_allLessonsFragment"
+            app:popUpTo="@+id/chooseLangPromptFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/allLessonsFragment" />
+        <action
+            android:id="@+id/action_chooseLangPromptFragment_to_chooseLangFragment"
+            app:destination="@id/chooseLangFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.auth.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_chooseLangPromptFragment"
+            app:destination="@id/chooseLangPromptFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_allLessonsFragment"
+            app:destination="@id/allLessonsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLangFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.auth.ChooseLangFragment"
+        android:label="ChooseLangFragment" >
+        <action
+            android:id="@+id/action_chooseLangFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" >
+        </action>
+        <action
+            android:id="@+id/action_chooseLangFragment_to_chooseLangPromptFragment"
+            app:destination="@id/chooseLangPromptFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allLessonsFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.lessons.AllLessonsFragment"
+        android:label="AllLessonsFragment" />
+    <fragment
+        android:id="@+id/weeklyNewsFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment"
+        android:label="WeeklyNewsFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_myLanguagesFragment"
+            app:destination="@id/myLanguagesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addQuestionFragment"
+            app:destination="@id/addQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.auth.signup.SignUpFragment"
+        android:label="SignUpFragment" >
+        <argument
+            android:name="selectedLanguage"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:popUpTo="@+id/chooseLangPromptFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_allLessonsFragment"
+            app:destination="@id/allLessonsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myLanguagesFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesFragment"
+        android:label="MyLanguagesFragment" />
+    <fragment
+        android:id="@+id/addQuestionFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.AddQuestionFragment"
+        android:label="AddQuestionFragment" />
 </navigation>

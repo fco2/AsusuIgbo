@@ -1,41 +1,47 @@
 package com.asusuigbo.frank.asusuigbo.mylanguages
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.mylanguages.MyLanguagesAdapter
-import com.asusuigbo.frank.asusuigbo.databinding.ActivityMyLanguagesBinding
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentMyLanguagesBinding
 import com.asusuigbo.frank.asusuigbo.models.DataInfo
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyLanguagesActivity : AppCompatActivity() {
+class MyLanguagesFragment : Fragment() {
 
-    private lateinit var binding: ActivityMyLanguagesBinding
+    private lateinit var binding: FragmentMyLanguagesBinding
     private val viewModel: MyLanguagesViewModel by viewModels()
     private var isItemDecorationSet = false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMyLanguagesBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        viewModel.getAllLanguagesData().observe(this, {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentMyLanguagesBinding.inflate(layoutInflater)
+        viewModel.getAllLanguagesData().observe(requireActivity(), {
             viewModel.setListData(it)
         })
-        viewModel.dataList.observe(this, {
+        viewModel.dataList.observe(requireActivity(), {
             setUpRecyclerView(it)
         })
+        return binding.root
     }
 
     private fun openAlertDialog(){
         var chosenLanguage: String
         val list = arrayOf("Igbo", "Oza", "Yoruba")
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Languages")
         builder.setItems(list) { _, which ->
             chosenLanguage = when (which) {
@@ -52,8 +58,8 @@ class MyLanguagesActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView(it: List<DataInfo>) {
-        val manager = LinearLayoutManager(this)
-        val itemDecoration = DividerItemDecoration(this, manager.orientation)
+        val manager = LinearLayoutManager(requireContext())
+        val itemDecoration = DividerItemDecoration(requireContext(), manager.orientation)
         val myLanguagesAdapter = MyLanguagesAdapter(ChooseTextClickListener {
             if(it == "+ Add Language") {
                 openAlertDialog()

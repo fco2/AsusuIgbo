@@ -1,41 +1,44 @@
 package com.asusuigbo.frank.asusuigbo.auth
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
-import com.asusuigbo.frank.asusuigbo.auth.signup.SignUpActivity
-import com.asusuigbo.frank.asusuigbo.databinding.ActivityChooseLangBinding
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentChooseLangBinding
 import com.asusuigbo.frank.asusuigbo.models.DataInfo
 
-class ChooseLangActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityChooseLangBinding
+class ChooseLangFragment : Fragment() {
+    private lateinit var binding: FragmentChooseLangBinding
     private var langList = ArrayList<DataInfo>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityChooseLangBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentChooseLangBinding.inflate(layoutInflater)
         binding.toolbarMain.setNavigationIcon(R.mipmap.icon_arrow_back_white_18dp)
         binding.toolbarMain.setNavigationOnClickListener {
-            val intent = Intent(this, ChooseLangPromptActivity::class.java)
-            startActivityForResult(intent, 0)
-            finish()
+            findNavController().navigate(R.id.action_chooseLangFragment_to_chooseLangPromptFragment)
         }
         setUpRecyclerView()
+        return binding.root
     }
 
     private fun setUpRecyclerView(){
         populateList()
-        val manager = LinearLayoutManager(this)
-        val dividerItemOffsetDecoration = DividerItemDecoration(this, manager.orientation)
+        val manager = LinearLayoutManager(requireContext())
+        val dividerItemOffsetDecoration = DividerItemDecoration(requireContext(), manager.orientation)
         val chooseTextAdapter = ChooseTextAdapter(ChooseTextClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            intent.putExtra("LANGUAGE", it)
-            startActivity(intent)
+            val action = ChooseLangFragmentDirections.actionChooseLangFragmentToSignUpFragment(it)
+            findNavController().navigate(action)
         })
         binding.chooseLangRecyclerView.apply {
             layoutManager = manager

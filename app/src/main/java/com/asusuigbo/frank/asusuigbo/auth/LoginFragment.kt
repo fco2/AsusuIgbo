@@ -1,31 +1,38 @@
 package com.asusuigbo.frank.asusuigbo.auth
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.asusuigbo.frank.asusuigbo.MainActivity
-import com.asusuigbo.frank.asusuigbo.databinding.ActivityLoginBinding
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.asusuigbo.frank.asusuigbo.R
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.getInstance
-import timber.log.Timber
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var binding: ActivityLoginBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var binding: FragmentLoginBinding
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+
         auth = getInstance()
         if(auth.currentUser != null){
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            findNavController().navigate(R.id.action_loginFragment_to_allLessonsFragment)
         }
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
         binding.loginButton.setOnClickListener(loginClickListener)
         binding.signUpLink.setOnClickListener(signUpClickListener)
+
+        return binding.root
     }
 
     private val loginClickListener = View.OnClickListener {
@@ -33,18 +40,16 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password.text.toString()
 
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Please fill email and password.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Please fill email and password.", Toast.LENGTH_LONG).show()
         }else{
             binding.progressBar.visibility = View.VISIBLE
             auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
+                    .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
                             binding.progressBar.visibility = View.GONE
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                            Timber.i(auth.currentUser!!.uid)
+                            findNavController().navigate(R.id.action_loginFragment_to_allLessonsFragment)
                         }else{
-                            Toast.makeText(this, "Please enter a registered email and password.",
+                            Toast.makeText(requireContext(), "Please enter a registered email and password.",
                                     Toast.LENGTH_LONG).show()
                             binding.progressBar.visibility = View.GONE
                         }
@@ -54,8 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val signUpClickListener = View.OnClickListener {
         binding.progressBar.visibility = View.VISIBLE
-        startActivity(Intent(this, ChooseLangPromptActivity::class.java))
+        findNavController().navigate(R.id.action_loginFragment_to_chooseLangPromptFragment)
         binding.progressBar.visibility = View.GONE
-        finish()
     }
 }

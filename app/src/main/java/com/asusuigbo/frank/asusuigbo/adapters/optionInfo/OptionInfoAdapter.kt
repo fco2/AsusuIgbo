@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
+import com.asusuigbo.frank.asusuigbo.AddQuestionFragment
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 
-class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private var addQuestionsActivity: AddQuestionActivity)
+class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private var addQuestionsFragment: AddQuestionFragment)
     : RecyclerView.Adapter<OptionInfoAdapter.CustomViewHolder>() {
 
     private lateinit var mediaRecorder: MediaRecorder
@@ -90,13 +90,13 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private v
             setFileNameAndAudio(view)
             startRecording()
             Snackbar.make(view.rootView, "Started recording..", Snackbar.LENGTH_SHORT).show()
-            addQuestionsActivity.vibrateForAudio()
+            addQuestionsFragment.vibrateForAudio()
         }
         else
         if(motionEvent.action == MotionEvent.ACTION_UP) {
             stopRecording()
             Snackbar.make(view.rootView, "Finished recording!", Snackbar.LENGTH_SHORT).show()
-            addQuestionsActivity.vibrateForAudio()
+            addQuestionsFragment.vibrateForAudio()
         }
         true
     }
@@ -105,7 +105,7 @@ class OptionInfoAdapter(private var dataList: MutableList<OptionInfo>, private v
         val position = view.tag.toString().toInt()
         fileName = replaceSpaceWithUnderscore(this.dataList[position].Option)
         fileName += ".3gp"
-        filePath = addQuestionsActivity.getExternalFilesDir(null)!!.absolutePath
+        filePath = addQuestionsFragment.requireContext().getExternalFilesDir(null)!!.absolutePath
         filePath += "/$fileName"
     }
 

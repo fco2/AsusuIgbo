@@ -1,14 +1,15 @@
 package com.asusuigbo.frank.asusuigbo.auth.signup
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.asusuigbo.frank.asusuigbo.MainActivity
-import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.database.LanguageInfo
-import com.asusuigbo.frank.asusuigbo.databinding.ActivitySignUpBinding
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentSignUpBinding
 import com.asusuigbo.frank.asusuigbo.helpers.DateHelper
 import com.asusuigbo.frank.asusuigbo.helpers.LessonsHelper
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
@@ -19,27 +20,32 @@ import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpActivity : AppCompatActivity() {
+class SignUpFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private var userLessonList: ArrayList<UserLesson> = ArrayList()
-    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var binding: FragmentSignUpBinding
     private val viewModel: SignUpViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentSignUpBinding.inflate(layoutInflater)
         auth = FirebaseAuth.getInstance()
-        setLanguage()
+        val lang = SignUpFragmentArgs.fromBundle(requireArguments()).selectedLanguage
+
+        setLanguage(lang)
         userLessonList = LessonsHelper.createLessons()
         binding.signUpButton.setOnClickListener(signUpClickListener)
         binding.loginLink.setOnClickListener(loginClickListener)
+        return binding.root
     }
 
-    private fun setLanguage(){
-        val lang = intent.getStringExtra("LANGUAGE")
-        viewModel.setLanguage(lang!!)
+    private fun setLanguage(lang: String) {
+        viewModel.setLanguage(lang)
     }
 
     private val signUpClickListener = View.OnClickListener {
@@ -52,7 +58,7 @@ class SignUpActivity : AppCompatActivity() {
         }else{
             binding.signUpProgressBar.visibility = View.VISIBLE
             auth.createUserWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener(this) { task ->
+                    .addOnCompleteListener(requireActivity()) { task ->
                         if(task.isSuccessful){
                             //set up basic user info and login user
                             val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -61,9 +67,7 @@ class SignUpActivity : AppCompatActivity() {
                             this.viewModel.insert(languageInfo)
                             setUpNewUserData(dbReference, usernameText)
                             LessonsHelper.saveLessonsToFirebase(auth, userLessonList, viewModel.language.value!!)
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(intent)
+                            findNavController().navigate(R.id.action_signUpFragment_to_allLessonsFragment)
                             binding.signUpProgressBar.visibility = View.GONE
                             Snackbar.make(binding.root, "Account created successfully!", Snackbar.LENGTH_SHORT).show()
                         }else{
@@ -76,9 +80,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private val loginClickListener = View.OnClickListener {
         binding.signUpProgressBar.visibility = View.VISIBLE
-        startActivity(Intent(this, LoginActivity::class.java))
-        binding.signUpProgressBar.visibility = View.GONE
-        finish()
+         findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
     }
 
     private fun setUpNewUserData(dbReference: DatabaseReference, username: String){

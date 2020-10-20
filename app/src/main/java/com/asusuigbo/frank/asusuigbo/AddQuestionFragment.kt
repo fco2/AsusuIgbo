@@ -1,23 +1,26 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.annotation.SuppressLint
+import android.content.Context.VIBRATOR_SERVICE
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.asusuigbo.frank.asusuigbo.adapters.optionInfo.OptionInfoAdapter
-import com.asusuigbo.frank.asusuigbo.databinding.ActivityAddQuestionBinding
+import com.asusuigbo.frank.asusuigbo.databinding.FragmentAddQuestionBinding
 import com.asusuigbo.frank.asusuigbo.models.OptionInfo
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.asusuigbo.frank.asusuigbo.models.QuestionInfo
@@ -31,8 +34,8 @@ import java.io.File
 import java.io.IOException
 
 @Suppress("DEPRECATION")
-class AddQuestionActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddQuestionBinding
+class AddQuestionFragment : Fragment() {
+    private lateinit var binding: FragmentAddQuestionBinding
     private var questionTypeText = ""
     private var optionList: MutableList<OptionInfo> = mutableListOf()
     private lateinit var mediaRecorder: MediaRecorder
@@ -48,15 +51,18 @@ class AddQuestionActivity : AppCompatActivity() {
     private var languageSavingToText = ""
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAddQuestionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentAddQuestionBinding.inflate(layoutInflater)
         populateQuestionTypeList()
         populateLanguagesList()
         initializeQuestionFormatSpinner()
         initializeLanguageSpinner()
-        val manager = LinearLayoutManager(this)
+        val manager = LinearLayoutManager(requireContext())
         optionAdapter = OptionInfoAdapter(optionList,this)
         binding.optionRecyclerViewId.apply{
             setHasFixedSize(true)
@@ -67,7 +73,10 @@ class AddQuestionActivity : AppCompatActivity() {
         binding.recordAudioButtonId.setOnTouchListener(recordAudioOnTouchListener)
         binding.saveQuestionBtn.setOnClickListener(saveQuestionClickListener)
         setUpSwipeToDeleteOption()
-        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+
+        vibrator = requireContext().applicationContext.getSystemService(VIBRATOR_SERVICE) as Vibrator
+
+        return binding.root
     }
 
     private val saveQuestionClickListener = View.OnClickListener{
@@ -129,7 +138,7 @@ class AddQuestionActivity : AppCompatActivity() {
     private fun getOptionFilePath(it: OptionInfo): String {
         optionFileName = replaceSpaceWithUnderscore(it.Option)
         optionFileName += ".3gp"
-        optionFilePath = applicationContext.getExternalFilesDir(null)!!.absolutePath
+        optionFilePath = requireContext().applicationContext.getExternalFilesDir(null)!!.absolutePath
         optionFilePath += "/$optionFileName"
         return optionFilePath
     }
@@ -166,7 +175,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
     private fun startRecording(){
         mediaRecorder = MediaRecorder()
-        filePath = applicationContext.getExternalFilesDir(null)!!.absolutePath
+        filePath = requireContext().applicationContext.getExternalFilesDir(null)!!.absolutePath
         fileName = replaceSpaceWithUnderscore(binding.questionEditText.text.toString()) + ".3gp"
         filePath += "/$fileName"
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -195,7 +204,7 @@ class AddQuestionActivity : AppCompatActivity() {
     }
 
     private fun initializeQuestionFormatSpinner(){
-        val adapter =  ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, questionTypeList)
+        val adapter =  ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, questionTypeList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.questionTypeSpinnerId.adapter = adapter
 
@@ -208,7 +217,7 @@ class AddQuestionActivity : AppCompatActivity() {
     }
 
     private fun initializeLanguageSpinner(){
-        val adapter =  ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, languageList)
+        val adapter =  ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, languageList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.languageSpinner.adapter = adapter
 

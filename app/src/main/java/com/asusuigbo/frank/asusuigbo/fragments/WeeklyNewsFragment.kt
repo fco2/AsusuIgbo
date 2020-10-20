@@ -17,8 +17,6 @@ class WeeklyNewsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_weekly_news, container, false)
-        binding.layoutToolbar.toolbarText.text = getString(R.string.weekly_news)
-        binding.layoutToolbar.currentLanguage.visibility = View.GONE
         return binding.root
     }
 

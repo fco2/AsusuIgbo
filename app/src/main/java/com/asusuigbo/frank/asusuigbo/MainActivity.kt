@@ -1,58 +1,72 @@
 package com.asusuigbo.frank.asusuigbo
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.asusuigbo.frank.asusuigbo.fragments.profile.ProfileFragment
-import com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment
-import com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.asusuigbo.frank.asusuigbo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 
 //Hilt Fragments must be attached to an @AndroidEntryPoint Activity.
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setUpBottomNavigation()
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    private fun setUpBottomNavigation(){
-        bottomNavigationView = findViewById(R.id.bottom_nav_view_id)
-
-        val menu: Menu = bottomNavigationView.menu
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+        bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.itemIconTintList = null
-        selectNavMenuItem(menu.getItem(0))
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            selectNavMenuItem(item)
-            false
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            when(destination.id){
+                R.id.allLessonsFragment, R.id.profileFragment,
+                    R.id.weeklyNewsFragment -> {
+                    //Make toolbar and bottom nav visible
+                    bottomNavigationView.visibility = View.VISIBLE
+                    binding.layoutToolbar.toolbarMain.visibility = View.VISIBLE
+                    //Set toolbar text here
+                }
+                else -> {
+                    bottomNavigationView.visibility = View.GONE
+                    binding.layoutToolbar.toolbarMain.visibility = View.GONE
+                }
+            }
+
+            when(destination.id){
+                R.id.allLessonsFragment ->{
+                    setToolBarTexts(getString(R.string.lessons_text), true)
+                    //set active language here since it should be authenticated by here
+                    viewModel.activeLanguage.observe(this, {
+                        it?.let{
+                            binding.layoutToolbar.currentLanguage.text = it
+                        }
+                    })
+                }
+                R.id.profileFragment -> { setToolBarTexts(getString(R.string.profile_text), false)}
+                R.id.weeklyNewsFragment -> {setToolBarTexts(getString(R.string.weekly_news), false)}
+                R.id.myLanguagesFragment -> {
+                    binding.layoutToolbar.toolbarMain.visibility = View.VISIBLE
+                    setToolBarTexts(getString(R.string.my_languages), false)
+                }
+            }
         }
     }
 
-    private fun selectNavMenuItem(menuItem: MenuItem){
-        menuItem.isChecked = true
-
-        when(menuItem.itemId){
-            R.id.home_icon_id -> initializeFragment(LessonsFragment())
-            R.id.newest_icon_id -> initializeFragment(WeeklyNewsFragment())
-            R.id.profile_icon_id -> initializeFragment(ProfileFragment())
-            else -> initializeFragment(LessonsFragment())
-        }
+    private fun setToolBarTexts(text: String, isLangVisible: Boolean){
+        binding.layoutToolbar.toolbarText.text = text
+        binding.layoutToolbar.currentLanguage.visibility = if(isLangVisible) View.VISIBLE else View.GONE
     }
 
-    private fun initializeFragment(fragment: Fragment){
-        val fm: FragmentManager = supportFragmentManager
-        val ft = fm.beginTransaction()
-        ft.replace(R.id.frame_layout_id, fragment)
-        ft.commit()
-    }
 }

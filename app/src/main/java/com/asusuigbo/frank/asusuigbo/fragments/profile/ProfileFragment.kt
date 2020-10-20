@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.asusuigbo.frank.asusuigbo.AddQuestionActivity
+import com.asusuigbo.frank.asusuigbo.AddQuestionFragment
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter
-import com.asusuigbo.frank.asusuigbo.auth.LoginActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentProfileBinding
-import com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesActivity
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,8 +33,6 @@ class ProfileFragment : Fragment() {
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.progressBarProfileId.visibility = View.VISIBLE
 
-        binding.layoutToolbar.toolbarText.text = getString(R.string.profile_text)
-        binding.layoutToolbar.currentLanguage.visibility = View.GONE
         auth = FirebaseAuth.getInstance()
         setUpRecyclerView()
 
@@ -45,7 +42,7 @@ class ProfileFragment : Fragment() {
             binding.language.text = langText
             binding.date.text = dateText
             binding.username.text = viewModel.username
-            if(viewModel.username == "Chukafc" || viewModel.username == "Lex Luthor")
+            if(viewModel.username == "Chukafc" || viewModel.username == "Lex Luthor" || viewModel.username == "peter")
                 binding.addQuestionId.visibility = View.VISIBLE
             binding.progressBarProfileId.visibility = View.GONE
         })
@@ -70,15 +67,13 @@ class ProfileFragment : Fragment() {
     }
 
     private val addQuestionClickListener = View.OnClickListener{
-        startActivity(Intent(requireActivity().applicationContext, AddQuestionActivity::class.java))
+        findNavController().navigate(R.id.action_profileFragment_to_addQuestionFragment)
     }
 
     private val signOutClickListener = View.OnClickListener {
        if(auth.currentUser != null){
            auth.signOut()
-           val intent = Intent(requireActivity().applicationContext, LoginActivity::class.java)
-           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-           startActivity(intent)
+           findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
         /*val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.child("Lessons/Intro/0").removeValue()
@@ -87,7 +82,7 @@ class ProfileFragment : Fragment() {
 
     private fun navigateToActivity(s: String){
         when(s){
-            "Languages" -> startActivity(Intent(requireContext().applicationContext, MyLanguagesActivity::class.java))
+            "Languages" ->  findNavController().navigate(R.id.action_profileFragment_to_myLanguagesFragment)
             else -> { }
         }
     }
