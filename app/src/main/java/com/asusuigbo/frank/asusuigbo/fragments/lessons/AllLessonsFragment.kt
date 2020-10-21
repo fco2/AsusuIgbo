@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
@@ -42,7 +41,7 @@ class AllLessonsFragment : Fragment() {
         binding.recyclerView.layoutManager = glm
         binding.recyclerView.hasFixedSize()
 
-        binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, Observer{
+        binding.lessonsViewModel!!.lessonsList.observe(viewLifecycleOwner, {
             populateRecyclerView(it)
             binding.progressBar.visibility = View.GONE
         })

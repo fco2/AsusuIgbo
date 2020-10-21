@@ -4,10 +4,10 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
 import com.asusuigbo.frank.asusuigbo.fragments.*
@@ -17,21 +17,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 class CurrentLessonActivity : AppCompatActivity() {
     private var wordsLearned: Int = 0
     private var dataListSize: Int = 0
-    private var requestedLesson: String = ""
     private var totalLessons: Int = 0
-    private lateinit var language: String
 
     private var popUpWindow: PopupWindow? = null
     private var buttonState: UserButton = UserButton.AnswerNotSelected
     private var lessonIndex = 0
 
-    private lateinit var currentLessonViewModel: CurrentLessonViewModel
-    private lateinit var factory: CurrentLessonViewModelFactory
+    private val currentLessonViewModel: CurrentLessonViewModel by viewModels()
     lateinit var binding: ActivityCurrentLessonBinding
     private lateinit var mediaPlayer: MediaPlayer
 
@@ -41,8 +40,6 @@ class CurrentLessonActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
-        factory = CurrentLessonViewModelFactory(this.requestedLesson, language)
-        currentLessonViewModel = ViewModelProvider(this, factory).get(CurrentLessonViewModel::class.java)
 
         currentLessonViewModel.listReady.observe(this, Observer { ready ->
             if(ready){
@@ -86,12 +83,10 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     private fun setLessonData(){
-        this.requestedLesson = intent.getStringExtra("LESSON_NAME")!!
         val indexAndWordsLearned = intent.getStringExtra("INDEX_AND_WORDS_LEARNED")!!.split("|")
         this.lessonIndex = indexAndWordsLearned[0].toInt()
         this.wordsLearned = indexAndWordsLearned[1].toInt()
         this.totalLessons = intent.getIntExtra("NUM_OF_LESSONS", 0)
-        language = intent.getStringExtra("LANGUAGE")!!
     }
 
     private fun navigateToFragment(fragmentName: String = ""){
@@ -185,7 +180,7 @@ class CurrentLessonActivity : AppCompatActivity() {
 
         if(lessonIndex < totalLessons)
             dbReference
-                .child("Users/${auth.currentUser!!.uid}/Language/$language/Lessons/${lessonIndex + 1}/Unlocked")
+                .child("Users/${auth.currentUser!!.uid}/Language/${currentLessonViewModel.activeLanguage.value}/Lessons/${lessonIndex + 1}/Unlocked")
                 .setValue("True")
                 launchCompletedLessonScreen()
     }

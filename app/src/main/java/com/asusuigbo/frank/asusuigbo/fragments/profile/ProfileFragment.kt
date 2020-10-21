@@ -1,7 +1,6 @@
 package com.asusuigbo.frank.asusuigbo.fragments.profile
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.asusuigbo.frank.asusuigbo.AddQuestionFragment
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.chooselang.ChooseTextAdapter

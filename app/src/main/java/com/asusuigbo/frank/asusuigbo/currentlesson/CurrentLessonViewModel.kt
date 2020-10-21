@@ -1,16 +1,15 @@
 package com.asusuigbo.frank.asusuigbo.currentlesson
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.asusuigbo.frank.asusuigbo.models.QuestionGroup
 import com.google.firebase.database.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CurrentLessonViewModel(private var requestedLesson: String, activeLang: String) : ViewModel() {
+class CurrentLessonViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) : ViewModel() {
     private val _listReady = MutableLiveData<Boolean>()
     val listReady : LiveData<Boolean>
         get() = _listReady
@@ -26,7 +25,7 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
         get() = _selectedAnswer
 
     private val _activeLanguage = MutableLiveData<String>()
-    private val activeLanguage : LiveData<String>
+    val activeLanguage : LiveData<String>
         get() = _activeLanguage
 
     private val _canAnswerQuestion = MutableLiveData<Boolean>()
@@ -53,7 +52,7 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
         _canAnswerQuestion.value = false
         viewModelScope.launch {
             withContext(Main){
-                _activeLanguage.value = activeLang
+                _activeLanguage.value =  savedStateHandle.get<String>("LANGUAGE")
             }
             populateList()
         }
@@ -61,6 +60,7 @@ class CurrentLessonViewModel(private var requestedLesson: String, activeLang: St
 
     private fun populateList() {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val requestedLesson = savedStateHandle.get<String>("LESSON_NAME")
         val dbReference: DatabaseReference = database.getReference("Language/${activeLanguage.value}/Lessons/$requestedLesson")
 
         dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
