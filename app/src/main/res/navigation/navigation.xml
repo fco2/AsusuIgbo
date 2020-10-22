@@ -24,7 +24,11 @@
     <fragment
         android:id="@+id/allLessonsFragment"
         android:name="com.asusuigbo.frank.asusuigbo.fragments.lessons.AllLessonsFragment"
-        android:label="AllLessonsFragment" />
+        android:label="AllLessonsFragment" >
+        <action
+            android:id="@+id/action_allLessonsFragment_to_currentLessonActivity"
+            app:destination="@id/currentLessonActivity" />
+    </fragment>
     <fragment
         android:id="@+id/weeklyNewsFragment"
         android:name="com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment"
@@ -71,7 +75,7 @@
             android:label="ChooseLangFragment">
             <action
                 android:id="@+id/action_chooseLangFragment_to_signUpFragment"
-                app:destination="@id/signUpFragment"></action>
+                app:destination="@id/signUpFragment"/>
             <action
                 android:id="@+id/action_chooseLangFragment_to_chooseLangPromptFragment"
                 app:destination="@id/chooseLangPromptFragment" />
@@ -92,4 +96,26 @@
                 app:destination="@id/allLessonsFragment" />
         </fragment>
     </navigation>
+    <activity
+        android:id="@+id/currentLessonActivity"
+        android:name="com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity"
+        android:label="CurrentLessonActivity" >
+        <argument
+            android:name="lessonName"
+            app:argType="string"/>
+        <argument
+            android:name="indexAndWordsLearned"
+            app:argType="string"/>
+        <argument
+            android:name="numberOfLessons"
+            app:argType="integer"
+            android:defaultValue="0"/>
+        <argument
+            android:name="language"
+            app:argType="string"/>
+    </activity>
+    <fragment
+        android:id="@+id/lessonCompletedFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment"
+        android:label="LessonCompletedFragment" />
 </navigation>

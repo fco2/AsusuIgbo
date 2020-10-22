@@ -7,7 +7,6 @@ import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
 import com.asusuigbo.frank.asusuigbo.fragments.*
@@ -41,7 +40,7 @@ class CurrentLessonActivity : AppCompatActivity() {
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
 
-        currentLessonViewModel.listReady.observe(this, Observer { ready ->
+        currentLessonViewModel.listReady.observe(this, { ready ->
             if(ready){
                 this.dataListSize = currentLessonViewModel.questionList.value!!.size
                 this.currentLessonViewModel.setCurrentQuestion()
@@ -57,7 +56,7 @@ class CurrentLessonActivity : AppCompatActivity() {
             }
         })
         binding.button.setOnClickListener(btnClickListener)
-        currentLessonViewModel.hasCorrectBeenSet.observe(this, Observer{ wasCorrectSet ->
+        currentLessonViewModel.hasCorrectBeenSet.observe(this, { wasCorrectSet ->
             if(wasCorrectSet){
                 popUpWindow = PopupHelper.displaySelectionInPopUp(this, currentLessonViewModel)
                 if(!currentLessonViewModel.isCorrect.value!!)
@@ -68,13 +67,13 @@ class CurrentLessonActivity : AppCompatActivity() {
                     this.setUpButtonStateAndText(UserButton.Finished, R.string.continue_text)
             }
         })
-        currentLessonViewModel.playAudio.observe(this, Observer {
+        currentLessonViewModel.playAudio.observe(this, {
             if(it != ""){
                 playAudio(it)
                 currentLessonViewModel.setPlayAudio("")
             }
         })
-        currentLessonViewModel.resetBtnState.observe(this, Observer {
+        currentLessonViewModel.resetBtnState.observe(this, {
             if(it){
                 setUpButtonStateAndText(UserButton.AnswerSelected, R.string.answer_button_state)
                 currentLessonViewModel.setResetBtnState(false)
@@ -83,10 +82,11 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     private fun setLessonData(){
-        val indexAndWordsLearned = intent.getStringExtra("INDEX_AND_WORDS_LEARNED")!!.split("|")
+        val navArgs = CurrentLessonActivityArgs.fromBundle(intent.extras!!)
+        val indexAndWordsLearned = navArgs.indexAndWordsLearned.split("|")//intent.getStringExtra("INDEX_AND_WORDS_LEARNED")!!.split("|")
         this.lessonIndex = indexAndWordsLearned[0].toInt()
         this.wordsLearned = indexAndWordsLearned[1].toInt()
-        this.totalLessons = intent.getIntExtra("NUM_OF_LESSONS", 0)
+        this.totalLessons = navArgs.numberOfLessons //intent.getIntExtra("NUM_OF_LESSONS", 0)
     }
 
     private fun navigateToFragment(fragmentName: String = ""){

@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.itemIconTintList = null
+        bottomNavigationView.setOnNavigationItemReselectedListener { /* NO-OP */ }
 
         navController.addOnDestinationChangedListener{_, destination, _ ->
             when(destination.id){

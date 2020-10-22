@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
@@ -50,18 +51,10 @@ class AllLessonsFragment : Fragment() {
 
     private fun populateRecyclerView(it: List<UserLesson>) {
         val adapter = LessonsAdapter(LessonsClickListener { lessonName, index ->
-
-            //TODO: use actions for navigation
-            val intent = Intent(requireContext().applicationContext, CurrentLessonActivity::class.java)
-            intent.putExtra("LESSON_NAME", lessonName)
             val indexAndWordsLearned = index.toString() + "|" + viewModel.wordsLearned
-            intent.putExtra("INDEX_AND_WORDS_LEARNED", indexAndWordsLearned)
-            intent.putExtra("NUM_OF_LESSONS", viewModel.lessonsList.value!!.size)
-            intent.putExtra("LANGUAGE", viewModel.activeLanguage.value!!)
-
-            // You need this if starting activity outside an activity context
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            requireContext().applicationContext.startActivity(intent)
+            val action = AllLessonsFragmentDirections.actionAllLessonsFragmentToCurrentLessonActivity(lessonName,
+                indexAndWordsLearned,viewModel.lessonsList.value!!.size, viewModel.activeLanguage.value!!)
+            findNavController().navigate(action)
         })
         binding.recyclerView.adapter = adapter
         adapter.submitList(it)

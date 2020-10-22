@@ -9,7 +9,9 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CurrentLessonViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) : ViewModel() {
+class CurrentLessonViewModel @ViewModelInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     private val _listReady = MutableLiveData<Boolean>()
     val listReady : LiveData<Boolean>
         get() = _listReady
@@ -52,7 +54,7 @@ class CurrentLessonViewModel @ViewModelInject constructor(@Assisted private val 
         _canAnswerQuestion.value = false
         viewModelScope.launch {
             withContext(Main){
-                _activeLanguage.value =  savedStateHandle.get<String>("LANGUAGE")
+                _activeLanguage.value =  savedStateHandle.get<String>("language")
             }
             populateList()
         }
@@ -60,7 +62,7 @@ class CurrentLessonViewModel @ViewModelInject constructor(@Assisted private val 
 
     private fun populateList() {
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val requestedLesson = savedStateHandle.get<String>("LESSON_NAME")
+        val requestedLesson = savedStateHandle.get<String>("lessonName")
         val dbReference: DatabaseReference = database.getReference("Language/${activeLanguage.value}/Lessons/$requestedLesson")
 
         dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
