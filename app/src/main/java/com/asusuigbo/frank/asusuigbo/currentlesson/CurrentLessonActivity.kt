@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityCurrentLessonBinding
-import com.asusuigbo.frank.asusuigbo.fragments.*
 import com.asusuigbo.frank.asusuigbo.helpers.PopupHelper
 import com.asusuigbo.frank.asusuigbo.models.UserButton
 import com.google.firebase.auth.FirebaseAuth
@@ -32,6 +32,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     private val currentLessonViewModel: CurrentLessonViewModel by viewModels()
     lateinit var binding: ActivityCurrentLessonBinding
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,10 @@ class CurrentLessonActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
+
+        //TODO: experiment using navigation components for this.
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.currLessonNavHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         currentLessonViewModel.listReady.observe(this, { ready ->
             if(ready){
@@ -79,6 +84,15 @@ class CurrentLessonActivity : AppCompatActivity() {
                 currentLessonViewModel.setResetBtnState(false)
             }
         })
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.lessonCompletedFragment -> {
+                    binding.lessonProgressBar.visibility = View.GONE
+                    binding.button.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setLessonData(){
@@ -97,37 +111,27 @@ class CurrentLessonActivity : AppCompatActivity() {
 
         if(this.popUpWindow != null)
             this.popUpWindow!!.dismiss()
-        val fragmentManager = supportFragmentManager
-        val ft = fragmentManager
-            .beginTransaction()
-            .setCustomAnimations(R.anim.question_slide_in, R.anim.question_slide_out)
+
         when(fragmentName){
             "SingleSelect" -> {
-                val singleSelectFragment = SingleSelectFragment()
-                ft.replace(R.id.frame_layout_id, singleSelectFragment)
+                navController.navigate(R.id.to_singleSelectFragment)
             }
             "MultiSelect" -> {
-                val sentenceBuilder = SentenceBuilderFragment()
-                ft.replace(R.id.frame_layout_id, sentenceBuilder)
+                navController.navigate(R.id.to_sentenceBuilderFragment)
             }
             "ImageSelect" -> {
-                val imgChoiceFragment = ImgChoiceFragment()
-                ft.replace(R.id.frame_layout_id, imgChoiceFragment)
+                navController.navigate(R.id.to_imgChoiceFragment)
             }
             "WrittenText" -> {
-                val writtenTextFragment = WrittenTextFragment()
-                ft.replace(R.id.frame_layout_id, writtenTextFragment)
+                navController.navigate(R.id.to_writtenTextFragment)
             }
             "WordPair" -> {
-                val wordPairFragment = WordPairFragment()
-                ft.replace(R.id.frame_layout_id, wordPairFragment)
+                navController.navigate(R.id.to_wordPairFragment)
             }
             else -> {
                 this.finishQuiz()
-                return
             }
         }
-        ft.commit()
     }
 
     private val btnClickListener = View.OnClickListener {
@@ -186,11 +190,7 @@ class CurrentLessonActivity : AppCompatActivity() {
     }
 
     private fun launchCompletedLessonScreen(){
-        val fm= supportFragmentManager
-        val ft: FragmentTransaction = fm.beginTransaction()
-        val lf = LessonCompletedFragment()
-        ft.add(android.R.id.content, lf)
-        ft.commit()
+        navController.navigate(R.id.to_lessonCompleted)
     }
 
     override fun onDestroy() {

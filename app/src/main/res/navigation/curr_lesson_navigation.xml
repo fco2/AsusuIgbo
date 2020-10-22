@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/curr_lesson_navigation"
+    app:startDestination="@id/loadingScreenFragment">
+
+    <!-- Define global actions -->
+    <action android:id="@+id/to_singleSelectFragment"
+        app:destination="@id/singleSelectFragment"
+        app:launchSingleTop="true"/>
+
+    <action android:id="@+id/to_imgChoiceFragment"
+        app:destination="@id/imgChoiceFragment"
+        app:launchSingleTop="true"/>
+
+    <action android:id="@+id/to_wordPairFragment"
+        app:destination="@id/wordPairFragment"
+        app:launchSingleTop="true"/>
+
+    <action android:id="@+id/to_sentenceBuilderFragment"
+        app:destination="@id/sentenceBuilderFragment"
+        app:launchSingleTop="true"/>
+
+    <action android:id="@+id/to_writtenTextFragment"
+        app:destination="@id/writtenTextFragment"
+        app:launchSingleTop="true"/>
+
+    <action android:id="@+id/to_lessonCompleted"
+        app:destination="@id/lessonCompletedFragment"
+        app:enterAnim="@anim/question_slide_in"
+        app:exitAnim="@anim/question_slide_out"
+        app:popEnterAnim="@anim/question_slide_in"
+        app:popExitAnim="@anim/question_slide_out"
+        app:launchSingleTop="true"/>
+
+    <!-- end global actions -->
+    <fragment
+        android:id="@+id/imgChoiceFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.ImgChoiceFragment"
+        android:label="ImgChoiceFragment" />
+    <fragment
+        android:id="@+id/sentenceBuilderFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.SentenceBuilderFragment"
+        android:label="SentenceBuilderFragment" />
+    <fragment
+        android:id="@+id/singleSelectFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.SingleSelectFragment"
+        android:label="SingleSelectFragment" />
+    <fragment
+        android:id="@+id/wordPairFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.WordPairFragment"
+        android:label="WordPairFragment" />
+    <fragment
+        android:id="@+id/writtenTextFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.WrittenTextFragment"
+        android:label="WrittenTextFragment" />
+    <fragment
+        android:id="@+id/lessonCompletedFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment"
+        android:label="LessonCompletedFragment">
+        <action android:id="@+id/navigate_to_all_lessons"
+            app:destination="@id/mainActivity"/>
+    </fragment>
+    <fragment
+        android:id="@+id/loadingScreenFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.LoadingScreenFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.asusuigbo.frank.asusuigbo.MainActivity"
+        android:label="MainActivity" />
+</navigation>

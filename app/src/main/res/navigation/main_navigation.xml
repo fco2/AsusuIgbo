@@ -114,8 +114,4 @@
             android:name="language"
             app:argType="string"/>
     </activity>
-    <fragment
-        android:id="@+id/lessonCompletedFragment"
-        android:name="com.asusuigbo.frank.asusuigbo.fragments.LessonCompletedFragment"
-        android:label="LessonCompletedFragment" />
 </navigation>

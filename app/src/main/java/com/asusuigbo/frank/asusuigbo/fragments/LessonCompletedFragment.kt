@@ -28,5 +28,7 @@ class LessonCompletedFragment : Fragment() {
         val intent = Intent(requireContext().applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+
+        LessonCompletedFragmentDirections.navigateToAllLessons()
     }
 }

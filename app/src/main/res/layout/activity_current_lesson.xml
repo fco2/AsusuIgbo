@@ -25,6 +25,9 @@
             android:layout_margin="10dp"/>
 
         <androidx.fragment.app.FragmentContainerView
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:defaultNavHost="false"
+            app:navGraph="@navigation/curr_lesson_navigation"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@id/lessonProgressBar"
             app:layout_constraintBottom_toTopOf="@id/button"
             android:layout_below="@id/lessonProgressBar"
-            android:id="@+id/frame_layout_id"/>
+            android:id="@+id/currLessonNavHostFragment"/>
 
         <TextView
             android:layout_width="280dp"
