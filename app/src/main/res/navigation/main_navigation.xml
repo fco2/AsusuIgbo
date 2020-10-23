@@ -11,7 +11,7 @@
         android:label="ChooseLangPromptFragment" >
         <action
             android:id="@+id/action_chooseLangPromptFragment_to_loginFragment"
-            app:destination="@id/navigation2" />
+            app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_chooseLangPromptFragment_to_allLessonsFragment"
             app:popUpTo="@+id/chooseLangPromptFragment"
@@ -19,7 +19,7 @@
             app:destination="@id/allLessonsFragment" />
         <action
             android:id="@+id/action_chooseLangPromptFragment_to_chooseLangFragment"
-            app:destination="@id/navigation2" />
+            app:destination="@id/chooseLangFragment" />
     </fragment>
     <fragment
         android:id="@+id/allLessonsFragment"
@@ -39,7 +39,7 @@
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/navigation2" />
+            app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_profileFragment_to_myLanguagesFragment"
             app:destination="@id/myLanguagesFragment" />
@@ -50,14 +50,16 @@
     <fragment
         android:id="@+id/myLanguagesFragment"
         android:name="com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesFragment"
-        android:label="MyLanguagesFragment" />
+        android:label="MyLanguagesFragment" >
+        <action
+            android:id="@+id/action_myLanguagesFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addQuestionFragment"
         android:name="com.asusuigbo.frank.asusuigbo.AddQuestionFragment"
         android:label="AddQuestionFragment" />
-    <navigation
-        android:id="@+id/navigation2"
-        app:startDestination="@id/loginFragment" >
+
         <fragment
             android:id="@+id/loginFragment"
             android:name="com.asusuigbo.frank.asusuigbo.auth.LoginFragment"
@@ -95,7 +97,6 @@
                 android:id="@+id/action_signUpFragment_to_allLessonsFragment"
                 app:destination="@id/allLessonsFragment" />
         </fragment>
-    </navigation>
     <activity
         android:id="@+id/currentLessonActivity"
         android:name="com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity"

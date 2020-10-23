@@ -41,7 +41,6 @@ class CurrentLessonActivity : AppCompatActivity() {
         binding.spinnerProgressBar.visibility = View.VISIBLE
         this.setLessonData()
 
-        //TODO: experiment using navigation components for this.
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.currLessonNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
@@ -87,9 +86,14 @@ class CurrentLessonActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id){
-                R.id.lessonCompletedFragment -> {
+                R.id.lessonCompletedFragment, R.id.loadingScreenFragment -> {
                     binding.lessonProgressBar.visibility = View.GONE
                     binding.button.visibility = View.GONE
+
+                }
+                else -> {
+                    binding.lessonProgressBar.visibility = View.VISIBLE
+                    binding.button.visibility = View.VISIBLE
                 }
             }
         }

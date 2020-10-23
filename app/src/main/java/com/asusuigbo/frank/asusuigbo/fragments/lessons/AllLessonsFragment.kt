@@ -1,6 +1,5 @@
 package com.asusuigbo.frank.asusuigbo.fragments.lessons
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.asusuigbo.frank.asusuigbo.MainActivityViewModel
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsAdapter
 import com.asusuigbo.frank.asusuigbo.adapters.lessons.LessonsClickListener
-import com.asusuigbo.frank.asusuigbo.currentlesson.CurrentLessonActivity
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentAllLessonsBinding
 import com.asusuigbo.frank.asusuigbo.models.UserLesson
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AllLessonsFragment : Fragment() {
     private lateinit var binding: FragmentAllLessonsBinding
-    private val viewModel: LessonsViewModel by viewModels()
+    private val viewModel: AllLessonsViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,

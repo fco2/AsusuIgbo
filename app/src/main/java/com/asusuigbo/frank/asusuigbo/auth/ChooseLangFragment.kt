@@ -25,6 +25,7 @@ class ChooseLangFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentChooseLangBinding.inflate(layoutInflater)
         binding.toolbarMain.setNavigationIcon(R.mipmap.icon_arrow_back_white_18dp)
+
         binding.toolbarMain.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_chooseLangFragment_to_chooseLangPromptFragment)
         }

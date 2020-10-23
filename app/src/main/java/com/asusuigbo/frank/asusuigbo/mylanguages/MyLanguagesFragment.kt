@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.asusuigbo.frank.asusuigbo.MainActivityViewModel
+import com.asusuigbo.frank.asusuigbo.R
 import com.asusuigbo.frank.asusuigbo.adapters.ChooseTextClickListener
 import com.asusuigbo.frank.asusuigbo.adapters.mylanguages.MyLanguagesAdapter
 import com.asusuigbo.frank.asusuigbo.databinding.FragmentMyLanguagesBinding
@@ -20,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MyLanguagesFragment : Fragment() {
 
     private lateinit var binding: FragmentMyLanguagesBinding
-    private val viewModel: MyLanguagesViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
     private var isItemDecorationSet = false
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,12 +33,20 @@ class MyLanguagesFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentMyLanguagesBinding.inflate(layoutInflater)
-        viewModel.getAllLanguagesData().observe(requireActivity(), {
-            viewModel.setListData(it)
+        activityViewModel.getAllLanguagesData().observe(requireActivity(), {
+            activityViewModel.setListData(it)
         })
-        viewModel.dataList.observe(requireActivity(), {
+        activityViewModel.languagesList.observe(requireActivity(), {
             setUpRecyclerView(it)
         })
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // in here you can do logic when backPress is clicked
+                findNavController().navigate(R.id.action_myLanguagesFragment_to_profileFragment)
+            }
+        })
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -51,7 +63,7 @@ class MyLanguagesFragment : Fragment() {
                 else -> "Igbo"
             }
             binding.progressBar.visibility = View.VISIBLE
-            viewModel.setNewActiveLanguage(chosenLanguage)
+            activityViewModel.setNewActiveLanguage(chosenLanguage)
             Snackbar.make(binding.root, "$chosenLanguage is now active!", Snackbar.LENGTH_SHORT).show()
             binding.progressBar.visibility = View.GONE
         }.create().show()
@@ -64,7 +76,7 @@ class MyLanguagesFragment : Fragment() {
             if(it == "+ Add Language") {
                 openAlertDialog()
             }else{
-                viewModel.setNewActiveLanguage(it)
+                activityViewModel.setNewActiveLanguage(it)
             }
         })
         binding.languagesRecyclerView.apply {

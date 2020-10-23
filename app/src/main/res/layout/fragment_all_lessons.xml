@@ -3,7 +3,7 @@
     <data>
         <variable
             name="lessonsViewModel"
-            type="com.asusuigbo.frank.asusuigbo.fragments.lessons.LessonsViewModel" />
+            type="com.asusuigbo.frank.asusuigbo.fragments.lessons.AllLessonsViewModel" />
     </data>
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

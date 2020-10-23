@@ -46,6 +46,7 @@ class ProfileFragment : Fragment() {
         })
         binding.signOutId.setOnClickListener(signOutClickListener)
         binding.addQuestionId.setOnClickListener(addQuestionClickListener)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -84,4 +85,6 @@ class ProfileFragment : Fragment() {
             else -> { }
         }
     }
+
+
 }

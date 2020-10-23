@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.asusuigbo.frank.asusuigbo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 //Hilt Fragments must be attached to an @AndroidEntryPoint Activity.
 @AndroidEntryPoint
@@ -19,47 +20,47 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.lifecycleOwner = this
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.itemIconTintList = null
-        bottomNavigationView.setOnNavigationItemReselectedListener { /* NO-OP */ }
+        bottomNavigationView.setOnNavigationItemReselectedListener {/* NO-OP */ }
 
         navController.addOnDestinationChangedListener{_, destination, _ ->
+            //set active language here since it should be authenticated by here and also toolbar visibility
+            when(destination.id) {
+                R.id.allLessonsFragment, R.id.profileFragment, R.id.myLanguagesFragment,
+                R.id.weeklyNewsFragment  -> {
+                    viewModel.activeLanguage.observe(this, {lang ->
+                        //Timber.d("CHUKA - destination ${destination.id} | viewModel: ${viewModel.activeLanguage.value} | lang: $lang")
+                        binding.layoutToolbar.toolbarMain.visibility = View.VISIBLE
+                        this.binding.layoutToolbar.currentLanguage.text = lang
+                    })
+                }
+                else -> { binding.layoutToolbar.toolbarMain.visibility = View.GONE}
+            }
+
+            //set bottomNavigationView visibility
             when(destination.id){
                 R.id.allLessonsFragment, R.id.profileFragment,
                     R.id.weeklyNewsFragment -> {
                     //Make toolbar and bottom nav visible
                     bottomNavigationView.visibility = View.VISIBLE
-                    binding.layoutToolbar.toolbarMain.visibility = View.VISIBLE
-                    //Set toolbar text here
                 }
                 else -> {
                     bottomNavigationView.visibility = View.GONE
-                    binding.layoutToolbar.toolbarMain.visibility = View.GONE
                 }
             }
-
+            //set toolbar main text
             when(destination.id){
-                R.id.allLessonsFragment ->{
-                    setToolBarTexts(getString(R.string.lessons_text), true)
-                    //set active language here since it should be authenticated by here
-                    viewModel.activeLanguage.observe(this, {
-                        it?.let{
-                            binding.layoutToolbar.currentLanguage.text = it
-                        }
-                    })
-                }
+                R.id.allLessonsFragment ->{ setToolBarTexts(getString(R.string.lessons_text), true) }
                 R.id.profileFragment -> { setToolBarTexts(getString(R.string.profile_text), false)}
-                R.id.weeklyNewsFragment -> {setToolBarTexts(getString(R.string.weekly_news), false)}
-                R.id.myLanguagesFragment -> {
-                    binding.layoutToolbar.toolbarMain.visibility = View.VISIBLE
-                    setToolBarTexts(getString(R.string.my_languages), false)
+                R.id.weeklyNewsFragment -> { setToolBarTexts(getString(R.string.weekly_news), false)}
+                R.id.myLanguagesFragment -> { setToolBarTexts(getString(R.string.my_languages), false)
                 }
             }
         }

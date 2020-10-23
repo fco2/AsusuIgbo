@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LessonsViewModel @ViewModelInject constructor(private var repository : LanguageInfoRepository): ViewModel(){
+class AllLessonsViewModel @ViewModelInject constructor(private var repository : LanguageInfoRepository): ViewModel(){
     private val authUserId = FirebaseAuth.getInstance().currentUser!!.uid
     private val _lessonsList = MutableLiveData<List<UserLesson>>()
     val lessonsList: LiveData<List<UserLesson>>
