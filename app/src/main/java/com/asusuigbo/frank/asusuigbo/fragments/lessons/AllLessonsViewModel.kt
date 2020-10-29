@@ -31,7 +31,6 @@ class AllLessonsViewModel @ViewModelInject constructor(private var repository : 
         get() = _activeLanguage
 
     init{
-        //TODO: get activeLanguage from parent activity
         viewModelScope.launch{
             withContext(Main){
                 val langInfo = repository.getActiveLanguage()

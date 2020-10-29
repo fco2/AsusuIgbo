@@ -13,6 +13,6 @@ class ChooseTextDiffUtil : DiffUtil.ItemCallback<DataInfo>(){
     }
 }
 
-class ChooseTextClickListener(var clickListener: (dataInfo: String) -> Unit){
+class ChooseTextClickListener(var clickListener: (dataText: String) -> Unit){
     fun onClick(dataInfo: DataInfo) = clickListener(dataInfo.dataText)
 }

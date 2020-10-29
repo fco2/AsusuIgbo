@@ -1,4 +1,4 @@
-package com.asusuigbo.frank.asusuigbo.mylanguages
+package com.asusuigbo.frank.asusuigbo.fragments.mylanguages
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -49,16 +49,11 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.firebase:firebase-core:17.5.1'
-    implementation 'com.google.firebase:firebase-database:19.5.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android:flexbox:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
 
     // Android KTX
@@ -96,6 +91,9 @@ dependencies {
     def hilt_version = "1.0.0-alpha02"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_version"
+
+    //Picasso to Upload and display images via URL
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     //testing
     testImplementation 'junit:junit:4.13'

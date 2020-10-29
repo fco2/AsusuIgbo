@@ -55,11 +55,11 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigationView.visibility = View.GONE
                 }
             }
-            //set toolbar main text
+            //set toolbar main text and set visibility of currentLanguage to the right of toolbar
             when(destination.id){
                 R.id.allLessonsFragment ->{ setToolBarTexts(getString(R.string.lessons_text), true) }
                 R.id.profileFragment -> { setToolBarTexts(getString(R.string.profile_text), false)}
-                R.id.weeklyNewsFragment -> { setToolBarTexts(getString(R.string.weekly_news), false)}
+                R.id.weeklyNewsFragment -> { setToolBarTexts(getString(R.string.weekly_news), true)}
                 R.id.myLanguagesFragment -> { setToolBarTexts(getString(R.string.my_languages), false)
                 }
             }

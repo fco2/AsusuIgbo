@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/weeklyNewsFragment"
-        android:name="com.asusuigbo.frank.asusuigbo.fragments.WeeklyNewsFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.weeklynews.WeeklyNewsFragment"
         android:label="WeeklyNewsFragment" />
     <fragment
         android:id="@+id/profileFragment"
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/myLanguagesFragment"
-        android:name="com.asusuigbo.frank.asusuigbo.mylanguages.MyLanguagesFragment"
+        android:name="com.asusuigbo.frank.asusuigbo.fragments.mylanguages.MyLanguagesFragment"
         android:label="MyLanguagesFragment" >
         <action
             android:id="@+id/action_myLanguagesFragment_to_profileFragment"
