@@ -43,7 +43,8 @@ class WeeklyNewsFragment : Fragment() {
         for(i in 0 until 5){
             val item = NewsInfo("My headline", "ABC News", "",
                 "https://firebasestorage.googleapis.com/v0/b/uploadimagestofirebase-ba178.appspot.com/o/Images%2F1603799540933.jpg?alt=media&token=05b69504-e986-4d5d-8ae9-bd51800fcc3e",
-            "You are blessed by God almighty.", "", "20th November 2020"
+            "You are blessed by God almighty. You are blessed by God almighty. You are blessed by God almighty.",
+                "", "20th November 2020"
                 )
             myList.add(item)
         }
