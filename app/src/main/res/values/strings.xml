@@ -72,4 +72,10 @@
     <string name="open_dialog">Open Dialog</string>
     <string name="active">Active</string>
     <string name="loading_lesson">Loading Lesson....</string>
+    <string name="news_title">News Title</string>
+    <string name="news_source">News Source</string>
+    <string name="content">Content</string>
+    <string name="date">Date</string>
+    <string name="choose_image">Choose Image:</string>
+    <string name="no_news_to_display">No News to display!</string>
 </resources>

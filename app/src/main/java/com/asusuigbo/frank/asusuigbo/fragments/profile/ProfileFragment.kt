@@ -40,13 +40,19 @@ class ProfileFragment : Fragment() {
             binding.language.text = langText
             binding.date.text = dateText
             binding.username.text = viewModel.username
-            if(viewModel.username == "Chukafc" || viewModel.username == "Lex Luthor" || viewModel.username == "peter")
+            if(viewModel.username == "Chukafc" || viewModel.username == "Lex Luthor" || viewModel.username == "peter" || viewModel.username == "james3d") {
                 binding.addQuestionId.visibility = View.VISIBLE
+                binding.addNewsId.visibility = View.VISIBLE
+            }
             binding.progressBarProfileId.visibility = View.GONE
         })
         binding.signOutId.setOnClickListener(signOutClickListener)
         binding.addQuestionId.setOnClickListener(addQuestionClickListener)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.addNewsId.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_addNewsInfoFragment)
+        }
         return binding.root
     }
 

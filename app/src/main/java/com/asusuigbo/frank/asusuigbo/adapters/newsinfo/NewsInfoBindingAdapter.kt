@@ -16,6 +16,11 @@ fun setNewsSource(view: TextView, newsInfo: NewsInfo){
     view.text = newsInfo.newsSource
 }
 
+@BindingAdapter("date")
+fun setDate(view: TextView, newsInfo: NewsInfo){
+    view.text = newsInfo.date
+}
+
 @BindingAdapter("content")
 fun setContent(view: TextView, newsInfo: NewsInfo){
     view.text = newsInfo.content
